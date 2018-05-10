@@ -37,4 +37,3 @@ export default (logics = [], initialState = {}) => {
 
   return store;
 };
-

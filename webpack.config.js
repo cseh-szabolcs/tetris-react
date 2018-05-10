@@ -15,7 +15,7 @@ module.exports = {
   // ================================================================
   output: {
     path: __dirname,
-    filename: './web/bundle.js'
+    filename: './public/bundle.js'
   },
   // ================================================================
   externals: {
@@ -25,13 +25,12 @@ module.exports = {
   resolve: {
     modules: [__dirname, 'node_modules'],
     alias: {
-      'tetris-actions': 'app/actions/index.js',
+      'tetris-actions': 'app/redux/actions/index.js',
       'tetris-components': 'app/components/index.js',
       'tetris-library': 'app/library/index.js',
       'tetris-logics': 'app/redux/logics/index.js',
       'tetris-pages': 'app/pages/index.js',
       'tetris-reducers': 'app/redux/reducers/index.js',
-      'tetris-selectors': 'app/redux/selectors/index.js',
       'tetris-store': 'app/store/index.js',
       applicationStyles: 'app/styles/app.scss'
     },
@@ -76,7 +75,7 @@ module.exports = {
   // ================================================================
   plugins: [
     /*
-    new ExtractTextPlugin("web/styles.css"), // [contenthash]
+    new ExtractTextPlugin("public/styles.css"), // [contenthash]
     new webpack.optimize.UglifyJsPlugin({
       include: /\.min\.js$/,
       minimize: false

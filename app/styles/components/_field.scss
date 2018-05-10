@@ -1,0 +1,103 @@
+.tetris-field {
+  position: absolute;
+  left: 80px;
+  top: 20px;
+  display: inline-block;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.7) inset, 0 0 0 1px rgba(0, 0, 0, 0.1), 1px 1px 2px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  padding: 1px;
+}
+
+.tetris-field-panel {
+  position: relative;
+  overflow: hidden;
+  background-position: 50% 50%;
+  background-size: cover;
+
+  &._bg1 {
+    background-image: url(/images/bg_1.jpg);
+  }
+  &._bg2 {
+    background-image: url(/images/bg_2.jpg);
+  }
+  &._bg3 {
+    background-image: url(/images/bg_3.jpg);
+  }
+  &._bg4 {
+    background-image: url(/images/bg_4.jpg);
+  }
+  &._bg5 {
+    background-image: url(/images/bg_5.jpg);
+  }
+  &._bg6 {
+    background-image: url(/images/bg_6.jpg);
+  }
+  &._bg7 {
+    background-image: url(/images/bg_7.jpg);
+  }
+  &._bg8 {
+    background-image: url(/images/bg_8.jpg);
+  }
+  &._bg9 {
+    background-image: url(/images/bg_9.jpg);
+  }
+  &._bg10 {
+    background-image: url(/images/bg_10.jpg);
+  }
+  &._bg11 {
+    background-image: url(/images/bg_11.jpg);
+  }
+  &._bg12 {
+    background-image: url(/images/bg_12.jpg);
+  }
+  &._bg-over {
+    background-image: url(/images/bg_over.png);
+
+    .tetris-field-text span {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.tetris-field .tetris-field-panel {
+  table,
+  tbody,
+  tr,
+  td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+  }
+  td {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.tetris-field-cell {}
+
+.tetris-field-text {
+  position: relative;
+
+  span {
+    display: inline-block;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.4);
+    font-size: 2rem;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 32rem;
+    color: #0c3d5d;
+  }
+
+  span.tetris-field-text-timer {
+    color: #be2b03;
+    font-weight: bold;
+    font-size: 4em;
+  }
+}
+

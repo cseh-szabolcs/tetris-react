@@ -1,0 +1,37 @@
+.tetris-control {
+  margin-bottom: 15px;
+  padding: 20px 0 16px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  font-family: 'Audiowide';
+}
+
+.tetris-control-descr {
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.tetris-control-text {
+  display: inline-block;
+  padding: 0 25px 0 8px;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.tetris-control-label {
+  display: inline-block;
+  position: relative;
+  margin-bottom: auto;
+  padding: 0.22222rem 0.44444rem 0.22222rem;
+  top: -2px;
+  background-color: #e7e7e7;
+  color: #333;
+  border-radius: 3px;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-variant: small-caps;
+}

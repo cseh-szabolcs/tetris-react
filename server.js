@@ -439,5 +439,5 @@ const Injector = {
 
 module.exports = new Server(
   (process.env.PORT || 3001),   // port
-  path.join(__dirname, 'web')   // public folder
+  path.join(__dirname, 'public')   // public folder
 );
