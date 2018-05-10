@@ -26,7 +26,7 @@ const store = Store.create(Logics);
  */
 ReactDOM.render(
   <Provider store={ store }>
-    <div>
+    <div className="tetris-main">
       <GamePage />
     </div>
   </Provider>,

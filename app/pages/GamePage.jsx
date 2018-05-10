@@ -1,5 +1,9 @@
+
 import React from 'react';
 import { connect } from 'react-redux';
+
+import Components from 'tetris-components';
+const { Game, Welcome } = Components;
 
 
 /**
@@ -10,9 +14,7 @@ export class GamePage extends React.Component
 {
   render() {
     return (
-      <div>
-       <p>Tetris is here</p>
-      </div>
+      <Welcome />
     );
   }
 }
