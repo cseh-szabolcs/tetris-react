@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import actions from 'tetris-actions';
 
 
-export const Welcome = ({startGame}) => (
+export const Welcome = ({ initGame }) => (
   <div className="tetris-welcome">
     <h1>Tetris</h1>
-    <button className="button large expanded" onClick={ () => startGame() }>
+    <button className="button large expanded" onClick={ () => initGame() }>
       Play now!
     </button>
   </div>
@@ -16,6 +16,6 @@ export const Welcome = ({startGame}) => (
 
 export default connect(null,
   (dispatch) => ({
-    startGame: () => dispatch(actions.game.start(3)),
+    initGame: () => dispatch(actions.game.init({})),
   }),
 )(Welcome);

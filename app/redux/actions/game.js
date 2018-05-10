@@ -1,14 +1,21 @@
 import {
+  GAME_INIT,
   GAME_START,
 } from './types';
 
 
 
-export const start = ({ paused = false, multiPlay = false, level = 1 }) => {
+export const init = ({ multiPlay = false, level = 1 }) => {
   return {
-    type: GAME_START,
-    paused,
+    type: GAME_INIT,
     multiPlay,
     level,
+  };
+};
+
+
+export const start = () => {
+  return {
+    type: GAME_START,
   };
 };
