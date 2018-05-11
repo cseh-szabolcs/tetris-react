@@ -2,7 +2,7 @@
 export const DELAY_SET  = 'DELAY_SET';
 
 export const GAME_INIT  = 'GAME_INIT';
-export const GAME_NEXT_FRAME  = 'GAME_NEXT_FRAME';
+export const GAME_NEXT  = 'GAME_NEXT';
 export const GAME_START  = 'GAME_START';
 export const GAME_ASCII_SWITCH  = 'GAME_ASCII_SWITCH';
 

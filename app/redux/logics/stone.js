@@ -5,7 +5,7 @@ import library from 'tetris-library';
 
 
 const {
-  GAME_START,
+  GAME_NEXT,
   STONE_CREATE,
   STONE_MOVE_DOWN,
   STONE_MOVE_LEFT,
@@ -21,7 +21,7 @@ const {
  *
  */
 export const createStoneLogic = createLogic({
-  type: [GAME_START],
+  type: [GAME_NEXT],
   latest: true,
 
   process({ getState, action }, dispatch, done) {
