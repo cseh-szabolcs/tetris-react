@@ -6,7 +6,7 @@ import GameComponents from './Game/index';
 const { Control, Field, Stone, NextStone, Replay, Statistics, AsciiGame } = GameComponents;
 
 
-export const Game = ({ switchAsciiMode, asciiMode = false }) => {
+export const Game = ({ switchAsciiMode, asciiMode = false, isMasterTab = true }) => {
 
   return (
     <div>
@@ -39,6 +39,10 @@ export const Game = ({ switchAsciiMode, asciiMode = false }) => {
           <span className="switch-inactive" aria-hidden="true">No</span>
         </label>
       </div>
+
+      { isMasterTab && (
+        <Control />
+      )}
     </div>
   );
 };
@@ -47,6 +51,7 @@ export const Game = ({ switchAsciiMode, asciiMode = false }) => {
 export default connect(
   (state) => ({
     asciiMode: state.game.asciiMode,
+    isMasterTab: true,
   }),
   (dispatch) => ({
     switchAsciiMode: () => dispatch(actions.game.switchAsciiMode()),

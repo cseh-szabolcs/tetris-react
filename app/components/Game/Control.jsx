@@ -93,18 +93,11 @@ export class Control extends React.PureComponent
 
   handlePause()
   {
-    if (this.props.cmpDelay > 0) {
-      return;
-    }
-
     if (this.props.isPaused) {
-      this.props.delayDispatch({
-        creator: actions.game.pause,
-        delay: 3
-      });
+      this.props.pause(false);
 
     } else {
-      this.props.pause();
+      this.props.pause(true);
     }
   }
 
@@ -172,9 +165,8 @@ export class Control extends React.PureComponent
 export default connect(
   (state) => ({
     stone: state.stone,
-    isRunning: (state.game.status === true),
+    isRunning: state.game.running,
     isPaused: state.game.paused,
-    cmpDelay: state.cmp.delay,
   }),
   (dispatch) => ({
     $rotate: () => dispatch(actions.stone.rotate()),
@@ -184,6 +176,5 @@ export default connect(
     $pullDown: () => dispatch(actions.stone.pullDown()),
     $switchAscii: () => dispatch(actions.game.switchAsciiMode()),
     pause: () => dispatch(actions.game.pause()),
-    delayDispatch: ({creator, delay}) => dispatch(actions.cmp.delayDispatch({creator, delay}))
   })
 )(Control);
