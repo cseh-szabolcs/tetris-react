@@ -1,3 +1,4 @@
+
 import { createLogic } from 'redux-logic';
 import actions from 'tetris-actions';
 import library from 'tetris-library';
@@ -11,42 +12,6 @@ const {
 
 
 
-/**
- * Inserts an new stone in the field
- *
- */
-export const insertStoneLogic = createLogic({
-  type: [GAME_START, FIELD_LINES_NOT_CHANGED, FIELD_LINES_REMOVED],
-  latest: true,
-
-  process({ getState, action }, dispatch, done) {
-    let state = getState();
-    let stone = library.tetris.getStoneByRandom();
-
-    dispatch(actions.stone.create({
-      next: stone,
-      current: (!state.stone.next)
-        ? library.tetris.getStoneByRandom(stone)
-        : state.stone.next
-    }));
-
-    state = getState();
-
-    let fieldState = library.tetris.mergeStoneInField(null,
-      state.stone,
-      state.field,
-    );
-
-    if (fieldState !== state.field) {
-      dispatch(actions.field.insertStone(fieldState));
-    } else {
-      // game-over
-      dispatch(actions.field.overflow());
-    }
-
-    done();
-  }
-});
 
 
 /**

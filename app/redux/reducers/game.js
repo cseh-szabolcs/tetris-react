@@ -1,14 +1,19 @@
+
 import actions from 'tetris-actions';
 import library from 'tetris-library';
 
+
 const {
   GAME_INIT,
+  GAME_START,
+  GAME_ASCII_SWITCH,
 } = actions.types;
 
 
 let initialState = {
   init: false,
-  status: null, // null = initial, true = running/won, false = lost
+  running: false, // true = running/won, false = lost
+  status: null, // true = won, false = lost
   paused: false,
   score: 0, // the points what the user made
   time: 0, // current clock
@@ -34,6 +39,18 @@ export default (state = initialState, action) => {
         init: true,
         level: action.level,
         multiPlay: action.multiPlay,
+      };
+
+    case GAME_START:
+      return {
+        ...state,
+        running: true,
+      };
+
+    case GAME_ASCII_SWITCH:
+      return {
+        ...state,
+        asciiMode: !state.asciiMode,
       };
 
     default:
