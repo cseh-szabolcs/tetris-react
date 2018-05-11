@@ -8,6 +8,7 @@ const {
   GAME_INIT,
   GAME_START,
   STONE_MOVE_DOWN_REJECTED,
+  STONE_MOVE_DOWN,
 } = actions.types;
 
 
@@ -43,5 +44,34 @@ export const gameNextLogic = createLogic({
 
     dispatch(actions.game.next());
     done();
+  }
+});
+
+
+
+/**
+ * Dispatches the move-down by an interval.
+ *
+ */
+export const gameIntervalLogic = createLogic({
+  type: [GAME_START, STONE_MOVE_DOWN],
+  latest: true,
+
+  process({ getState, action }, dispatch, done) {
+    let state = getState();
+
+    if (false) {
+      library.tetris.timeout({ clear: true });
+      done();
+      return;
+    }
+
+
+    // dispatch new move-down-loop
+    library.tetris.timeout({
+      callback: () => dispatch(actions.stone.moveDown()),
+      duration: () => library.tetris.settings.calcIntervalSpeed(state.game.level),
+      than: () => done(),
+    });
   }
 });

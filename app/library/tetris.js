@@ -318,7 +318,7 @@ export const createField = ({rows, cols}) => {
 export const timeout = (function(){
   let q = null;
 
-  return ({callback, immediately = null, after = null, duration = 200, clear = false}) => {
+  return ({callback, duration = 200, than = null, clear = false}) => {
     if (clear === true) {
       if (q !== null) {
         window.clearTimeout(q);
@@ -333,10 +333,6 @@ export const timeout = (function(){
         q = null;
       }
 
-      if (isCallable(immediately)) {
-        immediately();
-      }
-
       q = window.setTimeout(() => {
         if (!isCallable(callback)) {
           throw 'cannot execute timeout, no callback-function given.'
@@ -344,8 +340,8 @@ export const timeout = (function(){
 
         let result = callback();
 
-        if (isCallable(after)) {
-          after();
+        if (isCallable(than)) {
+          than();
         }
 
         resolve(result);
