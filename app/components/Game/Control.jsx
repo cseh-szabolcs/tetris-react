@@ -120,7 +120,6 @@ export class Control extends React.PureComponent
 
       if (action.indexOf('$') === 0) {
         if (this.props.canControl || this.canAlwaysControl.indexOf(key) > -1) {
-          console.log("CONTROLL");
           this.props[action]();
         }
       } else {
