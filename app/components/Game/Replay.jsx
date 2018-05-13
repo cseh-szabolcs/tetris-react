@@ -50,6 +50,6 @@ export default connect(
     isGameOver: (state.game.status === false),
   }),
   (dispatch) => ({
-    replayGame: () => dispatch(actions.game.startDelay(3)),
+    replayGame: () => dispatch(actions.game.init()),
   })
 )(Replay);

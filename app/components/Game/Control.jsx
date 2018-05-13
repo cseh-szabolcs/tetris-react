@@ -25,8 +25,8 @@ export class Control extends React.PureComponent
     };
 
     this.avoidRepititionOn = ['$ ', '$c', '$p'];
-    this.allowWhenPaused = ['$c'];
-    this.current = null;
+    this.canAlwaysControl = ['$c'];
+    this.currentKey = null;
   }
 
 
@@ -110,16 +110,16 @@ export class Control extends React.PureComponent
     const key = '$'+char;
 
     if (key in this.supportedKeys) {
-      if (this.avoidRepititionOn.indexOf(key) !== -1 && this.current === key) {
+      if (this.avoidRepititionOn.indexOf(key) !== -1 && this.currentKey === key) {
         return;
       }
 
-      this.current = key;
+      this.currentKey = key;
 
       const action = this.supportedKeys[key];
 
       if (action.indexOf('$') === 0) {
-        if (!this.props.isPaused || this.allowWhenPaused.indexOf(key) > -1) {
+        if (this.props.canControl || this.canAlwaysControl.indexOf(key) > -1) {
           this.props[action]();
         }
       } else {
@@ -137,8 +137,8 @@ export class Control extends React.PureComponent
   {
     const key = '$'+char;
 
-    if (key in this.supportedKeys && this.current === key) {
-      this.current = null;
+    if (key in this.supportedKeys && this.currentKey === key) {
+      this.currentKey = null;
     }
   };
 
@@ -161,7 +161,8 @@ export default connect(
   (state) => ({
     stone: state.stone,
     isRunning: state.game.running,
-    isPaused: (state.game.paused || state.game.countDown > 0),
+    isPaused: state.game.paused,
+    canControl: (!state.game.paused || state.game.countDown === 0 || state.stone.current !== null),
   }),
   (dispatch) => ({
     $rotate: () => dispatch(actions.stone.rotate()),
