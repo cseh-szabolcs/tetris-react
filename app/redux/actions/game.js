@@ -2,7 +2,9 @@
 import {
   GAME_INIT,
   GAME_NEXT,
+  GAME_PAUSE,
   GAME_START,
+  GAME_COUNT_DOWN,
   GAME_ASCII_SWITCH,
 } from './types';
 
@@ -21,9 +23,23 @@ export const start = () => {
   };
 };
 
+export const pause = ( value ) => {
+  return {
+    type: GAME_PAUSE,
+    value,
+  };
+};
+
 export const next = () => {
   return {
     type: GAME_NEXT,
+  };
+};
+
+export const countDown = (value = null) => {
+  return {
+    type: GAME_COUNT_DOWN,
+    value,
   };
 };
 

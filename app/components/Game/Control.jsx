@@ -149,12 +149,14 @@ export class Control extends React.PureComponent
 
 
   onFocus = () => {
+    return;
     if (this.props.isRunning) {
       this.props.pause(false);
     }
   };
 
   onBlur = () => {
+    return;
     if (this.props.isRunning) {
       this.props.pause(true);
     }

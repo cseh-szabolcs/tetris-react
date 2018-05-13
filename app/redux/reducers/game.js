@@ -6,6 +6,7 @@ import library from 'tetris-library';
 const {
   GAME_INIT,
   GAME_START,
+  GAME_COUNT_DOWN,
   GAME_ASCII_SWITCH,
 } = actions.types;
 
@@ -15,6 +16,7 @@ let initialState = {
   running: false, // true = running/won, false = lost
   status: null, // true = won, false = lost
   paused: false,
+  countDown: 0,
   score: 0, // the points what the user made
   time: 0, // current clock
   level: 1, // current level
@@ -45,6 +47,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         running: true,
+      };
+
+    case GAME_COUNT_DOWN:
+      return {
+        ...state,
+        countDown: (action.value !== null) ? action.value : state.countDown - 1,
+        paused: (state.countDown !== 1),
       };
 
     case GAME_ASCII_SWITCH:

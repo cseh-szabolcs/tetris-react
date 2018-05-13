@@ -3,17 +3,18 @@ import { connect } from 'react-redux';
 import Cell from './Cell';
 
 
-export const Stone = ({stoneState, nodeKey}) => {
+export const Stone = ({stoneState, nodeKey, isGamePaused = false}) => {
+
+  if (!stoneState.current || isGamePaused) {
+    return null;
+  }
+
   let style = {
     left: (stoneState.xPos*32),
     top: (stoneState.yPos*32),
     width: 0,
     height: 0,
   };
-
-  if (!stoneState.current) {
-    return null;
-  }
 
   let size = stoneState.current.left[0].length;
   style.width = size * 32;
@@ -60,5 +61,6 @@ export default connect(
   (state) => ({
     stoneState: state.stone,
     nodeKey: state.stone.inserted,
+    isGamePaused: state.game.paused,
   })
 )(Stone);
