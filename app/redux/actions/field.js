@@ -6,10 +6,10 @@ import {
 } from './types';
 
 
-export const linesResolved = ({ count }) => {
+export const linesResolved = ({ lines }) => {
   return {
     type: FIELD_LINES_RESOLVED,
-    count,
+    lines,
   };
 };
 

@@ -29,7 +29,7 @@ export class Field extends React.PureComponent
           { this.props.children }
           <table>
             <tbody>
-            { content }
+              { content }
             </tbody>
           </table>
         </div>
@@ -41,10 +41,14 @@ export class Field extends React.PureComponent
 
   renderRows()
   {
+    const { fieldState, lastResolvedLines } = this.props;
     let rows = [], i = 0;
 
-    for (let row of this.props.fieldState) {
-      let fadeOut = false;
+    for (let row of fieldState) {
+
+      let fadeOut = (lastResolvedLines.length > 0
+        && lastResolvedLines.indexOf(i) > -1
+      );
 
       rows.push(
         <tr key={`i${++i}`}>
@@ -96,10 +100,9 @@ export default connect(
   (state) => ({
     fieldState: state.field,
     isGamePaused: state.game.paused,
-    resolvedLines: null,
+    lastResolvedLines: state.layout.lastResolvedLines,
     cmpAlert: null,
     cmpDelay: null,
-    isLineRemoveAnimation: null,
     randomBg: null,
   })
 )(Field);

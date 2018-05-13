@@ -30,12 +30,12 @@ export const removeLinesLogic = createLogic({
       return;
     }
 
-    dispatch(actions.field.linesResolved({ count: result.resolved }));
+    dispatch(actions.field.linesResolved({ lines: result.resolved }));
 
     // run animation when lines was resolved
     library.tetris.timeout({
       callback: () => dispatch(actions.field.changed({ newField: result.field })),
-      duration: 1,
+      duration: state.layout.linesRemoveDuration,
       than: () => done(),
     });
   }
