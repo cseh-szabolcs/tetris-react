@@ -8,6 +8,7 @@ const {
   GAME_INIT,
   GAME_PAUSE,
   GAME_START,
+  GAME_OVER,
   GAME_COUNT_DOWN,
   FIELD_CHANGED,
   FIELD_NOT_CHANGED,
@@ -60,14 +61,26 @@ export const gameOverLogic = createLogic({
  *
  */
 export const intervalLogic = createLogic({
-  type: [GAME_COUNT_DOWN, STONE_CREATE, STONE_PULL_DOWN, STONE_MOVE_DOWN, STONE_MOVED_DOWN, STONE_MOVE_DOWN_REJECTED],
+  type: [
+    GAME_COUNT_DOWN,
+    GAME_OVER,
+    STONE_CREATE,
+    STONE_PULL_DOWN,
+    STONE_MOVE_DOWN,
+    STONE_MOVED_DOWN,
+    STONE_MOVE_DOWN_REJECTED,
+  ],
   latest: true,
 
   process({ getState, action }, dispatch, done) {
     let state = getState();
 
     // clear move-down-timeout and return!
-    if (action.type === STONE_MOVE_DOWN_REJECTED || (action.type === GAME_COUNT_DOWN && action.value)) {
+    if (action.type === STONE_MOVE_DOWN_REJECTED
+      || action.type === GAME_OVER
+      || (action.type === GAME_COUNT_DOWN && action.value)
+    ){
+
       library.tetris.timeout({ clear: true });
       done();
       return;

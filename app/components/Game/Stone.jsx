@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import Cell from './Cell';
 
 
-export const Stone = ({stoneState, nodeKey, isGamePaused = false}) => {
+export const Stone = ({stoneState, nodeKey, hideStone = false}) => {
 
-  if (!stoneState.current || isGamePaused) {
+  if (hideStone || !stoneState.current) {
     return null;
   }
 
@@ -61,6 +61,6 @@ export default connect(
   (state) => ({
     stoneState: state.stone,
     nodeKey: state.stone.inserted,
-    isGamePaused: (state.game.paused || state.game.countDown),
+    hideStone: (!state.game.running || state.game.paused || state.game.countDown > 0),
   })
 )(Stone);

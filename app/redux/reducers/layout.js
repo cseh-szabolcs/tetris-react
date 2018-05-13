@@ -3,7 +3,7 @@ import actions from 'tetris-actions';
 
 
 const {
-  GAME_START,
+  GAME_INIT,
   GAME_PAUSE,
   GAME_OVER,
   GAME_COUNT_DOWN,
@@ -29,9 +29,9 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
 
-    case GAME_START:
+    case GAME_INIT:
       return {
-        ...state,
+        ...initialState,
         fieldBackground: (Math.floor(Math.random() * (12 - 1 + 1)) + 1),
       };
 

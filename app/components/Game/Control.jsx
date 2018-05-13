@@ -144,13 +144,13 @@ export class Control extends React.PureComponent
 
 
   onFocus = () => {
-    if (this.props.isGameInited) {
+    if (this.props.isGameRunning) {
       this.props.pause(false);
     }
   };
 
   onBlur = () => {
-    if (this.props.isGameInited) {
+    if (this.props.isGameRunning) {
       this.props.pause(true);
     }
   };
@@ -161,8 +161,14 @@ export default connect(
   (state) => ({
     stone: state.stone,
     isGameInited: state.game.init,
+    isGameRunning: state.game.running,
     isGamePaused: state.game.paused,
-    canControl: (state.game.paused === false && state.game.countDown === 0 && state.stone.current !== null),
+    canControl: (
+      state.game.running
+      && state.game.paused === false
+      && state.game.countDown === 0
+      && state.stone.current !== null
+    ),
   }),
   (dispatch) => ({
     $rotate: () => dispatch(actions.stone.rotate()),
