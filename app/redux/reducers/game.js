@@ -6,6 +6,7 @@ import library from 'tetris-library';
 const {
   GAME_INIT,
   GAME_START,
+  GAME_PAUSE,
   GAME_COUNT_DOWN,
   GAME_ASCII_SWITCH,
 } = actions.types;
@@ -43,18 +44,32 @@ export default (state = initialState, action) => {
         multiPlay: action.multiPlay,
       };
 
+
     case GAME_START:
       return {
         ...state,
         running: true,
       };
 
+
+    case GAME_PAUSE:
+      if (state.multiPlay) {
+        return state;
+      }
+      return {
+        ...state,
+        paused: action.value,
+      };
+
+
     case GAME_COUNT_DOWN:
       return {
         ...state,
-        countDown: (action.value !== null) ? action.value : state.countDown - 1,
-        paused: (state.countDown !== 1),
+        countDown: (action.value !== null)
+          ? action.value
+          : state.countDown - 1,
       };
+
 
     case GAME_ASCII_SWITCH:
       return {

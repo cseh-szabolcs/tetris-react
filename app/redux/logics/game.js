@@ -14,6 +14,7 @@ const {
 } = actions.types;
 
 
+
 /**
  * Dispatches the move-down by an interval, so now we play Tetris!
  *
@@ -91,25 +92,31 @@ export const countDownLogic = createLogic({
     if (action.type === GAME_START) {
       let value = state.game.multiPlay ? 5 : 3;
       dispatch(actions.game.countDown( value ));
-      done();
 
+      done();
       return;
     }
 
     // game paused
     if (action.type === GAME_PAUSE) {
-      if (!state.game.multiPlay) {
-        dispatch(actions.game.countDown( 3 ));
+      if (state.game.multiPlay) {
+        done();
+        return;
       }
-      done();
 
+      if (action.value) {
+        library.tetris.timeout({ clear: true });
+      } else {
+        dispatch(actions.game.countDown(3));
+      }
+
+      done();
       return;
     }
 
     // count-down expired
     if (state.game.countDown === 0) {
       done();
-
       return;
     }
 

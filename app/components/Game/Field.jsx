@@ -14,11 +14,11 @@ export class Field extends React.PureComponent
   {
     let content = null;
 
-    if (this.props.gameCountDown) {
-      content = this.renderText(this.props.gameCountDown, 'timer');
+    if (this.props.isGamePaused) {
+      content = this.renderText("paused");
     }
-    else if (false) {
-      content = this.renderText("TESTTEST");
+    else if (this.props.gameCountDown) {
+      content = this.renderText(this.props.gameCountDown, 'timer');
     }
     else {
       content = this.renderRows();
@@ -37,7 +37,6 @@ export class Field extends React.PureComponent
       </div>
     );
   }
-
 
 
   renderRows()

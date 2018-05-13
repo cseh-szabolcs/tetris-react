@@ -93,12 +93,7 @@ export class Control extends React.PureComponent
 
   handlePause()
   {
-    if (this.props.isPaused) {
-      this.props.pause(false);
-
-    } else {
-      this.props.pause(true);
-    }
+    this.props.pause(!this.props.isPaused);
   }
 
 
@@ -149,14 +144,12 @@ export class Control extends React.PureComponent
 
 
   onFocus = () => {
-    return;
     if (this.props.isRunning) {
       this.props.pause(false);
     }
   };
 
   onBlur = () => {
-    return;
     if (this.props.isRunning) {
       this.props.pause(true);
     }
@@ -177,6 +170,6 @@ export default connect(
     $moveDown: () => dispatch(actions.stone.moveDown()),
     $pullDown: () => dispatch(actions.stone.pullDown()),
     $switchAscii: () => dispatch(actions.game.switchAsciiMode()),
-    pause: () => dispatch(actions.game.pause()),
+    pause: (value) => dispatch(actions.game.pause(value)),
   })
 )(Control);

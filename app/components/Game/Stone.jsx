@@ -61,6 +61,6 @@ export default connect(
   (state) => ({
     stoneState: state.stone,
     nodeKey: state.stone.inserted,
-    isGamePaused: state.game.paused,
+    isGamePaused: (state.game.paused || state.game.countDown),
   })
 )(Stone);
