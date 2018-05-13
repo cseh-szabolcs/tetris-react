@@ -3,6 +3,7 @@ import actions from 'tetris-actions';
 
 
 const {
+  GAME_START,
   FIELD_CHANGED,
   FIELD_LINES_RESOLVED,
 } = actions.types;
@@ -10,6 +11,7 @@ const {
 
 const initialState = {
   countDown: 0,
+  fieldBackground: null,
   lastResolvedLines: [],
   linesRemoveDuration: 500,
 };
@@ -22,6 +24,12 @@ const initialState = {
  */
 export default (state = initialState, action) => {
   switch (action.type) {
+
+    case GAME_START:
+      return {
+        ...state,
+        fieldBackground: (Math.floor(Math.random() * (12 - 1 + 1)) + 1),
+      };
 
     case FIELD_LINES_RESOLVED:
       return {

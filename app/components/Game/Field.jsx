@@ -26,7 +26,7 @@ export class Field extends React.PureComponent
 
     return (
       <div className="tetris-field">
-        <div className={`tetris-field-panel _bg${this.props.randomBg}`}>
+        <div className={`tetris-field-panel _bg${this.props.background}`}>
           { this.props.children }
           <table>
             <tbody>
@@ -102,6 +102,6 @@ export default connect(
     isGamePaused: state.game.paused,
     gameCountDown: state.game.countDown,
     lastResolvedLines: state.layout.lastResolvedLines,
-    randomBg: null,
+    background: state.layout.fieldBackground,
   })
 )(Field);
