@@ -1,6 +1,10 @@
 
 export const DELAY_SET  = 'DELAY_SET';
 
+export const FIELD_CHANGED  = 'FIELD_CHANGED';
+export const FIELD_LINES_RESOLVED  = 'FIELD_LINES_RESOLVED';
+export const FIELD_NOT_CHANGED  = 'FIELD_NOT_CHANGED';
+
 export const GAME_INIT  = 'GAME_INIT';
 export const GAME_NEXT  = 'GAME_NEXT';
 export const GAME_START  = 'GAME_START';

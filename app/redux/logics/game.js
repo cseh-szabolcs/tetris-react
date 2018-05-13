@@ -7,10 +7,9 @@ import library from 'tetris-library';
 const {
   GAME_INIT,
   GAME_START,
-  STONE_MOVE_DOWN_REJECTED,
-  STONE_MOVE_DOWN,
+  FIELD_CHANGED,
+  FIELD_NOT_CHANGED,
 } = actions.types;
-
 
 
 /**
@@ -30,13 +29,12 @@ export const gameInitLogic = createLogic({
 });
 
 
-
 /**
- * Dispatches the move-down by an interval, so now we play Tetris!
+ * Dispatches the signal for the next interval
  *
  */
 export const gameNextLogic = createLogic({
-  type: [GAME_START, STONE_MOVE_DOWN_REJECTED],
+  type: [GAME_START, FIELD_CHANGED, FIELD_NOT_CHANGED],
   latest: true,
 
   process({ getState, action }, dispatch, done) {
@@ -48,13 +46,12 @@ export const gameNextLogic = createLogic({
 });
 
 
-
 /**
  * Dispatches the move-down by an interval.
  *
  */
 export const gameIntervalLogic = createLogic({
-  type: [GAME_START, STONE_MOVE_DOWN],
+  type: ['FOOOOO'],
   latest: true,
 
   process({ getState, action }, dispatch, done) {

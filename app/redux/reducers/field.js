@@ -4,6 +4,7 @@ import library from 'tetris-library';
 
 
 const {
+  FIELD_CHANGED,
   GAME_INIT,
   STONE_INSERTED,
   STONE_ROTATED,
@@ -31,6 +32,7 @@ export default (state = initialState, action) => {
         cols: 10
       });
 
+    case FIELD_CHANGED:
     case STONE_INSERTED:
     case STONE_ROTATED:
     case STONE_MOVED_DOWN:

@@ -15,7 +15,6 @@ const {
 } = actions.types;
 
 
-
 /**
  * Creates an new stone
  *
@@ -41,7 +40,6 @@ export const createStoneLogic = createLogic({
     done();
   }
 });
-
 
 
 /**

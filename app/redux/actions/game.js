@@ -7,7 +7,6 @@ import {
 } from './types';
 
 
-
 export const init = ({ multiPlay = false, level = 1 }) => {
   return {
     type: GAME_INIT,
@@ -16,20 +15,17 @@ export const init = ({ multiPlay = false, level = 1 }) => {
   };
 };
 
-
 export const start = () => {
   return {
     type: GAME_START,
   };
 };
 
-
 export const next = () => {
   return {
     type: GAME_NEXT,
   };
 };
-
 
 export const switchAsciiMode = () => {
   return {
