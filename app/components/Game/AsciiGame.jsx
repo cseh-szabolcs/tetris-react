@@ -127,7 +127,7 @@ export class AsciiGame extends React.PureComponent
 
     return (
       <div className={`tetris-ascii-wrapper _${className}`}>
-        { (className === 'field') && (
+        { (className === 'field' && this.props.isGameOver) && (
           <Replay size="basic" />
         )}
         <table>
@@ -207,6 +207,7 @@ export default connect(
   (state) => ({
     fieldState: state.field,
     nextStone: state.stone.next,
+    isGameOver: (state.game.status === false),
     alert: state.layout.alert,
     lastResolvedLines: state.layout.lastResolvedLines,
     level: state.game.level,
