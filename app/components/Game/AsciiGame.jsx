@@ -16,12 +16,12 @@ export class AsciiGame extends React.PureComponent
     let fieldContent;
 
     switch (true) {
-      case (true): // this.props.cmpDelay > 0
-        fieldContent = this.renderText("TESTOS");
+      case (this.props.gamePaused):
+        fieldContent = this.renderText("paused");
         break;
 
-      case (false): // this.props.cmpAlert !== null
-        fieldContent = this.renderText(this.props.cmpAlert);
+      case (this.props.gameCountDown > 0):
+        fieldContent = this.renderText(this.props.gameCountDown);
         break;
 
       default:
@@ -95,8 +95,8 @@ export class AsciiGame extends React.PureComponent
       cols = [], vals = 0;
 
       let blink = (field === this.props.fieldState
-        && this.props.resolvedLines.length > 0
-        && this.props.resolvedLines.indexOf(row) > -1
+        && this.props.lastResolvedLines.length > 0
+        && this.props.lastResolvedLines.indexOf(row) > -1
       );
 
       for (col = 0; col < field[row].length; col++) {
@@ -219,11 +219,11 @@ export default connect(
   (state) => ({
     fieldState: state.field,
     stoneState: state.stone,
-    resolvedLines: [],
+    gamePaused: state.game.paused,
+    gameCountDown: state.game.countDown,
+    lastResolvedLines: state.layout.lastResolvedLines,
     level: state.game.level,
     resolved: state.game.resolved,
     score: state.game.score,
-    cmpAlert: null,
-    cmpDelay: null,
   }),
 )(AsciiGame);

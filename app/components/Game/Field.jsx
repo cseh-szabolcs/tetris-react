@@ -14,7 +14,7 @@ export class Field extends React.PureComponent
   {
     let content = null;
 
-    if (this.props.isGamePaused) {
+    if (this.props.gamePaused) {
       content = this.renderText("paused");
     }
     else if (this.props.gameCountDown) {
@@ -99,7 +99,7 @@ export class Field extends React.PureComponent
 export default connect(
   (state) => ({
     fieldState: state.field,
-    isGamePaused: state.game.paused,
+    gamePaused: state.game.paused,
     gameCountDown: state.game.countDown,
     lastResolvedLines: state.layout.lastResolvedLines,
     background: state.layout.fieldBackground,
