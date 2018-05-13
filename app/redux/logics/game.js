@@ -16,6 +16,7 @@ const {
   STONE_MOVED_DOWN,
   STONE_MOVE_DOWN_REJECTED,
   STONE_PULL_DOWN,
+  STONE_INSERT_REJECT,
 } = actions.types;
 
 
@@ -24,7 +25,7 @@ const {
  * Dispatches the signal for the next interval
  *
  */
-export const gameNextLogic = createLogic({
+export const nextLogic = createLogic({
   type: [GAME_START, FIELD_CHANGED, FIELD_NOT_CHANGED],
   latest: true,
 
@@ -38,27 +39,46 @@ export const gameNextLogic = createLogic({
 
 
 /**
- * Dispatches the move-down by an interval.
+ * Dispatches the signal for the next interval
  *
  */
-export const gameIntervalLogic = createLogic({
-  type: [STONE_CREATE, STONE_PULL_DOWN, STONE_MOVE_DOWN, STONE_MOVED_DOWN, STONE_MOVE_DOWN_REJECTED],
+export const gameOverLogic = createLogic({
+  type: STONE_INSERT_REJECT,
   latest: true,
 
   process({ getState, action }, dispatch, done) {
     let state = getState();
 
-    if (action.type === STONE_MOVE_DOWN_REJECTED) {
+    dispatch(actions.game.over());
+    done();
+  }
+});
+
+
+/**
+ * Dispatches the move-down by an interval.
+ *
+ */
+export const intervalLogic = createLogic({
+  type: [GAME_COUNT_DOWN, STONE_CREATE, STONE_PULL_DOWN, STONE_MOVE_DOWN, STONE_MOVED_DOWN, STONE_MOVE_DOWN_REJECTED],
+  latest: true,
+
+  process({ getState, action }, dispatch, done) {
+    let state = getState();
+
+    // clear move-down-timeout and return!
+    if (action.type === STONE_MOVE_DOWN_REJECTED || (action.type === GAME_COUNT_DOWN && action.value)) {
       library.tetris.timeout({ clear: true });
       done();
       return;
     }
 
+    // clear move-down-timeout and...
     if (action.type === STONE_PULL_DOWN || action.type === STONE_MOVE_DOWN) {
       library.tetris.timeout({ clear: true });
     }
 
-    // dispatch new move-down-loop
+    // ...dispatch new move-down-loop
     library.tetris.timeout({
       callback: () => dispatch(actions.stone.moveDown()),
       duration: () => library.tetris.settings.calcIntervalSpeed(state.game.level),
@@ -98,7 +118,7 @@ export const countDownLogic = createLogic({
       if (action.value) {
         library.tetris.timeout({ clear: true });
       } else {
-        dispatch(actions.game.countDown(3));
+        dispatch(actions.game.countDown( 3 ));
       }
 
       done();
@@ -116,7 +136,7 @@ export const countDownLogic = createLogic({
 
     // continue count-down
     library.tetris.timeout({
-      callback: () => dispatch(actions.game.countDown()),
+      callback: () => dispatch(actions.game.countDown( state.game.countDown - 1 )),
       duration: () => 1000,
       than: () => done(),
     });

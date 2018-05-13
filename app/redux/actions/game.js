@@ -2,6 +2,7 @@
 import {
   GAME_INIT,
   GAME_NEXT,
+  GAME_OVER,
   GAME_PAUSE,
   GAME_START,
   GAME_COUNT_DOWN,
@@ -36,7 +37,14 @@ export const next = () => {
   };
 };
 
-export const countDown = (value = null) => {
+
+export const over = () => {
+  return {
+    type: GAME_OVER,
+  };
+};
+
+export const countDown = (value) => {
   return {
     type: GAME_COUNT_DOWN,
     value,

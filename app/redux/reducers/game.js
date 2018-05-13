@@ -6,6 +6,7 @@ import library from 'tetris-library';
 const {
   GAME_INIT,
   GAME_START,
+  GAME_OVER,
   GAME_PAUSE,
   GAME_COUNT_DOWN,
   GAME_ASCII_SWITCH,
@@ -14,7 +15,7 @@ const {
 
 let initialState = {
   init: false,
-  running: false, // true = running/won, false = lost
+  running: false,
   status: null, // true = won, false = lost
   paused: false,
   countDown: 0,
@@ -44,13 +45,18 @@ export default (state = initialState, action) => {
         multiPlay: action.multiPlay,
       };
 
-
     case GAME_START:
       return {
         ...state,
         running: true,
       };
 
+    case GAME_OVER:
+      return {
+        ...state,
+        running: false,
+        status: false,
+      };
 
     case GAME_PAUSE:
       if (state.multiPlay) {
@@ -61,15 +67,11 @@ export default (state = initialState, action) => {
         paused: action.value,
       };
 
-
     case GAME_COUNT_DOWN:
       return {
         ...state,
-        countDown: (action.value !== null)
-          ? action.value
-          : state.countDown - 1,
+        countDown: action.value,
       };
-
 
     case GAME_ASCII_SWITCH:
       return {

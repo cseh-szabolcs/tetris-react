@@ -13,25 +13,13 @@ export class AsciiGame extends React.PureComponent
 
   render()
   {
-    let fieldContent;
-
-    switch (true) {
-      case (this.props.gamePaused):
-        fieldContent = this.renderText("paused");
-        break;
-
-      case (this.props.gameCountDown > 0):
-        fieldContent = this.renderText(this.props.gameCountDown);
-        break;
-
-      default:
-        fieldContent = this.renderField();
-        break;
-    }
+    let content = (this.props.alert)
+      ? this.renderText(this.props.alert)
+      : this.renderField();
 
     return(
       <div className="tetris-ascii">
-        { this.renderWrapper(fieldContent, 18, 21, 'field') }
+        { this.renderWrapper(content, 18, 21, 'field') }
         { this.renderWrapper(this.renderNextStone(), 18, 6, 'next') }
         { this.renderStatistics() }
       </div>
@@ -211,16 +199,15 @@ export class AsciiGame extends React.PureComponent
       </table>
     );
   }
-
 }
+
 
 
 export default connect(
   (state) => ({
     fieldState: state.field,
     stoneState: state.stone,
-    gamePaused: state.game.paused,
-    gameCountDown: state.game.countDown,
+    alert: state.layout.alert,
     lastResolvedLines: state.layout.lastResolvedLines,
     level: state.game.level,
     resolved: state.game.resolved,

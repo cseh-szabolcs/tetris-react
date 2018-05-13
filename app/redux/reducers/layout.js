@@ -4,6 +4,9 @@ import actions from 'tetris-actions';
 
 const {
   GAME_START,
+  GAME_PAUSE,
+  GAME_OVER,
+  GAME_COUNT_DOWN,
   FIELD_CHANGED,
   FIELD_LINES_RESOLVED,
 } = actions.types;
@@ -13,6 +16,7 @@ const initialState = {
   countDown: 0,
   fieldBackground: null,
   lastResolvedLines: [],
+  alert: null,
   linesRemoveDuration: 500,
 };
 
@@ -41,6 +45,27 @@ export default (state = initialState, action) => {
       return {
         ...state,
         lastResolvedLines: [],
+      };
+
+    case GAME_PAUSE:
+      return {
+        ...state,
+        alert: action.value ? "pause" : null,
+        alertStyle: null,
+      };
+
+    case GAME_COUNT_DOWN:
+      return {
+        ...state,
+        alert: (action.value > 0) ? action.value : null,
+        alertStyle: (action.value > 0) ? 'timer' : null,
+      };
+
+    case GAME_OVER:
+      return {
+        ...state,
+        alert: 'game over',
+        alertStyle: null,
       };
 
 

@@ -12,17 +12,9 @@ export class Field extends React.PureComponent
 
   render()
   {
-    let content = null;
-
-    if (this.props.gamePaused) {
-      content = this.renderText("paused");
-    }
-    else if (this.props.gameCountDown) {
-      content = this.renderText(this.props.gameCountDown, 'timer');
-    }
-    else {
-      content = this.renderRows();
-    }
+    let content = (this.props.alert)
+      ? this.renderText(this.props.alert, this.props.alertStyle)
+      : this.renderRows();
 
     return (
       <div className="tetris-field">
@@ -91,7 +83,6 @@ export class Field extends React.PureComponent
       </tr>
     );
   }
-
 }
 
 
@@ -99,8 +90,8 @@ export class Field extends React.PureComponent
 export default connect(
   (state) => ({
     fieldState: state.field,
-    gamePaused: state.game.paused,
-    gameCountDown: state.game.countDown,
+    alert: state.layout.alert,
+    alertStyle: state.layout.alertStyle,
     lastResolvedLines: state.layout.lastResolvedLines,
     background: state.layout.fieldBackground,
   })
