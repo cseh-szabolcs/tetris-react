@@ -10,6 +10,8 @@ const {
   GAME_PAUSE,
   GAME_COUNT_DOWN,
   GAME_ASCII_SWITCH,
+  FIELD_LINES_RESOLVED,
+  STONE_MOVED_DOWN,
 } = actions.types;
 
 
@@ -71,6 +73,28 @@ export default (state = initialState, action) => {
       return {
         ...state,
         countDown: action.value,
+      };
+
+    case STONE_MOVED_DOWN:
+      return {
+        ...state,
+        moves: state.moves+1,
+      };
+
+    case FIELD_LINES_RESOLVED:
+      let resolvedCount = action.lines.length;
+      let resolvedState = state.resolved + resolvedCount;
+
+      let points = library.tetris.settings.calcPoints(resolvedCount, state.level);
+      let level = state.multiPlay
+        ? state.level
+        : library.tetris.settings.calcLevel(resolvedState);
+
+      return {
+        ...state,
+        resolved: resolvedState,
+        level: level,
+        score: state.score + points,
       };
 
     case GAME_ASCII_SWITCH:

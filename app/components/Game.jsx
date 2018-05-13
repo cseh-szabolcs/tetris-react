@@ -6,7 +6,7 @@ import GameComponents from './Game/index';
 const { Control, Field, Stone, NextStone, Replay, Statistics, AsciiGame } = GameComponents;
 
 
-export const Game = ({ switchAsciiMode, asciiMode = false, isMasterTab = true }) => {
+export const Game = ({ isGameOver, switchAsciiMode, asciiMode = false, isMasterTab = true }) => {
 
   return (
     <div>
@@ -17,7 +17,7 @@ export const Game = ({ switchAsciiMode, asciiMode = false, isMasterTab = true })
         <div className="tetris-game">
           <Field>
             <Stone />
-            <Replay />
+            { isGameOver && (<Replay />) }
           </Field>
           <NextStone />
           <Statistics />
@@ -50,6 +50,7 @@ export const Game = ({ switchAsciiMode, asciiMode = false, isMasterTab = true })
 
 export default connect(
   (state) => ({
+    isGameOver: (state.game.status === false),
     asciiMode: state.game.asciiMode,
     isMasterTab: true,
   }),
