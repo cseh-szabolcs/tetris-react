@@ -7,6 +7,7 @@ const {
   GAME_INIT,
   STONE_CREATE,
   STONE_MOVED_DOWN,
+  STONE_MOVE_DOWN_REJECTED,
   STONE_MOVED_LEFT,
   STONE_MOVED_RIGHT,
   STONE_PULLED_DOWN,
@@ -81,6 +82,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         rotation: library.tetris.getNextRotation(state.rotation),
+      };
+
+    case STONE_MOVE_DOWN_REJECTED:
+      return {
+        ...state,
+        current: null,
       };
 
     default:
