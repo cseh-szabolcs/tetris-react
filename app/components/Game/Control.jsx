@@ -161,7 +161,7 @@ export default connect(
   (state) => ({
     stone: state.stone,
     isRunning: state.game.running,
-    isPaused: state.game.paused,
+    isPaused: (state.game.paused || state.game.countDown > 0),
   }),
   (dispatch) => ({
     $rotate: () => dispatch(actions.stone.rotate()),

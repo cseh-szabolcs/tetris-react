@@ -11,25 +11,13 @@ const {
   GAME_COUNT_DOWN,
   FIELD_CHANGED,
   FIELD_NOT_CHANGED,
+  STONE_CREATE,
+  STONE_MOVE_DOWN,
+  STONE_MOVED_DOWN,
+  STONE_MOVE_DOWN_REJECTED,
+  STONE_PULL_DOWN,
 } = actions.types;
 
-
-
-/**
- * Dispatches the move-down by an interval, so now we play Tetris!
- *
- */
-export const gameInitLogic = createLogic({
-  type: [GAME_INIT],
-  latest: true,
-
-  process({ getState, action }, dispatch, done) {
-    let state = getState();
-
-    dispatch(actions.game.start());
-    done();
-  }
-});
 
 
 /**
@@ -54,18 +42,21 @@ export const gameNextLogic = createLogic({
  *
  */
 export const gameIntervalLogic = createLogic({
-  type: ['FOOOOO'],
+  type: [STONE_CREATE, STONE_PULL_DOWN, STONE_MOVE_DOWN, STONE_MOVED_DOWN, STONE_MOVE_DOWN_REJECTED],
   latest: true,
 
   process({ getState, action }, dispatch, done) {
     let state = getState();
 
-    if (false) {
+    if (action.type === STONE_MOVE_DOWN_REJECTED) {
       library.tetris.timeout({ clear: true });
       done();
       return;
     }
 
+    if (action.type === STONE_PULL_DOWN || action.type === STONE_MOVE_DOWN) {
+      library.tetris.timeout({ clear: true });
+    }
 
     // dispatch new move-down-loop
     library.tetris.timeout({
@@ -82,14 +73,14 @@ export const gameIntervalLogic = createLogic({
  *
  */
 export const countDownLogic = createLogic({
-  type: [GAME_START, GAME_PAUSE, GAME_COUNT_DOWN],
+  type: [GAME_INIT, GAME_PAUSE, GAME_COUNT_DOWN],
   latest: true,
 
   process({ getState, action }, dispatch, done) {
     let state = getState();
 
     // when game just started
-    if (action.type === GAME_START) {
+    if (action.type === GAME_INIT) {
       let value = state.game.multiPlay ? 5 : 3;
       dispatch(actions.game.countDown( value ));
 
@@ -116,6 +107,9 @@ export const countDownLogic = createLogic({
 
     // count-down expired
     if (state.game.countDown === 0) {
+      if (!state.game.running) {
+        dispatch(actions.game.start());
+      }
       done();
       return;
     }

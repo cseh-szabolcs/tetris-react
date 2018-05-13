@@ -16,6 +16,5 @@ export default [
   game.countDownLogic,
   game.gameIntervalLogic,
   game.gameNextLogic,
-  game.gameInitLogic,
   // first!
 ];
