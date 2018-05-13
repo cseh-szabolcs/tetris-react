@@ -29,14 +29,14 @@ export class AsciiGame extends React.PureComponent
 
   renderNextStone()
   {
-    if (!this.props.stoneState.next) {
+    if (!this.props.nextStone) {
       return null;
     }
 
     const nextStone = this.renderField(
-      this.props.stoneState.next.left,
+      this.props.nextStone.left,
       false,
-      this.props.stoneState.next.value
+      this.props.nextStone.value
     );
 
     return (
@@ -206,7 +206,7 @@ export class AsciiGame extends React.PureComponent
 export default connect(
   (state) => ({
     fieldState: state.field,
-    stoneState: state.stone,
+    nextStone: state.stone.next,
     alert: state.layout.alert,
     lastResolvedLines: state.layout.lastResolvedLines,
     level: state.game.level,

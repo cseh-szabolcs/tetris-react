@@ -153,6 +153,10 @@ export const getNextRotation = (current = null) => {
  */
 export const mergeStoneInField = (actionType, stoneState, fieldState) => {
 
+  if (!stoneState.current) {
+    return fieldState;
+  }
+
   let x = stoneState.xPos,
     y = stoneState.yPos,
     rotation = stoneState.rotation;

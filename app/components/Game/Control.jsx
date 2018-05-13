@@ -37,7 +37,7 @@ export class Control extends React.PureComponent
 
 
     this.keydown = Rx.Observable.fromEvent(window, 'keydown').map((e) => {
-      if (this.props.isRunning) {
+      if (this.props.isGameInited) {
         e.preventDefault();
       }
       return e;
@@ -93,7 +93,7 @@ export class Control extends React.PureComponent
 
   handlePause()
   {
-    this.props.pause(!this.props.isPaused);
+    this.props.pause(!this.props.isGamePaused);
   }
 
 
@@ -103,7 +103,7 @@ export class Control extends React.PureComponent
    */
   handleKeyDown(char)
   {
-    if (!this.props.isRunning) {
+    if (!this.props.isGameInited) {
       return;
     }
 
@@ -120,6 +120,7 @@ export class Control extends React.PureComponent
 
       if (action.indexOf('$') === 0) {
         if (this.props.canControl || this.canAlwaysControl.indexOf(key) > -1) {
+          console.log("CONTROLL");
           this.props[action]();
         }
       } else {
@@ -144,13 +145,13 @@ export class Control extends React.PureComponent
 
 
   onFocus = () => {
-    if (this.props.isRunning) {
+    if (this.props.isGameInited) {
       this.props.pause(false);
     }
   };
 
   onBlur = () => {
-    if (this.props.isRunning) {
+    if (this.props.isGameInited) {
       this.props.pause(true);
     }
   };
@@ -160,9 +161,9 @@ export class Control extends React.PureComponent
 export default connect(
   (state) => ({
     stone: state.stone,
-    isRunning: state.game.running,
-    isPaused: state.game.paused,
-    canControl: (!state.game.paused || state.game.countDown === 0 || state.stone.current !== null),
+    isGameInited: state.game.init,
+    isGamePaused: state.game.paused,
+    canControl: (state.game.paused === false && state.game.countDown === 0 && state.stone.current !== null),
   }),
   (dispatch) => ({
     $rotate: () => dispatch(actions.stone.rotate()),
