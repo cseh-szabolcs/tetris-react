@@ -1,4 +1,5 @@
 
+import * as auth from './auth';
 import * as field from './field';
 import * as game from './game';
 import * as stone from './stone';
@@ -6,6 +7,7 @@ import * as stone from './stone';
 
 export default [
   // last!
+  auth.authLogic,
   field.removeLinesLogic,
   stone.rotateLogic,
   stone.moveSideLogic,

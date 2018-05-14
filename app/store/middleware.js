@@ -1,25 +1,6 @@
+
 import actions from 'tetris-actions';
-
-export const MASTER_TAB = !localStorage.getItem('tetris-master-tab');
-
-
-/**
- * A workaround to access the store
- *
- */
-export const middlewareBroker = {
-  store: null,
-
-  setStore: function(store) {
-    this.store = store;
-  },
-  getStore: function(store) {
-    return this.store;
-  },
-  hasStore: function() {
-    return (this.store !== null);
-  },
-};
+import { storeBrokerHelper } from './helper';
 
 
 /**
@@ -45,7 +26,7 @@ export const syncMasterMiddleware = (storage = localStorage) => {
     next(action);
 
     setTimeout(() => {
-      storage.setItem('tetris-sync-store', JSON.stringify(middlewareBroker.getStore().getState()));
+      storage.setItem('tetris-sync-store', JSON.stringify(storeBrokerHelper.getStore().getState()));
     }, 100);
   }
 };
@@ -61,7 +42,7 @@ export const syncSlaveMiddleware = (storage = localStorage) => {
   (() => {
     setTimeout(() => {
       try {
-        middlewareBroker.getStore().dispatch(
+        storeBrokerHelper.getStore().dispatch(
           actions.window.restoreSlave(
             JSON.parse(storage.getItem('tetris-sync-store'))
           )
@@ -72,10 +53,10 @@ export const syncSlaveMiddleware = (storage = localStorage) => {
 
   // the storage event tells you which value changed
   window.addEventListener('storage', event => {
-    if (middlewareBroker.hasStore()) {
+    if (storeBrokerHelper.hasStore()) {
       try {
         const {action} = JSON.parse(event.newValue);
-        middlewareBroker.getStore().dispatch(action);
+        storeBrokerHelper.getStore().dispatch(action);
       } catch (e) { }
     }
   });
@@ -86,7 +67,6 @@ export const syncSlaveMiddleware = (storage = localStorage) => {
 
 /**
  * A helper to mark all actions with an time to ignore the old ones, on slave-tab/window open
- *
  */
 function timestampAction(action) {
   return {

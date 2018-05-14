@@ -16,7 +16,7 @@ Server.handle('SERVER_CXN', ['request, uid', function(request, uid)
 /**
  * An new user wants to join the game
  */
-Server.handle('SOCKET_JOIN_PLAYER', ['uid, request, payload', function(uid, request)
+Server.handle('AUTH_JOIN', ['uid, request, payload', function(uid, request)
 {
   if (!request.has('userName', String)) {
     return;
@@ -37,7 +37,7 @@ Server.handle('SOCKET_JOIN_PLAYER', ['uid, request, payload', function(uid, requ
     token,
   });
 
-  this.sendToAll('SOCKET_JOIN_OTHER', {
+  this.sendToAll('USERS_JOIN', {
     user: Db.get('user', uid),
   });
 }]);

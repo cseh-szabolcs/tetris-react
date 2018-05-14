@@ -1,8 +1,12 @@
 import * as redux from 'redux';
 import { createLogicMiddleware } from 'redux-logic';
 
+import library from 'tetris-library';
 import Reducers from 'tetris-reducers';
-import { MASTER_TAB, syncMasterMiddleware, syncSlaveMiddleware, middlewareBroker } from './middleware';
+import { syncMasterMiddleware, syncSlaveMiddleware } from './middleware';
+import { MASTER_TAB, storeBrokerHelper } from './helper';
+import { webSocketDispatcher } from './dispatcher';
+
 
 /**
  * store-factory
@@ -14,8 +18,13 @@ export default (logics = [], initialState = {}) => {
 
   if (MASTER_TAB) {
     middleware = redux.applyMiddleware(
-      syncMasterMiddleware(),               // store-sync for master tab/window
-      createLogicMiddleware(logics, {})     // redux-logic extension for business-logic
+      // store-sync for master tab/window
+      syncMasterMiddleware(),
+      // redux-logic extension for business-logic
+      createLogicMiddleware(logics, {
+        tetris: library.tetris,
+        ws: library.tetris.webSocket,
+      }),
     );
   } else {
     middleware = redux.applyMiddleware(
@@ -33,7 +42,13 @@ export default (logics = [], initialState = {}) => {
     window.devToolsExtension ? window.devToolsExtension() : f => f
   ));
 
-  middlewareBroker.setStore(store);
+  // init helper
+  storeBrokerHelper.setStore(store);
+
+  // init dispatcher
+  if (MASTER_TAB) {
+    webSocketDispatcher(store.dispatch);
+  }
 
   return store;
 };

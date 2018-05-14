@@ -1,4 +1,5 @@
 
+import authReducer from './auth';
 import fieldReducer from './field';
 import gameReducer from './game';
 import layoutReducer from './layout';
@@ -7,6 +8,7 @@ import windowReducer from './window';
 
 
 export default {
+  auth: authReducer,
   field: fieldReducer,
   game: gameReducer,
   layout: layoutReducer,
