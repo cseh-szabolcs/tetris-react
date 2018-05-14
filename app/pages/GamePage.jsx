@@ -34,7 +34,7 @@ export class GamePage extends React.Component
 
 export default connect(
   (state) => ({
-    isMasterTab: true,
+    isMasterTab: state.window.masterTab,
     isInited: state.game.init,
   }),
 )(GamePage);

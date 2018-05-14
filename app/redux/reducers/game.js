@@ -12,6 +12,7 @@ const {
   GAME_ASCII_SWITCH,
   FIELD_LINES_RESOLVED,
   STONE_MOVED_DOWN,
+  WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
 
@@ -102,6 +103,15 @@ export default (state = initialState, action) => {
         ...state,
         asciiMode: !state.asciiMode,
       };
+
+    case WINDOW_RESTORE_SLAVE:
+      if (action.masterState.game) {
+        return {
+          ...state,
+          ...action.masterState.game,
+        };
+      }
+      return state;
 
     default:
       return state;

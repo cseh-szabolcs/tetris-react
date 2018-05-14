@@ -9,6 +9,7 @@ const {
   GAME_COUNT_DOWN,
   FIELD_CHANGED,
   FIELD_LINES_RESOLVED,
+  WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
 
@@ -68,6 +69,14 @@ export default (state = initialState, action) => {
         alertStyle: null,
       };
 
+    case WINDOW_RESTORE_SLAVE:
+      if (action.masterState.layout) {
+        return {
+          ...state,
+          ...action.masterState.layout,
+        };
+      }
+      return state;
 
     default:
       return state;

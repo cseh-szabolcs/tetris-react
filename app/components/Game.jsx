@@ -40,9 +40,7 @@ export const Game = ({ isGameOver, switchAsciiMode, asciiMode = false, isMasterT
         </label>
       </div>
 
-      { isMasterTab && (
-        <Control />
-      )}
+      { isMasterTab && (<Control />) }
     </div>
   );
 };
@@ -52,7 +50,7 @@ export default connect(
   (state) => ({
     isGameOver: (state.game.status === false),
     asciiMode: state.game.asciiMode,
-    isMasterTab: true,
+    isMasterTab: state.window.masterTab,
   }),
   (dispatch) => ({
     switchAsciiMode: () => dispatch(actions.game.switchAsciiMode()),

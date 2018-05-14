@@ -13,6 +13,7 @@ const {
   STONE_MOVED_RIGHT,
   STONE_MOVE_DOWN_REJECTED,
   STONE_PULLED_DOWN,
+  WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
 
@@ -43,6 +44,12 @@ export default (state = initialState, action) => {
 
     case STONE_MOVE_DOWN_REJECTED:
       return library.tetris.applyStoneInField(state);
+
+    case WINDOW_RESTORE_SLAVE:
+      if (action.masterState.field) {
+        return action.masterState.field;
+      }
+      return state;
 
     default:
       return state;

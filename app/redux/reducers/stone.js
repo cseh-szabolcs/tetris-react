@@ -12,6 +12,7 @@ const {
   STONE_MOVED_RIGHT,
   STONE_PULLED_DOWN,
   STONE_ROTATED,
+  WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
 
@@ -89,6 +90,15 @@ export default (state = initialState, action) => {
         ...state,
         current: null,
       };
+
+    case WINDOW_RESTORE_SLAVE:
+      if (action.masterState.stone) {
+        return {
+          ...state,
+          ...action.masterState.stone,
+        };
+      }
+      return state;
 
     default:
       return state;
