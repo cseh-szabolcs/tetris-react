@@ -13,6 +13,7 @@ export default [
   stone.moveDownLogic,
   stone.insertLogic,
   stone.createStoneLogic,
+  game.pauseLogic,
   game.gameOverLogic,
   game.countDownLogic,
   game.intervalLogic,

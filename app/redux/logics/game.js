@@ -6,9 +6,10 @@ import library from 'tetris-library';
 
 const {
   GAME_INIT,
-  GAME_PAUSE,
   GAME_START,
   GAME_OVER,
+  GAME_PAUSE,
+  GAME_PAUSED,
   GAME_COUNT_DOWN,
   FIELD_CHANGED,
   FIELD_NOT_CHANGED,
@@ -31,8 +32,6 @@ export const nextLogic = createLogic({
   latest: true,
 
   process({ getState, action }, dispatch, done) {
-    let state = getState();
-
     dispatch(actions.game.next());
     done();
   }
@@ -48,8 +47,6 @@ export const gameOverLogic = createLogic({
   latest: true,
 
   process({ getState, action }, dispatch, done) {
-    let state = getState();
-
     dispatch(actions.game.over());
     done();
   }
@@ -102,11 +99,31 @@ export const intervalLogic = createLogic({
 
 
 /**
+ * Checks if game can be set to pause
+ *
+ */
+export const pauseLogic = createLogic({
+  type: GAME_PAUSE,
+  latest: true,
+
+  process({ getState, action }, dispatch, done) {
+    let state = getState();
+
+    if (!state.game.multiPlay && state.game.init && state.game.status === null) {
+      dispatch(actions.game.paused(action.value));
+    }
+
+    done();
+  }
+});
+
+
+/**
  * Handles the count-down interval and the game-pause-feature.
  *
  */
 export const countDownLogic = createLogic({
-  type: [GAME_INIT, GAME_PAUSE, GAME_COUNT_DOWN],
+  type: [GAME_INIT, GAME_PAUSED, GAME_COUNT_DOWN],
   latest: true,
 
   process({ getState, action }, dispatch, done) {
@@ -122,12 +139,7 @@ export const countDownLogic = createLogic({
     }
 
     // game paused
-    if (action.type === GAME_PAUSE) {
-      if (state.game.multiPlay) {
-        done();
-        return;
-      }
-
+    if (action.type === GAME_PAUSED) {
       if (action.value) {
         library.tetris.timeout({ clear: true });
       } else {

@@ -4,7 +4,7 @@ import actions from 'tetris-actions';
 
 const {
   GAME_INIT,
-  GAME_PAUSE,
+  GAME_PAUSED,
   GAME_OVER,
   GAME_COUNT_DOWN,
   FIELD_CHANGED,
@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
         lastResolvedLines: [],
       };
 
-    case GAME_PAUSE:
+    case GAME_PAUSED:
       return {
         ...state,
         alert: action.value ? "pause" : null,

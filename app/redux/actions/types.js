@@ -9,6 +9,7 @@ export const GAME_INIT  = 'GAME_INIT';
 export const GAME_NEXT  = 'GAME_NEXT';
 export const GAME_OVER  = 'GAME_OVER';
 export const GAME_PAUSE  = 'GAME_PAUSE';
+export const GAME_PAUSED  = 'GAME_PAUSED';
 export const GAME_START  = 'GAME_START';
 export const GAME_COUNT_DOWN = 'GAME_COUNT_DOWN';
 export const GAME_ASCII_SWITCH  = 'GAME_ASCII_SWITCH';

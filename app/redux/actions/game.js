@@ -4,6 +4,7 @@ import {
   GAME_NEXT,
   GAME_OVER,
   GAME_PAUSE,
+  GAME_PAUSED,
   GAME_START,
   GAME_COUNT_DOWN,
   GAME_ASCII_SWITCH,
@@ -27,6 +28,13 @@ export const start = () => {
 export const pause = ( value ) => {
   return {
     type: GAME_PAUSE,
+    value,
+  };
+};
+
+export const paused = ( value ) => {
+  return {
+    type: GAME_PAUSED,
     value,
   };
 };

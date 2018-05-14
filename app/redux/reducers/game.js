@@ -7,7 +7,7 @@ const {
   GAME_INIT,
   GAME_START,
   GAME_OVER,
-  GAME_PAUSE,
+  GAME_PAUSED,
   GAME_COUNT_DOWN,
   GAME_ASCII_SWITCH,
   FIELD_LINES_RESOLVED,
@@ -61,10 +61,7 @@ export default (state = initialState, action) => {
         status: false,
       };
 
-    case GAME_PAUSE:
-      if (state.multiPlay) {
-        return state;
-      }
+    case GAME_PAUSED:
       return {
         ...state,
         paused: action.value,
