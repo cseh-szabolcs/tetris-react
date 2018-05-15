@@ -7,7 +7,8 @@ import * as stone from './stone';
 
 export default [
   // last!
-  auth.authLogic,
+  auth.leaveLogic,
+  auth.joinLogic,
   field.removeLinesLogic,
   stone.rotateLogic,
   stone.moveSideLogic,

@@ -27,17 +27,20 @@ Server.handle('AUTH_JOIN', ['uid, request, payload', function(uid, request)
     : null
   );
 
+  const userName = request.get('userName').trim();
+
   Db.add('user', uid, {
     uid,
     token,
-    userName: request.get('userName').trim()
+    userName,
   });
 
-  this.send(uid, request.action, {
+  this.send(uid, 'SERVER_AUTH_JOIN', {
     token,
+    userName,
   });
 
-  this.sendToAll('USERS_JOIN', {
+  this.sendToAll('SERVER_USERS_JOIN', {
     user: Db.get('user', uid),
   });
 }]);
@@ -199,11 +202,11 @@ Server.handle('MULTIPLAY_STONE_INSERTED', ['uid, token, room, request', function
 /**
  * User leave the game -> notify all
  */
-Server.handle('SOCKET_LEAVE_PLAYER', ['request, uid, token', function(request, uid)
+Server.handle('AUTH_LEAVE', ['request, uid, token', function(request, uid)
 {
   Db.remove('user', uid);
 
-  this.sendToAll('SOCKET_LEAVE_OTHER', {
+  this.sendToAll('SERVER_ONLINE_LEAVE', {
     uid: uid,
   });
 }]);
@@ -217,7 +220,7 @@ Server.handle('SERVER_DXN', ['uid', function(uid)
 {
   Db.remove('user', uid);
 
-  this.sendToAll('SOCKET_LEAVE_OTHER', {
+  this.sendToAll('SERVER_ONLINE_LEAVE', {
     uid: uid,
   });
 }]);

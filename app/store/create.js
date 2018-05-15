@@ -6,37 +6,26 @@ import Reducers from 'tetris-reducers';
 import { syncMasterMiddleware, syncSlaveMiddleware, webSocketMiddleware, MASTER_TAB } from './middleware'
 
 
-
 /**
  * store-factory
- *
  */
 export default (logics = [], initialState = {}) => {
 
-  let middleware;
+  const logicDept = {tetris: library.tetris, ws: library.tetris.webSocket};
 
-  if (MASTER_TAB) {
-    middleware = redux.applyMiddleware(
-      webSocketMiddleware(),
-      syncMasterMiddleware(),
-      createLogicMiddleware(logics, {
-        tetris: library.tetris,
-        ws: library.tetris.webSocket,
-      }),
-    );
-  } else {
-    middleware = redux.applyMiddleware(
-      syncSlaveMiddleware(),
-    );
-  }
+  const middlewareModules = (MASTER_TAB)
+    ? [webSocketMiddleware(), syncMasterMiddleware(), createLogicMiddleware(logics, logicDept)]
+    : [syncSlaveMiddleware()];
 
-  // here we put all our reducers together
-  let reducer = redux.combineReducers(Reducers);
+  const middleware = redux.applyMiddleware.apply(this, middlewareModules);
+  const reducer = redux.combineReducers(Reducers);
 
-  return redux.createStore(reducer, initialState, redux.compose(
-    // extend redux-behaviour by adding the middleware
-    middleware,
-    // active browser-dev-tools
-    window.devToolsExtension ? window.devToolsExtension() : f => f
-  ));
+  return redux.createStore(
+    reducer,
+    initialState,
+    redux.compose(
+      middleware, // extend redux-behaviour by adding the middleware
+      window.devToolsExtension ? window.devToolsExtension() : f => f // active browser-dev-tools
+    )
+  );
 };

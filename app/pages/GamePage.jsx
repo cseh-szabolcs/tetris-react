@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Components from 'tetris-components';
-const { Game, Welcome } = Components;
+const { Game, MultiPlayer, Welcome } = Components;
 
 
 /**
@@ -20,12 +20,15 @@ export class GamePage extends React.Component
             <strong>It seems you playing Tetris in another tab or window already!</strong>
           </div>
         )}
+
         { !this.props.isInited && (
           <Welcome />
         )}
         { this.props.isInited && (
           <Game />
         )}
+
+        <MultiPlayer />
       </div>
     );
   }
