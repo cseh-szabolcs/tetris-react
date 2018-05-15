@@ -1,8 +1,8 @@
+
 import React from 'react';
 import { connect } from 'react-redux';
 
 import MultiPlayerComponents from './MultiPlayer/index';
-
 const { Auth, UserItem } = MultiPlayerComponents;
 
 
