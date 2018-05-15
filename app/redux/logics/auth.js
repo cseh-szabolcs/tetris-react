@@ -19,7 +19,6 @@ const {
 export const joinLogic = createLogic({
   type: [SERVER_CXN, AUTH_JOIN, SERVER_AUTH_JOIN],
   latest: true,
-  warnTimeout: 0,
 
   process({ getState, action, ws }, dispatch, done) {
     let state = getState();
@@ -28,7 +27,7 @@ export const joinLogic = createLogic({
     if (action.type === SERVER_CXN) {
       let userName = window.sessionStorage.getItem('username');
       if (userName) {
-        dispatch(actions.auth.join({ userName }))
+        dispatch(actions.auth.join({ userName }));
       }
 
       done();
@@ -73,7 +72,6 @@ export const joinLogic = createLogic({
 export const leaveLogic = createLogic({
   type: [AUTH_LEAVE],
   latest: true,
-  warnTimeout: 0,
 
   process({ getState, action, ws }, dispatch, done) {
     let state = getState();
