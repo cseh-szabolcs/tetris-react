@@ -32,4 +32,3 @@ export default () => {
     return next => action => next(action);
   };
 };
-

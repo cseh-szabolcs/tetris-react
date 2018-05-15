@@ -39,5 +39,3 @@ function timestampAction(action) {
     time: Date.now()  // add time-stamp to force local-storage to update
   }
 }
-
-
