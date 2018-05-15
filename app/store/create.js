@@ -13,13 +13,16 @@ export default (logics = [], initialState = {}) => {
 
   const logicDept = {tetris: library.tetris, ws: library.tetris.webSocket};
 
+  // select required middleware
   const middlewareModules = (MASTER_TAB)
     ? [webSocketMiddleware(), syncMasterMiddleware(), createLogicMiddleware(logics, logicDept)]
     : [syncSlaveMiddleware()];
 
+    // create middleware and reducer
   const middleware = redux.applyMiddleware.apply(this, middlewareModules);
   const reducer = redux.combineReducers(Reducers);
 
+  // CORE
   return redux.createStore(
     reducer,
     initialState,
