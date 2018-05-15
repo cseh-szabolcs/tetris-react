@@ -1,6 +1,6 @@
 
 /**
- * Is true when master-tab
+ * Contains true when master-tab
  */
 export const MASTER_TAB = !localStorage.getItem('tetris-master-tab');
 
