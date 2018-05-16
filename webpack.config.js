@@ -10,7 +10,7 @@ module.exports = {
   entry: [
     'script-loader!jquery/dist/jquery.min.js',
     'script-loader!foundation-sites/dist/js/foundation.js',
-    './app/app.jsx'
+    './src/app.jsx'
   ],
   // ================================================================
   output: {
@@ -25,14 +25,14 @@ module.exports = {
   resolve: {
     modules: [__dirname, 'node_modules'],
     alias: {
-      'tetris-actions': 'app/redux/actions/index.js',
-      'tetris-components': 'app/components/index.js',
-      'tetris-library': 'app/library/index.js',
-      'tetris-logics': 'app/redux/logics/index.js',
-      'tetris-pages': 'app/pages/index.js',
-      'tetris-reducers': 'app/redux/reducers/index.js',
-      'tetris-store': 'app/store/index.js',
-      applicationStyles: 'app/styles/app.scss'
+      'tetris-actions': 'src/redux/actions/index.js',
+      'tetris-components': 'src/components/index.js',
+      'tetris-library': 'src/library/index.js',
+      'tetris-logics': 'src/redux/logics/index.js',
+      'tetris-pages': 'src/pages/index.js',
+      'tetris-reducers': 'src/redux/reducers/index.js',
+      'tetris-store': 'src/store/index.js',
+      applicationStyles: 'src/styles/app.scss'
     },
     extensions: ['*', '.js', '.jsx']
   },

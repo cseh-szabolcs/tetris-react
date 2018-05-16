@@ -1,0 +1,83 @@
+.tetris-stone {
+  position: absolute;
+  left: 0;
+  top: -32px;
+  transition: all 0.3s ease 0s;
+}
+
+.tetris-cell {
+  background: transparent;
+  position: relative;
+
+  &._c1 {
+    background: #ff6600;
+  }
+
+  &._c2 {
+    background: #ffcc00;
+  }
+
+  &._c3 {
+    background: red;
+  }
+
+  &._c4 {
+    background: #597eb3;
+  }
+
+  &._c5 {
+    background: #d31fe2;
+  }
+
+  &._c6 {
+    background: #3cbdf7;
+  }
+
+  &._c7 {
+    background: #1cca17;
+  }
+
+  &._c8 {
+    background: darkred;
+  }
+
+  span {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    border-left: 3px solid rgba(255, 255, 255, .4);
+    border-top: 3px solid rgba(255, 255, 255, .4);
+    border-right: 3px solid rgba(10, 10, 10, .3);
+    border-bottom: 3px solid rgba(10, 10, 10, .3);
+  }
+}
+
+.tetris-stone {
+  table,
+  tbody,
+  tr,
+  td {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background-color: transparent !important;
+  }
+}
+
+/* fade-out-animation */
+@-webkit-keyframes fade-out {
+  0% { opacity: 1; -webkit-transform: scale(1);}
+  100% {-webkit-transform: scale(.1); opacity: 0;}
+}
+
+.fade-out {
+  -webkit-animation: fade-out 0.5s ease-in;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-iteration-count: 1;
+  background-color: #000;
+  width: 100px;
+  height: 100px;
+  opacity: 1;
+}
