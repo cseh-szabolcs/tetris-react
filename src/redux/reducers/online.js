@@ -15,7 +15,6 @@ const initialState = {
 };
 
 
-
 /**
  * Contains the state of all other authenticated (current online) users
  *
