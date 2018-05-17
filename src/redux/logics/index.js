@@ -2,11 +2,13 @@
 import * as auth from './auth';
 import * as field from './field';
 import * as game from './game';
+import * as online from './online';
 import * as stone from './stone';
 
 
 export default [
   // last!
+  online.onlineLogic,
   auth.leaveLogic,
   auth.joinLogic,
   field.removeLinesLogic,

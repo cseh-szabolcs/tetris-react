@@ -75,6 +75,6 @@ export default connect(
   }),
   (dispatch) => ({
     joinPlayer: userName => dispatch(actions.auth.join({ userName })),
-    leavePlayer: userName => dispatch(actions.auth.leave({ userName })),
+    leavePlayer: () => dispatch(actions.auth.leave()),
   })
 )(Auth);

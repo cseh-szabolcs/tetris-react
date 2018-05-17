@@ -15,7 +15,7 @@ class UserItem extends React.PureComponent
   {
     const {userName, uid } = this.props;
 
-    const own = (uid === this.props.currentUid);
+    const own = (uid === this.props.authUid);
     const title = own
       ? 'this is you'
       : 'click to ask for a multi-player-game';
@@ -32,7 +32,7 @@ class UserItem extends React.PureComponent
 
   handleClick()
   {
-    if (this.props.currentUid !== this.props.uid) {
+    if (this.props.authUid !== this.props.uid) {
       this.props.openChat(this.props.uid);
     }
   }
@@ -42,7 +42,7 @@ class UserItem extends React.PureComponent
 
 export default connect(
   (state) => ({
-    currentUid: state.socket.uid,
+    authUid: state.auth.uid,
   }),
   (dispatch) => ({
     openChat: uid => dispatch(actions.chats.open(uid))

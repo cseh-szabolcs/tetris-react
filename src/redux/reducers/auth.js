@@ -2,10 +2,10 @@
 import actions from 'tetris-actions';
 
 const {
+  AUTH_UID_RECEIVED,
   AUTH_JOIN,
   AUTH_JOINED,
   AUTH_LEAVE,
-  SERVER_CXN,
   WEBSOCKET_ERROR,
   WINDOW_RESTORE_SLAVE,
 } = actions.types;
@@ -28,10 +28,10 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
 
-    case SERVER_CXN:
+    case AUTH_UID_RECEIVED:
       return {
         ...state,
-        uid: action.payload.uid,
+        uid: action.uid,
       };
 
     case AUTH_JOIN:
@@ -51,7 +51,8 @@ export default (state = initialState, action) => {
     case AUTH_LEAVE:
       return {
         ...initialState,
-        uid: state.uid,
+        uid: state.uid, // keep uid
+        token: state.token, // keep token also
       };
 
     case WEBSOCKET_ERROR:

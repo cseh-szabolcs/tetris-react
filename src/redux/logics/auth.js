@@ -23,8 +23,17 @@ export const joinLogic = createLogic({
   process({ getState, action, ws }, dispatch, done) {
     let state = getState();
 
-    // auto-login
+    // connection to webSocket-server
+    // ---------------------------------------
     if (action.type === SERVER_CXN) {
+
+      // get uid and online-users
+      dispatch(actions.auth.uidReceived({
+        uid: action.payload.uid,
+        onlineUsers: action.payload.users,
+      }));
+
+      // auto-login
       let userName = window.sessionStorage.getItem('username');
       if (userName) {
         dispatch(actions.auth.join({ userName }));
@@ -35,6 +44,7 @@ export const joinLogic = createLogic({
     }
 
     // send login-data to server...
+    // ---------------------------------------
     if (action.type === AUTH_JOIN) {
       let oldToken = window.sessionStorage.getItem('token');
 
@@ -52,6 +62,7 @@ export const joinLogic = createLogic({
     }
 
     // handle received login-data
+    // ---------------------------------------
     const token = action.payload.token;
     const userName = action.payload.userName;
 

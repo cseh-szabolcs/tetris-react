@@ -38,7 +38,7 @@ module.exports = function(Server) {
       userName,
     });
 
-    this.sendToAll('SERVER_USERS_JOIN', {
+    this.sendToAll('SERVER_ONLINE_JOIN', {
       user: Db.get('user', uid),
     });
   }]);
