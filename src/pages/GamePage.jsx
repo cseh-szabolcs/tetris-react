@@ -2,8 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Components from 'tetris-components';
-const { Game, MultiPlayer, Welcome } = Components;
+import { Game, MultiPlayer, Welcome } from 'tetris-components';
+
 
 
 /**

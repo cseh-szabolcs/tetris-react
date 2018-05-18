@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import actions from 'tetris-actions';
-import GameComponents from './Game/index';
-const { Control, Field, Stone, NextStone, Replay, Statistics, AsciiGame } = GameComponents;
+import { Control, Field, Stone, NextStone, Replay, Statistics, AsciiGame } from './Game/index';
 
 
 export const Game = ({ isGameOver, switchAsciiMode, asciiMode = false, isMasterTab = true }) => {

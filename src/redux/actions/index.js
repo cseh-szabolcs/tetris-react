@@ -1,5 +1,6 @@
 
 import * as auth from './auth';
+import * as chat from './chat';
 import * as field from './field';
 import * as game from './game';
 import * as online from './online';

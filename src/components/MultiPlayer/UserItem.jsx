@@ -21,7 +21,7 @@ class UserItem extends React.PureComponent
       : 'click to ask for a multi-player-game';
 
     return (
-      <li title={ title } onClick={ () => this.handleClick() }>
+      <li title={ title } onClick={ e => this.handleClick(e) }>
         <a href="#">
           { userName } <span className={ own ? 'owner' : '' } />
         </a>
@@ -30,8 +30,10 @@ class UserItem extends React.PureComponent
   }
 
 
-  handleClick()
+  handleClick(e)
   {
+    e.preventDefault();
+
     if (this.props.authUid !== this.props.uid) {
       this.props.openChat(this.props.uid);
     }
