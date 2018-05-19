@@ -4,6 +4,7 @@ import {
   CHAT_MESSAGE_RECEIVED,
   CHAT_MESSAGE_SEND,
   CHAT_WINDOW_CLOSE,
+  CHAT_WINDOW_FOCUS,
 } from './types';
 
 
@@ -41,5 +42,13 @@ export const close = ({ room }) => {
   return {
     type: CHAT_WINDOW_CLOSE,
     room,
+  }
+};
+
+
+export const windowFocus = (value) => {
+  return {
+    type: CHAT_WINDOW_FOCUS,
+    value,
   }
 };

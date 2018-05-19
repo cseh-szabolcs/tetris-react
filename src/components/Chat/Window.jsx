@@ -14,6 +14,7 @@ export class Window extends React.PureComponent
 {
   state = {
     inviteUser: false,
+    focus: false,
     message: '',
   };
 
@@ -51,7 +52,7 @@ export class Window extends React.PureComponent
     const renderAlert = (this.state.inviteUser || this.props.isMultiPlayStatus);
 
     return (
-      <div className="tetris-chat-window">
+      <div className={"tetris-chat-window " + (this.state.focus ? '_focus' : '_blur')} onClick={ () => this.handleFocus(null) }>
         <div className="tetris-chat-grid">
           <div className="tetris-chat-title">
 
@@ -97,6 +98,9 @@ export class Window extends React.PureComponent
             value={ this.state.message }
             onKeyPress={ e => this.handleInputKeyPress(e) }
             onChange={ e => this.setState({message: e.target.value}) }
+            onFocus={ () => this.handleFocus(true) }
+            onBlur={ () => this.handleFocus(false) }
+            onClick={ e => e.stopPropagation() }
             disabled={ (!isEnabled || renderAlert) }
             placeholder={ isEnabled ? 'Your message...' : disabledText }
             className="text"
@@ -149,6 +153,18 @@ export class Window extends React.PureComponent
     }
   }
 
+  handleFocus(value)
+  {
+    if (value === null) {
+      if (!this.state.focus) {
+        this.messageInput.focus();
+      }
+    } else {
+      this.setState({focus: value});
+      this.props.windowFocus(value);
+    }
+  }
+
 
   handleInvite()
   {
@@ -184,5 +200,6 @@ export default connect(
     send: (message, room) => dispatch(actions.chat.messageSend({ room, message })),
     close: room => dispatch(actions.chat.close({ room })),
     quitMultiPlay: () => dispatch(actions.multiplay.quit()),
+    windowFocus: value => dispatch(actions.chat.windowFocus(value)),
   })
 )(Window);

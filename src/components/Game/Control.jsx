@@ -34,20 +34,7 @@ export class Control extends React.PureComponent
   {
     window.addEventListener('focus', this.onFocus);
     window.addEventListener('blur', this.onBlur);
-
-
-    this.keydown = Rx.Observable.fromEvent(window, 'keydown').map((e) => {
-      if (this.props.isGameInited) {
-        e.preventDefault();
-      }
-      return e;
-    }).pluck('key').subscribe({
-      next: (e) => this.handleKeyDown(e)
-    });
-
-    this.keyup = Rx.Observable.fromEvent(window, 'keyup').pluck('key').subscribe({
-      next: (e) => this.handleKeyUp(e)
-    });
+    this.subscribeKeyboard();
   }
 
 
@@ -55,8 +42,19 @@ export class Control extends React.PureComponent
   {
     window.removeEventListener('focus', this.onFocus);
     window.removeEventListener('blur', this.onBlur);
-    this.keydown.unsubscribe();
-    this.keyup.unsubscribe();
+    this.unsubscribeKeyboard();
+  }
+
+
+  componentDidUpdate(prevProps)
+  {
+    if (this.props.isChatWindowFocus) {
+      this.props.pause(true);
+      this.unsubscribeKeyboard();
+    } else if (!this.props.isChatWindowFocus && prevProps.isChatWindowFocus) {
+      this.props.pause(false);
+      this.subscribeKeyboard();
+    }
   }
 
 
@@ -107,6 +105,10 @@ export class Control extends React.PureComponent
       return;
     }
 
+    if (this.props.isChatWindowFocus) {
+      return;
+    }
+
     const key = '$'+char;
 
     if (key in this.supportedKeys) {
@@ -143,6 +145,30 @@ export class Control extends React.PureComponent
   };
 
 
+  subscribeKeyboard()
+  {
+    this.keydown = Rx.Observable.fromEvent(window, 'keydown').map((e) => {
+      if (this.props.isGameInited) {
+        e.preventDefault();
+      }
+      return e;
+    }).pluck('key').subscribe({
+      next: (e) => this.handleKeyDown(e)
+    });
+
+    this.keyup = Rx.Observable.fromEvent(window, 'keyup').pluck('key').subscribe({
+      next: (e) => this.handleKeyUp(e)
+    });
+  }
+
+
+  unsubscribeKeyboard()
+  {
+    this.keydown.unsubscribe();
+    this.keyup.unsubscribe();
+  }
+
+
   onFocus = () => {
     this.props.pause(false);
   };
@@ -158,6 +184,7 @@ export default connect(
     stone: state.stone,
     isGameInited: state.game.init,
     isGamePaused: state.game.paused,
+    isChatWindowFocus: (state.chat.focusCount > 0),
     canControl: (
       state.game.running
       && state.game.paused === false

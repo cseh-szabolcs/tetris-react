@@ -4,6 +4,7 @@ import actions from 'tetris-actions';
 const {
   CHAT_MESSAGE_RECEIVED,
   CHAT_WINDOW_CLOSE,
+  CHAT_WINDOW_FOCUS,
   WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
@@ -11,6 +12,7 @@ const {
 const initialState = {
   window: {},
   list: [], // contains all room-names
+  focusCount: 0,
 };
 
 
@@ -61,6 +63,7 @@ export default (state = initialState, action) => {
 
       return newState;
 
+
     case CHAT_WINDOW_CLOSE:
       room = action.room;
 
@@ -75,6 +78,15 @@ export default (state = initialState, action) => {
       };
 
 
+    case CHAT_WINDOW_FOCUS:
+      return {
+        ...state,
+        focusCount: (action.value)
+          ? state.focusCount + 1
+          : state.focusCount - 1
+      };
+
+
     case WINDOW_RESTORE_SLAVE:
       if (action.masterState.chat) {
         return {
@@ -83,6 +95,7 @@ export default (state = initialState, action) => {
         };
       }
       return state;
+
 
     default:
       return state;
