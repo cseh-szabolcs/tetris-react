@@ -101,10 +101,6 @@ export class Control extends React.PureComponent
    */
   handleKeyDown(char)
   {
-    if (!this.props.isGameInited) {
-      return;
-    }
-
     const key = '$'+char;
 
     if (key in this.supportedKeys) {
@@ -144,9 +140,7 @@ export class Control extends React.PureComponent
   subscribeKeyboard()
   {
     this.keydown = Rx.Observable.fromEvent(window, 'keydown').map((e) => {
-      if (this.props.isGameInited) {
-        e.preventDefault();
-      }
+      e.preventDefault();
       return e;
     }).pluck('key').subscribe({
       next: (e) => this.handleKeyDown(e)
@@ -178,7 +172,6 @@ export class Control extends React.PureComponent
 export default connect(
   (state) => ({
     stone: state.stone,
-    isGameInited: state.game.init,
     isGamePaused: state.game.paused,
     isChatWindowFocus: (state.chat.focusCount > 0),
     canControl: (

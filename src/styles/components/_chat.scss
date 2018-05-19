@@ -47,6 +47,9 @@
   }
 
   &._focus {
+    .tetris-chat-grid {
+      box-shadow: 0 6px 8px rgba(0, 0, 0, .4);
+    }
     .tetris-chat-title {
       background: #1779ba;
     }
@@ -60,7 +63,7 @@
   right: 0;
   bottom: 0;
   background: white;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, .4);
+  box-shadow: 0 3px 4px rgba(0, 0, 0, .4);
 }
 
 .tetris-chat-title {

@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
       newState.window[room] = { ...newState.window[room],
         otherUid: action.otherUid, // other-uid can change, so we always rewrite *1!
         alert: action.alert,
-        display: (newState.window[room] || !!action.initial || !!action.alert || !!action.message),
+        display: (newState.window[room].display || !!action.initial || !!action.alert || !!action.message),
       };
 
       if (!action.message) {
