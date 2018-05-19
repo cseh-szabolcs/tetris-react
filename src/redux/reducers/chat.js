@@ -66,8 +66,7 @@ export default (state = initialState, action) => {
 
       return {
         ...state,
-        window: {
-          ...state.window,
+        window: { ...state.window,
           [room]: {
             ...state.window[room],
             display: false,
