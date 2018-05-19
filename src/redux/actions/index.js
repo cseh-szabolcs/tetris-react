@@ -11,6 +11,7 @@ import * as window from './window';
 
 export default {
   auth,
+  chat,
   field,
   game,
   online,

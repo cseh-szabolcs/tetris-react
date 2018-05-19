@@ -46,7 +46,9 @@ function renderOnlineUsers({ onlineUsers, onlineList }) {
 
   if (onlineList.length === 0) {
     return (
-      <li><i>currently nobody online</i></li>
+      <li>
+        <i>currently nobody online</i>
+      </li>
     );
   }
   let list = [], user;

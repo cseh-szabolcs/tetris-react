@@ -47,6 +47,6 @@ export default connect(
     authUid: state.auth.uid,
   }),
   (dispatch) => ({
-    openChat: uid => dispatch(actions.chats.open(uid))
+    openChat: uid => dispatch(actions.chat.open({ recipientUid: uid }))
   })
 )(UserItem);

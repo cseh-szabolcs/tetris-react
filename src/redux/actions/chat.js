@@ -1,22 +1,45 @@
 
 import {
-  ONLINE_JOIN,
-  ONLINE_LEAVE,
+  CHAT_OPEN,
+  CHAT_MESSAGE_RECEIVED,
+  CHAT_MESSAGE_SEND,
+  CHAT_WINDOW_CLOSE,
 } from './types';
 
 
 
-export const join = ({ uid, userName }) => {
+export const open = ({ recipientUid }) => {
   return {
-    type: ONLINE_JOIN,
-    uid: parseInt(uid),
-    userName,
+    type: CHAT_OPEN,
+    recipientUid,
   };
 };
 
-export const leave = ({ uid }) => {
+
+export const messageReceived = ({ room, otherUid, initial, message = null, alert = null }) => {
   return {
-    type: ONLINE_LEAVE,
-    uid: parseInt(uid),
+    type: CHAT_MESSAGE_RECEIVED,
+    room,
+    otherUid: parseInt(otherUid),
+    initial,
+    message,
+    alert,
   };
+};
+
+
+export const messageSend = ({ room, message }) => {
+  return {
+    type: CHAT_MESSAGE_SEND,
+    room,
+    message,
+  };
+};
+
+
+export const close = ({ room }) => {
+  return {
+    type: CHAT_WINDOW_CLOSE,
+    room,
+  }
 };

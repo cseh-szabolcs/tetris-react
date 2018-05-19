@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import jQuery from 'jquery';
 
 import actions from 'tetris-actions';
-import Modal from './Modal';
+import Alert from './Alert';
 
 
 /**
- * Renders the chats-container
+ * Renders an single chat-window
  *
  */
 export class Window extends React.PureComponent
@@ -48,10 +48,10 @@ export class Window extends React.PureComponent
   render()
   {
     const { user, messages, isEnabled = true, disabledText='disabled' } = this.props;
-    const renderModal = (this.state.inviteUser || this.props.isMultiPlayStatus);
+    const renderAlert = (this.state.inviteUser || this.props.isMultiPlayStatus);
 
     return (
-      <div className="tetris-chat">
+      <div className="tetris-chat-window">
         <div className="tetris-chat-grid">
           <div className="tetris-chat-title">
 
@@ -59,7 +59,7 @@ export class Window extends React.PureComponent
               { user.userName }
             </span>
 
-            { !renderModal && (
+            { !renderAlert && (
               <a onClick={ () => this.handleInvite() }
                  className="button warning"
                  href="#"
@@ -68,7 +68,7 @@ export class Window extends React.PureComponent
               </a>
             )}
 
-            { renderModal && (
+            { renderAlert && (
               <a onClick={ () => this.handleQuit() }
                  className="button alert"
                  href="#">
@@ -85,8 +85,8 @@ export class Window extends React.PureComponent
 
           <div className="tetris-chat-body" ref={ el => { this.chat = el; } }>
             <ul>
-              { (renderModal)
-                ? this.renderModal()
+              { (renderAlert)
+                ? this.renderAlert()
                 : this.renderMessages(messages)
               }
             </ul>
@@ -97,7 +97,7 @@ export class Window extends React.PureComponent
             value={ this.state.message }
             onKeyPress={ e => this.handleInputKeyPress(e) }
             onChange={ e => this.setState({message: e.target.value}) }
-            disabled={ (!isEnabled || renderModal) }
+            disabled={ (!isEnabled || renderAlert) }
             placeholder={ isEnabled ? 'Your message...' : disabledText }
             className="text"
           />
@@ -123,10 +123,10 @@ export class Window extends React.PureComponent
   }
 
 
-  renderModal()
+  renderAlert()
   {
     return (
-      <Modal room={ this.props.room } />
+      <Alert room={ this.props.room } />
     );
   }
 
@@ -177,12 +177,12 @@ export class Window extends React.PureComponent
 export default connect(
   (state) => ({
     isEnabled: state.window.masterTab,
-    isMultiPlayStatus: (state.multiplay.status > 0),
+    isMultiPlayStatus: false, //(state.multiplay.status > 0),
     disabledText: 'Wrong tab!'
   }),
   (dispatch) => ({
-    send: (message, room) => dispatch(actions.chats.send({ room, message })),
-    close: room => dispatch(actions.chats.close({ room })),
+    send: (message, room) => dispatch(actions.chat.messageSend({ room, message })),
+    close: room => dispatch(actions.chat.close({ room })),
     quitMultiPlay: () => dispatch(actions.multiplay.quit()),
   })
 )(Window);

@@ -1,43 +1,46 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Window } from './Chat';
+import { Window } from './Chat/index';
 
 /**
  * Renders the chat-window-container
  *
  */
-export const Chat = ({chats, onlineUsers}) => {
+export const Chat = ({chat, onlineUsers}) => {
 
-  if (chats.list.length === 0) {
+  if (chat.list.length === 0) {
     return null;
   }
 
-  let items = [], chat;
+  let items = [], window;
 
-  for (const room of chats.list) {
-    chat = chats.chat[room];
+  // collect chat-windows
+  for (const room of chat.list) {
+    window = chat.window[room];
 
     // do nothing, when other open the window but still typing (no real message-send yet)
-    if (!chat.display) {
+    if (!window.display) {
       continue;
     }
 
     items.push(
-      <Window key={ `c${chat.otherUid}` }
+      <Window key={ `c${window.otherUid}` }
         room={ room }
-        user={ onlineUsers[chat.otherUid] }
-        messages={ chat.messages }
+        user={ onlineUsers[window.otherUid] }
+        messages={ window.messages }
       />
     );
   }
 
+  // are windows to display?
   if (items.length === 0) {
     return null;
   }
 
+  // CORE
   return (
-    <div className="tetris-chats">
+    <div className="tetris-chat">
       { items }
     </div>
   );
@@ -47,7 +50,7 @@ export const Chat = ({chats, onlineUsers}) => {
 
 export default connect(
   (state) => ({
-    chats: state.chats,
-    onlineUsers: state.socket.online,
+    chat: state.chat,
+    onlineUsers: state.online.users,
   }),
 )(Chat);

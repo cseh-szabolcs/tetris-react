@@ -19,7 +19,6 @@ export const onlineLogic = createLogic({
   latest: true,
 
   process({ getState, action }, dispatch, done) {
-    let state = getState();
 
     if (action.type === SERVER_ONLINE_JOIN) {
 

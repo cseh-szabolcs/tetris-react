@@ -69,11 +69,10 @@ module.exports = function(Server) {
 
     this.openRoom(room, [sender.token, recipient.token]);
 
-    this.sendToRoom(room, 'CHAT_RECEIVED', {
+    this.sendToRoom(room, 'SERVER_CHAT_OPEN', {
       room,
       senderUid: sender.uid,
       recipientUid: recipient.uid,
-      message: null,
     });
   }]);
 
@@ -81,7 +80,7 @@ module.exports = function(Server) {
   /**
    * User wrote a message to another user
    */
-  Server.handle('CHAT_SEND', ['uid, token, room, request, payload', function (uid, token, room, request) {
+  Server.handle('CHAT_MESSAGE_SEND', ['uid, token, room, request, payload', function (uid, token, room, request) {
     const sender = Db.get('user', uid);
     if (!sender) {
       return;
@@ -97,7 +96,7 @@ module.exports = function(Server) {
       return;
     }
 
-    this.sendToRoom(room, 'CHAT_RECEIVED', {
+    this.sendToRoom(room, 'SERVER_CHAT_MESSAGE', {
       room,
       senderUid: sender.uid,
       recipientUid: recipient.uid,

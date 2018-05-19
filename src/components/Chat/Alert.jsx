@@ -2,9 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import actions from 'tetris-actions';
-import MultiPlayerComponents from '../MultiPlayer/index';
-
-const { Field, Invitation, Invite } = MultiPlayerComponents;
+import { Field, Invitation, Invite } from '../MultiPlayer/index';
 
 
 /**
