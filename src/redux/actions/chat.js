@@ -55,9 +55,10 @@ export const close = ({ room }) => {
 };
 
 
-export const windowFocus = (value) => {
+export const windowFocus = ({ room, focused }) => {
   return {
     type: CHAT_WINDOW_FOCUS,
-    value,
+    room,
+    focused,
   }
 };

@@ -173,7 +173,7 @@ export default connect(
   (state) => ({
     stone: state.stone,
     isGamePaused: state.game.paused,
-    isChatWindowFocus: (state.chat.focusCount > 0),
+    isChatWindowFocus: (state.chat.focused.length > 0),
     canControl: (
       state.game.running
       && state.game.paused === false

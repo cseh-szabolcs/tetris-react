@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import actions from 'tetris-actions';
 import { Field, Invitation, Invite } from '../MultiPlayer/index';
+import jQuery from "jquery";
 
 
 /**
@@ -14,45 +15,102 @@ export class Alert extends React.PureComponent
 
   render()
   {
-    let content;
+    if (this.props.render === 'multiPlayActions') {
+      return this.renderActionButtons();
+    }
+    return this.renderContent();
+  }
 
-    if (this.props.isMultiPlay) {
-      content = this.renderMultiPlay();
-    } else if (this.props.isInvitation) {
-      content = this.renderInvitation();
-    } else {
-      content = this.renderInvite();
+
+  renderActionButtons()
+  {
+    if (this.props.isMultiPlay || this.props.isInvitation) {
+      return (
+        <a onClick={ () => this.handleQuit() }
+           className="button alert"
+           href="#">
+          { this.props.isMultiPlay ? 'Quit' : 'Cancel' }
+        </a>
+      );
+    }
+
+    if (this.props.action === 'inviteUser') {
+      return (
+        <a onClick={ () => this.handleInvitationCancel() }
+           className="button alert"
+           href="#">
+          Cancel
+        </a>
+      );
     }
 
     return (
-      <li>{ content }</li>
+      <a onClick={ () => this.handleInvite() }
+         className="button warning"
+         href="#"
+         title="click here to play in two-player-mode!">
+        Invite to Play!
+      </a>
     );
   }
 
 
-  renderMultiPlay()
+  renderContent()
   {
-    return (<Field />);
+    if (this.props.isMultiPlay) {
+      return (
+        <li>
+          <Field />
+        </li>
+      );
+    }
+
+    if (this.props.isInvitation) {
+      return (
+        <li>
+          <Invitation />
+        </li>
+      );
+    }
+
+    if (this.props.action === 'inviteUser') {
+      return (
+        <li>
+          <Invite room={this.props.room} />
+        </li>
+      );
+    }
+
+    return null;
   }
 
-  renderInvitation()
+
+  handleInvite()
   {
-    return (<Invitation />);
+    this.props.onAction("inviteUser")
   }
 
-  renderInvite()
+  handleInvitationCancel()
   {
-    return (<Invite room={ this.props.room } />);
+    this.props.onAction(null)
   }
+
+  handleQuit()
+  {
+    this.props.quitMultiPlay();
+  }
+
 }
+
 
 
 export default connect(
   (state) => ({
-    isInvitation: (state.multiplay.status === 1),
-    isMultiPlay: (state.multiplay.status === 2),
+    isInvitation: false, // (state.multiplay.status === 1),
+    isMultiPlay: false, // (state.multiplay.status === 2),
   }),
   (dispatch) => ({
     invite: (room, level) => dispatch(actions.multiplay.invite({ room, level })),
+    quitMultiPlay: () => dispatch(actions.multiplay.quit()),
   })
 )(Alert);

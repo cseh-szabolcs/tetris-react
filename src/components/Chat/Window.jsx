@@ -12,10 +12,11 @@ import Alert from './Alert';
  */
 export class Window extends React.PureComponent
 {
+
   state = {
-    inviteUser: false,
     focus: false,
     message: '',
+    alertAction: null,
   };
 
 
@@ -35,10 +36,6 @@ export class Window extends React.PureComponent
 
 
   componentDidUpdate(prevProps) {
-    if (this.props.isMultiPlayStatus) {
-      this.setState({inviteUser: false});
-    }
-
     if (prevProps.messages.length !== this.props.messages.length && this.chat) {
       jQuery(this.chat).scrollTop(jQuery(this.chat)[0].scrollHeight);
       // this.chat.scrollIntoView({ block: "end" })
@@ -49,7 +46,6 @@ export class Window extends React.PureComponent
   render()
   {
     const { user, messages, isEnabled = true, disabledText='disabled' } = this.props;
-    const renderAlert = (this.state.inviteUser || this.props.isMultiPlayStatus);
 
     return (
       <div className={"tetris-chat-window " + (this.state.focus ? '_focus' : '_blur')} onClick={ () => this.handleFocus(null) }>
@@ -60,22 +56,11 @@ export class Window extends React.PureComponent
               { user.userName }
             </span>
 
-            { !renderAlert && (
-              <a onClick={ () => this.handleInvite() }
-                 className="button warning"
-                 href="#"
-                 title="click here to play in two-player-mode!">
-                Invite to Play!
-              </a>
-            )}
-
-            { renderAlert && (
-              <a onClick={ () => this.handleQuit() }
-                 className="button alert"
-                 href="#">
-                { this.props.isMultiPlayStatus ? 'Quit' : 'Cancel' }
-              </a>
-            )}
+            <Alert room={ this.props.room }
+              render="multiPlayActions"
+              action={ this.state.alertAction }
+              onAction={ action => this.setState({ alertAction: action }) }
+            />
 
             <span onClick={ e => this.handleClose(e) }
               title="close window"
@@ -86,10 +71,12 @@ export class Window extends React.PureComponent
 
           <div className="tetris-chat-body" ref={ el => { this.chat = el; } }>
             <ul>
-              { (renderAlert)
-                ? this.renderAlert()
-                : this.renderMessages(messages)
-              }
+              <Alert room={ this.props.room }
+                render="content"
+                action={ this.state.alertAction }
+              />
+
+              { !this.state.alertAction && this.renderMessages(messages) }
             </ul>
           </div>
 
@@ -101,7 +88,7 @@ export class Window extends React.PureComponent
             onFocus={ () => this.handleFocus(true) }
             onBlur={ () => this.handleFocus(false) }
             onClick={ e => e.stopPropagation() }
-            disabled={ (!isEnabled || renderAlert) }
+            disabled={ (!isEnabled || (this.state.alertAction !== null)) }
             placeholder={ isEnabled ? 'Your message...' : disabledText }
             className="text"
           />
@@ -127,14 +114,6 @@ export class Window extends React.PureComponent
   }
 
 
-  renderAlert()
-  {
-    return (
-      <Alert room={ this.props.room } />
-    );
-  }
-
-
   handleInputKeyPress(e)
   {
     if (e.key !== 'Enter') {
@@ -153,6 +132,7 @@ export class Window extends React.PureComponent
     }
   }
 
+
   handleFocus(value)
   {
     if (value === null) {
@@ -161,23 +141,10 @@ export class Window extends React.PureComponent
       }
     } else {
       this.setState({focus: value});
-      this.props.windowFocus(value);
-    }
-  }
-
-
-  handleInvite()
-  {
-    this.setState({inviteUser: true});
-  }
-
-
-  handleQuit()
-  {
-    if (this.props.isMultiPlayStatus) {
-      this.props.quitMultiPlay();
-    } else {
-      this.setState({inviteUser: false});
+      this.props.windowFocus({
+        room: this.props.room,
+        focused: value,
+      });
     }
   }
 
@@ -200,7 +167,6 @@ export default connect(
   (dispatch) => ({
     send: (message, room) => dispatch(actions.chat.messageSend({ room, message })),
     close: room => dispatch(actions.chat.close({ room })),
-    quitMultiPlay: () => dispatch(actions.multiplay.quit()),
     windowFocus: value => dispatch(actions.chat.windowFocus(value)),
   })
 )(Window);
