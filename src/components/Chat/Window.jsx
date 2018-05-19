@@ -77,7 +77,7 @@ export class Window extends React.PureComponent
               </a>
             )}
 
-            <span onClick={ () => this.handleClose() }
+            <span onClick={ e => this.handleClose(e) }
               title="close window"
               className="badge primary pointer transition">
               x
@@ -182,8 +182,9 @@ export class Window extends React.PureComponent
   }
 
 
-  handleClose()
+  handleClose(e)
   {
+    e.stopPropagation();
     this.props.close(this.props.room);
   }
 }
