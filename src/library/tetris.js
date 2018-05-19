@@ -389,7 +389,8 @@ export const webSocket = {
       return false;
     }
 
-    this.ws = new WebSocket(`ws${window.location.href.replace('http', '').replace('/#/', '')}`);
+    const host = location.hostname + (location.port ? ':'+location.port: '');
+    this.ws = new WebSocket('ws://'+host);
 
     this.ws.onmessage = event => {
       let data = null;
