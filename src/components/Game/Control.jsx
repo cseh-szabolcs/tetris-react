@@ -105,10 +105,6 @@ export class Control extends React.PureComponent
       return;
     }
 
-    if (this.props.isChatWindowFocus) {
-      return;
-    }
-
     const key = '$'+char;
 
     if (key in this.supportedKeys) {
