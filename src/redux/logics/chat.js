@@ -26,6 +26,16 @@ export const openLogic = createLogic({
 
     if (action.type === CHAT_OPEN) {
 
+      // check if chat with user already opened
+      for (let room in state.chat.window) {
+        if (action.recipientUid === state.chat.window[room].otherUid) {
+          dispatch(actions.chat.reOpen({room: room}));
+
+          done(); return;
+        }
+      }
+
+      // connect with other-user
       ws.send({
         action: action.type,
         token: state.auth.token,

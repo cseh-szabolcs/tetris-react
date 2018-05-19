@@ -4,6 +4,7 @@ import {
   CHAT_MESSAGE_RECEIVED,
   CHAT_MESSAGE_SEND,
   CHAT_WINDOW_CLOSE,
+  CHAT_WINDOW_OPEN,
   CHAT_WINDOW_FOCUS,
 } from './types';
 
@@ -35,6 +36,14 @@ export const messageSend = ({ room, message }) => {
     room,
     message,
   };
+};
+
+
+export const reOpen = ({ room }) => {
+  return {
+    type: CHAT_WINDOW_OPEN,
+    room,
+  }
 };
 
 

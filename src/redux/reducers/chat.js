@@ -5,6 +5,7 @@ const {
   CHAT_MESSAGE_RECEIVED,
   CHAT_WINDOW_CLOSE,
   CHAT_WINDOW_FOCUS,
+  CHAT_WINDOW_OPEN,
   WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
@@ -64,11 +65,23 @@ export default (state = initialState, action) => {
       return newState;
 
 
+    case CHAT_WINDOW_OPEN:
+      room = action.room;
+
+      return { ...state,
+        window: { ...state.window,
+          [room]: {
+            ...state.window[room],
+            display: true,
+          }
+        }
+      };
+
+
     case CHAT_WINDOW_CLOSE:
       room = action.room;
 
-      return {
-        ...state,
+      return { ...state,
         window: { ...state.window,
           [room]: {
             ...state.window[room],
