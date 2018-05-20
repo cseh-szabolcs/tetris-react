@@ -19,8 +19,8 @@ export class Alert extends React.PureComponent
       return;
     }
 
-    if (this.props.action !== null) {
-      this.props.onAction(this.props.action);
+    if (this.props.action !== null && this.props.action !== 'invite') {
+      this.props.onAction(null); // release static-alert value when its changed
     }
   }
 
@@ -39,7 +39,7 @@ export class Alert extends React.PureComponent
 
     if (action === 'multiplay') {
       return (
-        <a onClick={ e => this.handleQuit(e) }
+        <a onClick={ e => this.handleMultiPlayCancel(e) }
            className="button alert"
            href="#">
           Quit
@@ -49,7 +49,7 @@ export class Alert extends React.PureComponent
 
     if (action === 'invitation') {
       return (
-        <a onClick={ e => this.handleInvitationCancel(e) }
+        <a onClick={ e => this.handleMultiPlayCancel(e) }
            className="button alert"
            href="#">
           Cancel
@@ -125,17 +125,11 @@ export class Alert extends React.PureComponent
   }
 
 
-  handleInvitationCancel(e)
+  handleMultiPlayCancel(e)
   {
     e.preventDefault();
-    this.props.quitMultiPlay();
-  }
-
-
-  handleQuit(e)
-  {
-    e.preventDefault();
-    this.props.quitMultiPlay();
+    this.props.onAction(null);
+    this.props.cancelMultiPlay(this.props.room);
   }
 }
 
@@ -144,6 +138,6 @@ export class Alert extends React.PureComponent
 export default connect(null,
   (dispatch) => ({
     invite: (room, level) => dispatch(actions.multiplay.invite({ room, level })),
-    quitMultiPlay: () => dispatch(actions.multiplay.quit()),
+    cancelMultiPlay: room => dispatch(actions.multiplay.cancel({ room })),
   })
 )(Alert);

@@ -14,6 +14,10 @@ export class Invitation extends React.PureComponent
 
   render()
   {
+    if (!this.props.invitations[this.props.room]) {
+      return null;
+    }
+
     const invitation = this.props.invitations[this.props.room];
 
       return (invitation.initial)

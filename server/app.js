@@ -147,13 +147,13 @@ module.exports = function(Server) {
   /**
    * User quits an multi-player game
    */
-  Server.handle('MULTIPLAY_QUIT', ['uid, token, room, request', function (uid, token, room, request) {
+  Server.handle('MULTIPLAY_CANCEL', ['uid, token, room, request', function (uid, token, room, request) {
     const sender = Db.get('user', uid);
     if (!sender) {
       return;
     }
 
-    this.sendToRoom(room, request.action, {
+    this.sendToRoom(room, 'SERVER_MULTIPLAY_CANCEL', {
       room,
       senderUid: sender.uid,
     });

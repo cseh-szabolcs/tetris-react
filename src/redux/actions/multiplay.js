@@ -1,10 +1,13 @@
 
 import {
+  MULTIPLAY_ACCEPT,
+  MULTIPLAY_CANCEL,
+  MULTIPLAY_CANCELED,
   MULTIPLAY_INVITE,
   MULTIPLAY_INVITATION,
-  MULTIPLAY_ACCEPT,
   MULTIPLAY_START,
 } from './types';
+
 
 
 export const invite = ({ room, level, strict }) => {
@@ -15,7 +18,6 @@ export const invite = ({ room, level, strict }) => {
     strict,
   };
 };
-
 
 export const invitation = ({ room, otherUid, level, strict, initial }) => {
   return {
@@ -29,6 +31,7 @@ export const invitation = ({ room, otherUid, level, strict, initial }) => {
 };
 
 
+
 export const accept = ({ room }) => {
   return {
     type: MULTIPLAY_ACCEPT,
@@ -36,10 +39,25 @@ export const accept = ({ room }) => {
   };
 };
 
-
 export const start = ({ room }) => {
   return {
     type: MULTIPLAY_START,
+    room,
+  };
+};
+
+
+
+export const cancel = ({ room }) => {
+  return {
+    type: MULTIPLAY_CANCEL,
+    room,
+  };
+};
+
+export const canceled = ({ room }) => {
+  return {
+    type: MULTIPLAY_CANCELED,
     room,
   };
 };

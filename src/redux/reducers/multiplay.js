@@ -2,6 +2,7 @@
 import actions from 'tetris-actions';
 
 const {
+  MULTIPLAY_CANCELED,
   MULTIPLAY_INVITATION,
   MULTIPLAY_START,
 } = actions.types;
@@ -65,6 +66,15 @@ export default (state = initialState, action) => {
           [room] = undefined,
         },
         ...invitation
+      };
+
+    case MULTIPLAY_CANCELED:
+      room = action.room;
+
+      return { ...state,
+        invitations: { ...state.invitations
+          [room] = undefined,
+        },
       };
 
     default:

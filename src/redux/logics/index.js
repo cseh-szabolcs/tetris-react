@@ -11,6 +11,7 @@ import * as stone from './stone';
 export default [
   // last!
   multiplay.gameLogic,
+  multiplay.cancelLogic,
   multiplay.invitationLogic,
   chat.messengerLogic,
   chat.openLogic,

@@ -6,6 +6,7 @@ const {
   CHAT_WINDOW_CLOSE,
   CHAT_WINDOW_FOCUS,
   CHAT_WINDOW_OPEN,
+  MULTIPLAY_CANCELED,
   MULTIPLAY_INVITATION,
   MULTIPLAY_START,
   WINDOW_RESTORE_SLAVE,
@@ -102,6 +103,7 @@ export default (state = initialState, action) => {
 
 
     case MULTIPLAY_INVITATION:
+    case MULTIPLAY_CANCELED:
     case MULTIPLAY_START:
       room = action.room;
 
