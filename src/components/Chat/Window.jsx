@@ -31,9 +31,6 @@ export class Window extends React.PureComponent
 
   componentDidMount()
   {
-    if (this.props.isEnabled) {
-      this.messageInput.focus();
-    }
     this.setFocus(true);
     document.addEventListener('mousedown', this.handleClickOutside);
   }
@@ -175,6 +172,10 @@ export class Window extends React.PureComponent
 
     if (!value && this.props.focusedWindow !== this.props.room) {
       return;
+    }
+
+    if (value) {
+      window.setTimeout(() => this.messageInput.focus());
     }
 
     this.props.windowFocus(value

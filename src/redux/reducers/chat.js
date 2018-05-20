@@ -69,6 +69,7 @@ export default (state = initialState, action) => {
       room = action.room;
 
       return { ...state,
+        focused: room,
         window: { ...state.window,
           [room]: {
             ...state.window[room],
