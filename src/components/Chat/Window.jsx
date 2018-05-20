@@ -70,7 +70,7 @@ export class Window extends React.PureComponent
           <div className="tetris-chat-title">
 
             <span className="text ellipsis">
-              a:{window.alert} s:{this.state.alertAction} { user.userName }
+              { user.userName }
             </span>
 
             <Alert
@@ -95,17 +95,17 @@ export class Window extends React.PureComponent
                 action={ window.alert || this.state.alertAction }
               />
 
-              { !this.state.alertAction && this.renderMessages(window.messages) }
+              { this.renderMessages(window.messages) }
             </ul>
           </div>
 
           <input type="text"
             ref={ input => { this.messageInput = input; } }
-            value={ this.state.message }
+            value={ (this.state.alertAction) ? '' : this.state.message }
             onKeyPress={ e => this.handleInputKeyPress(e) }
             onChange={ e => this.setState({message: e.target.value}) }
             disabled={ (!isEnabled || (this.state.alertAction !== null)) }
-            placeholder={ isEnabled ? 'Your message...' : disabledText }
+            placeholder={ this.getPlaceholderText() }
             className="text"
           />
         </div>
@@ -116,6 +116,10 @@ export class Window extends React.PureComponent
 
   renderMessages(messages)
   {
+    if (this.state.alertAction || this.props.window.alert) {
+      return null;
+    }
+
     let list = [], i = 1;
     for (const message of messages) {
       list.push(
@@ -185,6 +189,19 @@ export class Window extends React.PureComponent
     }
 
     this.props.windowFocus(value ? room : null);
+  }
+
+
+  getPlaceholderText()
+  {
+    if (!this.props.isEnabled) {
+      return this.props.disabledText;
+    }
+    if (this.state.alertAction) {
+      return '---';
+    }
+
+    return 'Your message...';
   }
 }
 
