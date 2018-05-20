@@ -7,6 +7,7 @@ const {
   CHAT_WINDOW_FOCUS,
   CHAT_WINDOW_OPEN,
   MULTIPLAY_INVITATION,
+  MULTIPLAY_START,
   WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
@@ -101,13 +102,14 @@ export default (state = initialState, action) => {
 
 
     case MULTIPLAY_INVITATION:
+    case MULTIPLAY_START:
       room = action.room;
 
       return { ...state,
         window: { ...state.window,
           [room]: { ...state.window[room],
             display: true,
-            alert: 'invitation',
+            alert: getAlertString(action.type),
           }
         }
       };
@@ -127,3 +129,16 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+
+
+function getAlertString (actionType) {
+  switch (actionType) {
+    case MULTIPLAY_INVITATION:
+      return 'invitation';
+    case MULTIPLAY_START:
+      return 'multiplay';
+    default:
+      return null;
+  }
+}

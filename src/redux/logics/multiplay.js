@@ -4,7 +4,9 @@ import actions from 'tetris-actions';
 
 
 const {
+  MULTIPLAY_ACCEPT,
   MULTIPLAY_INVITE,
+  SERVER_MULTIPLAY_ACCEPT,
   SERVER_MULTIPLAY_INVITE,
 } = actions.types;
 
@@ -15,7 +17,7 @@ const {
  *
  */
 export const invitationLogic = createLogic({
-  type: [MULTIPLAY_INVITE, SERVER_MULTIPLAY_INVITE],
+  type: [MULTIPLAY_INVITE, SERVER_MULTIPLAY_INVITE, MULTIPLAY_ACCEPT, SERVER_MULTIPLAY_ACCEPT],
   latest: true,
 
   process({ getState, action, ws }, dispatch, done) {
@@ -56,6 +58,25 @@ export const invitationLogic = createLogic({
       }));
 
       done(); return;
+    }
+
+
+    // an invitation has been accepted
+    // ---------------------------------------------------------
+    if (action.type === MULTIPLAY_ACCEPT) {
+
+      ws.send({
+        action: action.type,
+        token: state.auth.token,
+        room: action.room,
+      });
+    }
+
+    else if (action.type === SERVER_MULTIPLAY_ACCEPT) { // if-statement just for understanding
+
+      dispatch(actions.multiplay.start({
+        room: action.payload.room,
+      }));
     }
 
     done();

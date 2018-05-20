@@ -2,6 +2,8 @@
 import {
   MULTIPLAY_INVITE,
   MULTIPLAY_INVITATION,
+  MULTIPLAY_ACCEPT,
+  MULTIPLAY_START,
 } from './types';
 
 
@@ -23,5 +25,21 @@ export const invitation = ({ room, otherUid, level, strict, initial }) => {
     level: parseInt(level),
     strict,
     initial,
+  };
+};
+
+
+export const accept = ({ room }) => {
+  return {
+    type: MULTIPLAY_ACCEPT,
+    room,
+  };
+};
+
+
+export const start = ({ room }) => {
+  return {
+    type: MULTIPLAY_START,
+    room,
   };
 };

@@ -3,6 +3,7 @@ import actions from 'tetris-actions';
 
 const {
   MULTIPLAY_INVITATION,
+  MULTIPLAY_START,
 } = actions.types;
 
 
@@ -10,10 +11,11 @@ const initialState = {
   available: true, // when false, user playing multiplayer-game
   invitations: {}, // contains the invitation-data
   room: null,
+  otherUid: 0,
+  strict: true,
+  initial: false,
   lines: null,
   level: 1,
-  strict: true,
-  uid: 0,
   won: null,
   otherScore: {resolved:0, score:0},
   otherField: [],
@@ -26,6 +28,8 @@ const initialState = {
  *
  */
 export default (state = initialState, action) => {
+  let room;
+
   switch (action.type) {
 
     case MULTIPLAY_INVITATION:
@@ -37,16 +41,30 @@ export default (state = initialState, action) => {
         return state; // already invited
       }
 
+      room = action.room;
+
       return { ...state,
         invitations: { ...state.invitations,
-          // add new data to inivitations
-          [action.room]: {
+          // add new data to invitations
+          [room]: {
+            room,
             otherUid: action.otherUid,
             level: action.level,
             strict: action.strict,
             initial: action.initial,
           }
         },
+      };
+
+    case MULTIPLAY_START:
+      room = action.room;
+      let invitation = state.invitations[room];
+
+      return { ...initialState,
+        invitations: { ...state.invitations
+          [room] = undefined,
+        },
+        ...invitation
       };
 
     default:

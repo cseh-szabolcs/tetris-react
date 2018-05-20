@@ -137,8 +137,8 @@ module.exports = function(Server) {
   /**
    * User quits an multi-player game
    */
-  Server.handle('MULTIPLAY_CONFIRM', ['uid, token, room', function (uid, token, room) {
-    this.sendToRoom(room, 'MULTIPLAY_START', {
+  Server.handle('MULTIPLAY_ACCEPT', ['uid, token, room', function (uid, token, room) {
+    this.sendToRoom(room, 'SERVER_MULTIPLAY_ACCEPT', {
       room,
     });
   }]);

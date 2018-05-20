@@ -29,7 +29,7 @@ export class Invitation extends React.PureComponent
         <p>
           You want to play a multi-player-game on <strong>level { invitation.level }</strong>?
         </p>
-        <button className="button expanded" onClick={ () => this.handleAccept() }>
+        <button className="button expanded" onClick={ () => this.handleAccept(invitation.room) }>
           Start game!
         </button>
       </div>
@@ -49,9 +49,9 @@ export class Invitation extends React.PureComponent
   }
 
 
-  handleAccept()
+  handleAccept(room)
   {
-    this.props.confirm();
+    this.props.accept(room);
   }
 }
 
@@ -62,6 +62,6 @@ export default connect(
     invitations: state.multiplay.invitations,
   }),
   (dispatch) => ({
-    confirm: () => dispatch(actions.multiplay.confirm()),
+    accept: room => dispatch(actions.multiplay.accept({ room })),
   })
 )(Invitation);
