@@ -42,7 +42,7 @@ export class Window extends React.PureComponent
   }
 
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.messages.length !== this.props.messages.length && this.chat) {
       jQuery(this.chat).scrollTop(jQuery(this.chat)[0].scrollHeight);
       // this.chat.scrollIntoView({ block: "end" })
@@ -155,7 +155,7 @@ export class Window extends React.PureComponent
   }
 
 
-  handleClickOutside(event, force = false)
+  handleClickOutside(event)
   {
     if (this.windowRef && !this.windowRef.contains(event.target)) {
       this.setFocus(false);
