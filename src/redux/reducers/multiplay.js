@@ -71,7 +71,7 @@ export default (state = initialState, action) => {
     case MULTIPLAY_CANCELED:
       room = action.room;
 
-      return { ...state,
+      return { ...initialState,
         invitations: { ...state.invitations
           [room] = undefined,
         },
