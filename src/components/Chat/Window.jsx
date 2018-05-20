@@ -16,7 +16,7 @@ export class Window extends React.PureComponent
 
   state = {
     message: '',
-    alertAction: null,
+    alert: null,
   };
 
 
@@ -76,8 +76,8 @@ export class Window extends React.PureComponent
             <Alert
               room={ window.room }
               render="actionButtons"
-              action={ window.alert || this.state.alertAction }
-              onAction={ action => this.setState({ alertAction: action }) }
+              action={ window.alert || this.state.alert }
+              onAction={ action => this.setState({ alert: action }) }
             />
 
             <span onClick={ e => this.handleClose(e) }
@@ -92,7 +92,7 @@ export class Window extends React.PureComponent
               <Alert
                 room={ window.room }
                 render="content"
-                action={ window.alert || this.state.alertAction }
+                action={ window.alert || this.state.alert }
               />
 
               { this.renderMessages(window.messages) }
@@ -101,10 +101,10 @@ export class Window extends React.PureComponent
 
           <input type="text"
             ref={ input => { this.messageInput = input; } }
-            value={ (this.state.alertAction) ? '' : this.state.message }
+            value={ (this.state.alert) ? '' : this.state.message }
             onKeyPress={ e => this.handleInputKeyPress(e) }
             onChange={ e => this.setState({message: e.target.value}) }
-            disabled={ (!isEnabled || (this.state.alertAction !== null)) }
+            disabled={ (!isEnabled || (this.state.alert !== null)) }
             placeholder={ this.getPlaceholderText() }
             className="text"
           />
@@ -116,7 +116,7 @@ export class Window extends React.PureComponent
 
   renderMessages(messages)
   {
-    if (this.state.alertAction || this.props.window.alert) {
+    if (this.state.alert || this.props.window.alert) {
       return null;
     }
 
@@ -197,7 +197,7 @@ export class Window extends React.PureComponent
     if (!this.props.isEnabled) {
       return this.props.disabledText;
     }
-    if (this.state.alertAction) {
+    if (this.state.alert) {
       return '---';
     }
 
