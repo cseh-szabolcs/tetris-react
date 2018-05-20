@@ -23,7 +23,6 @@ export class Window extends React.PureComponent
   constructor()
   {
     super();
-    this.length = 0;
 
     this.setWindowRef = this.setWindowRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
@@ -35,6 +34,7 @@ export class Window extends React.PureComponent
     this.setFocus(true);
     document.addEventListener('mousedown', this.handleClickOutside);
   }
+
 
   componentWillUnmount()
   {
@@ -49,9 +49,11 @@ export class Window extends React.PureComponent
     }
   }
 
+
   setWindowRef(node) {
     this.windowRef = node;
   }
+
 
   render()
   {
