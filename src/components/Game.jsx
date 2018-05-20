@@ -31,6 +31,7 @@ export const Game = ({ isGameOver, switchAsciiMode, asciiMode = false, isMasterT
           name="exampleSwitch"
           checked={ asciiMode }
           onChange={ switchAsciiMode }
+          onFocus={ e => e.target.blur() }
         />
         <label className="switch-paddle" htmlFor="asciiMode">
           <span className="show-for-custom">ASCII-Mode</span>
