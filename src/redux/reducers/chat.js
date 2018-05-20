@@ -6,6 +6,7 @@ const {
   CHAT_WINDOW_CLOSE,
   CHAT_WINDOW_FOCUS,
   CHAT_WINDOW_OPEN,
+  MULTIPLAY_INVITATION,
   WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
@@ -35,18 +36,21 @@ export default (state = initialState, action) => {
 
       // init chat-window when no conversation with the other-user exists
       if (state.list.indexOf(room) === -1) {
+
         newState.list = [...state.list, room];
         newState.window = { ...state.window,
           [room]: {
+            room: room,
             otherUid: action.otherUid,
+            alert: null,
             messages: [],
           }
         };
       }
+
       newState.window[room] = { ...newState.window[room],
         otherUid: action.otherUid, // other-uid can change, so we always rewrite *1!
-        alert: action.alert,
-        display: (newState.window[room].display || !!action.initial || !!action.alert || !!action.message),
+        display: (newState.window[room].display || !!action.initial || !!action.message),
       };
 
       if (!action.message) {
@@ -71,8 +75,7 @@ export default (state = initialState, action) => {
       return { ...state,
         focused: room,
         window: { ...state.window,
-          [room]: {
-            ...state.window[room],
+          [room]: { ...state.window[room],
             display: true,
           }
         }
@@ -84,8 +87,7 @@ export default (state = initialState, action) => {
 
       return { ...state,
         window: { ...state.window,
-          [room]: {
-            ...state.window[room],
+          [room]: { ...state.window[room],
             display: false,
           }
         }
@@ -95,6 +97,19 @@ export default (state = initialState, action) => {
     case CHAT_WINDOW_FOCUS:
       return { ...state,
         focused: action.room,
+      };
+
+
+    case MULTIPLAY_INVITATION:
+      room = action.room;
+
+      return { ...state,
+        window: { ...state.window,
+          [room]: { ...state.window[room],
+            display: true,
+            alert: 'invitation',
+          }
+        }
       };
 
 

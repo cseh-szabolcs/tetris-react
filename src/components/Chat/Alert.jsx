@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import actions from 'tetris-actions';
 import { Field, Invitation, Invite } from '../MultiPlay/index';
+import jQuery from "jquery";
 
 
 /**
@@ -12,6 +13,16 @@ import { Field, Invitation, Invite } from '../MultiPlay/index';
  */
 export class Alert extends React.PureComponent
 {
+
+  componentDidUpdate(prevProps) {
+    if (!this.props.onAction) {
+      return;
+    }
+
+    if (this.props.action !== null) {
+      this.props.onAction(this.props.action);
+    }
+  }
 
   render()
   {
@@ -24,19 +35,31 @@ export class Alert extends React.PureComponent
 
   renderActionButtons()
   {
-    if (this.props.isMultiPlay || this.props.isInvitation) {
+    const action = this.props.action;
+
+    if (action === 'multiplay') {
       return (
         <a onClick={ e => this.handleQuit(e) }
            className="button alert"
            href="#">
-          { this.props.isMultiPlay ? 'Quit' : 'Cancel' }
+          Quit
         </a>
       );
     }
 
-    if (this.props.action === 'inviteUser') {
+    if (action === 'invitation') {
       return (
         <a onClick={ e => this.handleInvitationCancel(e) }
+           className="button alert"
+           href="#">
+          Cancel
+        </a>
+      );
+    }
+
+    if (action === 'invite') {
+      return (
+        <a onClick={ e => this.handleInviteCancel(e) }
            className="button alert"
            href="#">
           Cancel
@@ -57,26 +80,29 @@ export class Alert extends React.PureComponent
 
   renderContent()
   {
-    if (this.props.isMultiPlay) {
+    const action = this.props.action;
+    const room = this.props.room;
+
+    if (action === 'multiplay') {
       return (
         <li>
-          <Field />
+          <Field room={ room } />
         </li>
       );
     }
 
-    if (this.props.isInvitation) {
+    if (action === 'invitation') {
       return (
         <li>
-          <Invitation />
+          <Invitation room={ room } />
         </li>
       );
     }
 
-    if (this.props.action === 'inviteUser') {
+    if (action === 'invite') {
       return (
         <li>
-          <Invite room={this.props.room} />
+          <Invite room={ room } />
         </li>
       );
     }
@@ -88,30 +114,34 @@ export class Alert extends React.PureComponent
   handleInvite(e)
   {
     e.preventDefault();
-    this.props.onAction("inviteUser")
+    this.props.onAction('invite');
   }
+
+
+  handleInviteCancel(e)
+  {
+    e.preventDefault();
+    this.props.onAction(null);
+  }
+
 
   handleInvitationCancel(e)
   {
     e.preventDefault();
-    this.props.onAction(null)
+    this.props.quitMultiPlay();
   }
+
 
   handleQuit(e)
   {
     e.preventDefault();
     this.props.quitMultiPlay();
   }
-
 }
 
 
 
-export default connect(
-  (state) => ({
-    isInvitation: false, // (state.multiplay.status === 1),
-    isMultiPlay: false, // (state.multiplay.status === 2),
-  }),
+export default connect(null,
   (dispatch) => ({
     invite: (room, level) => dispatch(actions.multiplay.invite({ room, level })),
     quitMultiPlay: () => dispatch(actions.multiplay.quit()),

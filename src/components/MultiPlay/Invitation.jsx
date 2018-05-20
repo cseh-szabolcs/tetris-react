@@ -14,18 +14,20 @@ export class Invitation extends React.PureComponent
 
   render()
   {
-      return (this.props.isInitial)
+    const invitation = this.props.invitations[this.props.room];
+
+      return (invitation.initial)
         ? this.renderInvitationSender()
-        : this.renderInvitationRecipient();
+        : this.renderInvitationRecipient(invitation);
   }
 
 
-  renderInvitationRecipient()
+  renderInvitationRecipient(invitation)
   {
     return (
       <div className="tetris-chat-modal invitation">
         <p>
-          You want to play a multi-player-game on <strong>level { this.props.level }</strong>?
+          You want to play a multi-player-game on <strong>level { invitation.level }</strong>?
         </p>
         <button className="button expanded" onClick={ () => this.handleAccept() }>
           Start game!
@@ -51,16 +53,15 @@ export class Invitation extends React.PureComponent
   {
     this.props.confirm();
   }
-
 }
+
 
 
 export default connect(
   (state) => ({
-    level: state.multiplay.level,
-    isInitial: state.multiplay.initial,
+    invitations: state.multiplay.invitations,
   }),
   (dispatch) => ({
-    confirm: (room, level) => dispatch(actions.multiplay.confirm()),
+    confirm: () => dispatch(actions.multiplay.confirm()),
   })
 )(Invitation);

@@ -25,10 +25,10 @@ export const Chat = ({chat, onlineUsers}) => {
     }
 
     items.push(
-      <Window key={ `c${window.otherUid}` }
-        room={ room }
+      <Window
+        key={ `c${window.otherUid}` }
+        window={ window }
         user={ onlineUsers[window.otherUid] }
-        messages={ window.messages }
       />
     );
   }

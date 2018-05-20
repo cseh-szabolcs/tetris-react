@@ -43,9 +43,9 @@ export class Window extends React.PureComponent
 
 
   componentDidUpdate(prevProps) {
-    if (prevProps.messages.length !== this.props.messages.length && this.chat) {
-      jQuery(this.chat).scrollTop(jQuery(this.chat)[0].scrollHeight);
-      // this.chat.scrollIntoView({ block: "end" })
+    if (prevProps.window.messages.length !== this.props.window.messages.length && this.chatRef) {
+      jQuery(this.chatRef).scrollTop(jQuery(this.chatRef)[0].scrollHeight);
+      // this.chatRef.scrollIntoView({ block: "end" })
     }
   }
 
@@ -57,11 +57,11 @@ export class Window extends React.PureComponent
 
   render()
   {
-    const { user, messages, isEnabled = true, disabledText='disabled' } = this.props;
+    const { user, window, isEnabled = true, disabledText='disabled' } = this.props;
 
     return (
       <div ref={ this.setWindowRef }
-        className={"tetris-chat-window " + ((this.props.focusedWindow === this.props.room) ? '_focus' : '_blur')}
+        className={"tetris-chat-window " + ((this.props.focusedWindow === window.room) ? '_focus' : '_blur')}
         onClick={ e => this.setFocus(true, e) }
         onMouseDown={ e => this.setFocus(true, e) }
         tabIndex="-1"
@@ -70,12 +70,13 @@ export class Window extends React.PureComponent
           <div className="tetris-chat-title">
 
             <span className="text ellipsis">
-              { user.userName }
+              {this.state.alertAction} { user.userName }
             </span>
 
-            <Alert room={ this.props.room }
+            <Alert
+              room={ window.room }
               render="actionButtons"
-              action={ this.state.alertAction }
+              action={ window.alert || this.state.alertAction }
               onAction={ action => this.setState({ alertAction: action }) }
             />
 
@@ -86,14 +87,15 @@ export class Window extends React.PureComponent
             </span>
           </div>
 
-          <div className="tetris-chat-body" ref={ el => { this.chat = el; } }>
+          <div className="tetris-chat-body" ref={ el => { this.chatRef = el; } }>
             <ul>
-              <Alert room={ this.props.room }
+              <Alert
+                room={ window.room }
                 render="content"
-                action={ this.state.alertAction }
+                action={ window.alert || this.state.alertAction }
               />
 
-              { !this.state.alertAction && this.renderMessages(messages) }
+              { !this.state.alertAction && this.renderMessages(window.messages) }
             </ul>
           </div>
 
@@ -135,9 +137,10 @@ export class Window extends React.PureComponent
     }
 
     const message = this.state.message.trim();
+    const room = this.props.window.room;
 
     if (message !== '') {
-      this.props.send(message, this.props.room);
+      this.props.send(message, room);
       this.setState({message: ''});
     }
   }
@@ -147,7 +150,9 @@ export class Window extends React.PureComponent
   {
     e.stopPropagation();
     this.setFocus(false);
-    this.props.close(this.props.room);
+
+    const room = this.props.window.room;
+    this.props.close(room);
   }
 
 
@@ -161,15 +166,17 @@ export class Window extends React.PureComponent
 
   setFocus(value, e = null)
   {
+    const room = this.props.window.room;
+
     if (e) {
       e.stopPropagation();
     }
 
-    if (value && this.props.focusedWindow === this.props.room) {
+    if (value && this.props.focusedWindow === room) {
       return;
     }
 
-    if (!value && this.props.focusedWindow !== this.props.room) {
+    if (!value && this.props.focusedWindow !== room) {
       return;
     }
 
@@ -177,10 +184,7 @@ export class Window extends React.PureComponent
       window.setTimeout(() => this.messageInput.focus());
     }
 
-    this.props.windowFocus(value
-      ? this.props.room
-      : null
-    );
+    this.props.windowFocus(value ? room : null);
   }
 }
 

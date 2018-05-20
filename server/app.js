@@ -124,14 +124,11 @@ module.exports = function(Server) {
       return;
     }
 
-    const LEVEL_MIN = 1;
-    const LEVEL_MAX = 9;
-
-    this.sendToRoom(room, 'MULTIPLAY_INVITATION', {
+    this.sendToRoom(room, 'SERVER_MULTIPLAY_INVITE', {
       room,
       senderUid: sender.uid,
       recipientUid: recipient.uid,
-      level: request.vGet('level', val => (val > LEVEL_MIN && val < LEVEL_MAX), LEVEL_MIN),
+      level: request.tGet('level', Number, 1),
       strict: request.tGet('strict', Boolean, true),
     });
   }]);
