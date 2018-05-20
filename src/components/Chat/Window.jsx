@@ -70,7 +70,7 @@ export class Window extends React.PureComponent
           <div className="tetris-chat-title">
 
             <span className="text ellipsis">
-              {this.state.alertAction} { user.userName }
+              { user.userName }
             </span>
 
             <Alert
