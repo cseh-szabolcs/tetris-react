@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import actions from 'tetris-actions';
 import { Field, Invitation, Invite } from '../MultiPlay/index';
-import jQuery from "jquery";
 
 
 /**
