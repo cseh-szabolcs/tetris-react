@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import actions from 'tetris-actions';
-import { Field, Invitation, Invite } from '../MultiPlayer/index';
+import { Field, Invitation, Invite } from '../MultiPlay/index';
 
 
 /**
@@ -15,7 +15,7 @@ export class Alert extends React.PureComponent
 
   render()
   {
-    if (this.props.render === 'multiPlayActions') {
+    if (this.props.render === 'actionButtons') {
       return this.renderActionButtons();
     }
     return this.renderContent();
@@ -26,7 +26,7 @@ export class Alert extends React.PureComponent
   {
     if (this.props.isMultiPlay || this.props.isInvitation) {
       return (
-        <a onClick={ () => this.handleQuit() }
+        <a onClick={ e => this.handleQuit(e) }
            className="button alert"
            href="#">
           { this.props.isMultiPlay ? 'Quit' : 'Cancel' }
@@ -36,7 +36,7 @@ export class Alert extends React.PureComponent
 
     if (this.props.action === 'inviteUser') {
       return (
-        <a onClick={ () => this.handleInvitationCancel() }
+        <a onClick={ e => this.handleInvitationCancel(e) }
            className="button alert"
            href="#">
           Cancel
@@ -45,7 +45,7 @@ export class Alert extends React.PureComponent
     }
 
     return (
-      <a onClick={ () => this.handleInvite() }
+      <a onClick={ e => this.handleInvite(e) }
          className="button warning"
          href="#"
          title="click here to play in two-player-mode!">
@@ -85,18 +85,21 @@ export class Alert extends React.PureComponent
   }
 
 
-  handleInvite()
+  handleInvite(e)
   {
+    e.preventDefault();
     this.props.onAction("inviteUser")
   }
 
-  handleInvitationCancel()
+  handleInvitationCancel(e)
   {
+    e.preventDefault();
     this.props.onAction(null)
   }
 
-  handleQuit()
+  handleQuit(e)
   {
+    e.preventDefault();
     this.props.quitMultiPlay();
   }
 

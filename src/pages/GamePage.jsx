@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Chat, Game, MultiPlayer, Welcome } from 'tetris-components';
+import { Chat, Game, MultiPlay, Welcome } from 'tetris-components';
 
 
 
@@ -27,7 +27,7 @@ export class GamePage extends React.Component
         { this.props.isInited && (
           <Game />
         )}
-        <MultiPlayer />
+        <MultiPlay />
         <Chat />
       </div>
     );

@@ -1,5 +1,5 @@
 
 export Chat from './Chat';
 export Game from './Game';
-export MultiPlayer from './MultiPlayer';
+export MultiPlay from './MultiPlay';
 export Welcome from './Welcome';

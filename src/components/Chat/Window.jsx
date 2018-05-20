@@ -74,7 +74,7 @@ export class Window extends React.PureComponent
             </span>
 
             <Alert room={ this.props.room }
-              render="multiPlayActions"
+              render="actionButtons"
               action={ this.state.alertAction }
               onAction={ action => this.setState({ alertAction: action }) }
             />
@@ -134,10 +134,6 @@ export class Window extends React.PureComponent
       return;
     }
 
-    if (this.props.isMultiPlayStatus) {
-      return;
-    }
-
     const message = this.state.message.trim();
 
     if (message !== '') {
@@ -194,7 +190,6 @@ export default connect(
   (state) => ({
     focusedWindow: state.chat.focused,
     isEnabled: state.window.masterTab,
-    isMultiPlayStatus: false, //(state.multiplay.status > 0),
     disabledText: 'Wrong tab!'
   }),
   (dispatch) => ({
