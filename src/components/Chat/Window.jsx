@@ -14,9 +14,9 @@ export class Window extends React.PureComponent
 {
 
   state = {
-    focus: false,
     message: '',
     alertAction: null,
+    focused: true,
   };
 
 
@@ -24,6 +24,9 @@ export class Window extends React.PureComponent
   {
     super();
     this.length = 0;
+
+    this.setWindowRef = this.setWindowRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
 
@@ -32,23 +35,36 @@ export class Window extends React.PureComponent
     if (this.props.isEnabled) {
       this.messageInput.focus();
     }
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount()
+  {
+    document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.messages.length !== this.props.messages.length && this.chat) {
       jQuery(this.chat).scrollTop(jQuery(this.chat)[0].scrollHeight);
       // this.chat.scrollIntoView({ block: "end" })
     }
   }
 
+  setWindowRef(node) {
+    this.windowRef = node;
+  }
 
   render()
   {
     const { user, messages, isEnabled = true, disabledText='disabled' } = this.props;
 
     return (
-      <div className={"tetris-chat-window " + (this.state.focus ? '_focus' : '_blur')} onClick={ () => this.handleFocus(null) }>
+      <div ref={ this.setWindowRef }
+        className={"tetris-chat-window " + (this.state.focused ? '_focus' : '_blur')}
+        onClick={ e => this.setFocus(true, e) }
+        tabIndex="-1"
+      >
         <div className="tetris-chat-grid">
           <div className="tetris-chat-title">
 
@@ -85,9 +101,6 @@ export class Window extends React.PureComponent
             value={ this.state.message }
             onKeyPress={ e => this.handleInputKeyPress(e) }
             onChange={ e => this.setState({message: e.target.value}) }
-            onFocus={ () => this.handleFocus(true) }
-            onBlur={ () => this.handleFocus(false) }
-            onClick={ e => e.stopPropagation() }
             disabled={ (!isEnabled || (this.state.alertAction !== null)) }
             placeholder={ isEnabled ? 'Your message...' : disabledText }
             className="text"
@@ -133,26 +146,38 @@ export class Window extends React.PureComponent
   }
 
 
-  handleFocus(value)
+  handleClose(e)
   {
-    if (value === null) {
-      if (!this.state.focus) {
-        this.messageInput.focus();
-      }
-    } else {
-      this.setState({focus: value});
-      this.props.windowFocus({
-        room: this.props.room,
-        focused: value,
-      });
+    e.stopPropagation();
+    this.setFocus(false);
+    this.props.close(this.props.room);
+  }
+
+
+  handleClickOutside(event, force = false)
+  {
+    if (this.windowRef && !this.windowRef.contains(event.target)) {
+      this.setFocus(false);
     }
   }
 
 
-  handleClose(e)
+  setFocus(value, e = null)
   {
-    e.stopPropagation();
-    this.props.close(this.props.room);
+    if (e) {
+      e.stopPropagation();
+    }
+
+    if (value) {
+      if (this.props.focusedWindow === this.props.room) {
+        return;
+      }
+    }
+    this.setState({focused: value});
+    this.props.windowFocus(value
+      ? this.props.room
+      : null
+    );
   }
 }
 
@@ -160,6 +185,7 @@ export class Window extends React.PureComponent
 
 export default connect(
   (state) => ({
+    focusedWindow: state.chat.focused,
     isEnabled: state.window.masterTab,
     isMultiPlayStatus: false, //(state.multiplay.status > 0),
     disabledText: 'Wrong tab!'
@@ -167,6 +193,6 @@ export default connect(
   (dispatch) => ({
     send: (message, room) => dispatch(actions.chat.messageSend({ room, message })),
     close: room => dispatch(actions.chat.close({ room })),
-    windowFocus: value => dispatch(actions.chat.windowFocus(value)),
+    windowFocus: room => dispatch(actions.chat.windowFocus({ room })),
   })
 )(Window);

@@ -13,7 +13,7 @@ const {
 const initialState = {
   window: {},
   list: [], // contains all room-names
-  focused: [],
+  focused: null,
 };
 
 
@@ -92,16 +92,8 @@ export default (state = initialState, action) => {
 
 
     case CHAT_WINDOW_FOCUS:
-      // on focus
-      if (action.focused) {
-        return (state.focused.indexOf(action.room) > -1)
-          ? state // -> already focused, nothing to change
-          : {...state, focused: [...state.focused, action.room]}; // -> add room to focused-list
-      }
-
-      // on blur
       return { ...state,
-        focused: state.focused.filter(e => e !== action.room), // -> remove room from focused-list
+        focused: action.room,
       };
 
 

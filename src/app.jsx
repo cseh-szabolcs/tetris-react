@@ -15,17 +15,12 @@ const { GamePage } = Pages;
  */
 require('applicationStyles');
 
-/**
- * init store
- */
-const store = Store.create(Logics);
-
 
 /**
  * APP main-hook
  */
 ReactDOM.render(
-  <Provider store={ store }>
+  <Provider store={ Store.create(Logics) }>
     <div className="tetris-main">
       <GamePage />
     </div>
@@ -34,14 +29,6 @@ ReactDOM.render(
 );
 
 
-/**
- * avoid focus on tags
- */
 (function($){
   $(document).foundation();
-  $(function() {
-    $(document).on('focus', 'a, button, .switch-input, label, .blur', function(){
-      $(this).blur();
-    });
-  });
 })(jQuery);

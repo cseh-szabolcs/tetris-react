@@ -17,6 +17,10 @@
 @import "components/stone";
 @import "components/welcome";
 
+// normalize
+*:focus {
+  outline: none;
+}
 
 // common overrides
 .top-bar {
