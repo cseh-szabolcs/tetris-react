@@ -13,15 +13,25 @@ import { Field, Invitation, Invite } from '../MultiPlay/index';
 export class Alert extends React.PureComponent
 {
 
-  componentDidUpdate(prevProps) {
-    if (!this.props.onAction) {
+  state = {
+    value: null,
+  };
+
+  componentDidUpdate()
+  {
+    if (!this.props.onValueChanged) {
       return;
     }
 
-    if (this.props.action !== null && this.props.action !== 'invite') {
-      this.props.onAction(null); // release static-alert value when its changed
+    if (this.props.value) {
+      this.setState({value: null });
+      this.props.onValueChanged(this.props.value);
+      return;
     }
+
+    this.props.onValueChanged(this.state.value);
   }
+
 
   render()
   {
@@ -34,9 +44,9 @@ export class Alert extends React.PureComponent
 
   renderActionButtons()
   {
-    const action = this.props.action;
+    const value = this.props.value;
 
-    if (action === 'multiplay') {
+    if (value === 'multiplay') {
       return (
         <a onClick={ e => this.handleMultiPlayCancel(e) }
            className="button alert"
@@ -46,7 +56,7 @@ export class Alert extends React.PureComponent
       );
     }
 
-    if (action === 'invitation') {
+    if (value === 'invitation') {
       return (
         <a onClick={ e => this.handleMultiPlayCancel(e) }
            className="button alert"
@@ -56,7 +66,7 @@ export class Alert extends React.PureComponent
       );
     }
 
-    if (action === 'invite') {
+    if (this.state.value === 'invite') {
       return (
         <a onClick={ e => this.handleInviteCancel(e) }
            className="button alert"
@@ -79,10 +89,10 @@ export class Alert extends React.PureComponent
 
   renderContent()
   {
-    const action = this.props.action;
+    const value = this.props.value;
     const room = this.props.room;
 
-    if (action === 'multiplay') {
+    if (value === 'multiplay') {
       return (
         <li>
           <Field room={ room } />
@@ -90,7 +100,7 @@ export class Alert extends React.PureComponent
       );
     }
 
-    if (action === 'invitation') {
+    if (value === 'invitation') {
       return (
         <li>
           <Invitation room={ room } />
@@ -98,7 +108,7 @@ export class Alert extends React.PureComponent
       );
     }
 
-    if (action === 'invite') {
+    if (value === 'invite') {
       return (
         <li>
           <Invite room={ room } />
@@ -113,21 +123,20 @@ export class Alert extends React.PureComponent
   handleInvite(e)
   {
     e.preventDefault();
-    this.props.onAction('invite');
+    this.setState({value: 'invite'});
   }
 
 
   handleInviteCancel(e)
   {
     e.preventDefault();
-    this.props.onAction(null);
+    this.setState({value: null});
   }
 
 
   handleMultiPlayCancel(e)
   {
     e.preventDefault();
-    this.props.onAction(null);
     this.props.cancelMultiPlay(this.props.room);
   }
 }

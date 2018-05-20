@@ -33,6 +33,10 @@ export class Window extends React.PureComponent
   {
     this.setFocus(true);
     document.addEventListener('mousedown', this.handleClickOutside);
+
+    if (this.props.window.alert) {
+      this.setState({alert: this.props.window.alert});
+    }
   }
 
 
@@ -76,8 +80,8 @@ export class Window extends React.PureComponent
             <Alert
               room={ window.room }
               render="actionButtons"
-              action={ window.alert || this.state.alert }
-              onAction={ action => this.setState({ alert: action }) }
+              value={ window.alert }
+              onValueChanged={ value => this.setState({ alert: value }) }
             />
 
             <span onClick={ e => this.handleClose(e) }
@@ -92,7 +96,7 @@ export class Window extends React.PureComponent
               <Alert
                 room={ window.room }
                 render="content"
-                action={ window.alert || this.state.alert }
+                value={ this.state.alert }
               />
 
               { this.renderMessages(window.messages) }
@@ -104,7 +108,7 @@ export class Window extends React.PureComponent
             value={ (this.state.alert) ? '' : this.state.message }
             onKeyPress={ e => this.handleInputKeyPress(e) }
             onChange={ e => this.setState({message: e.target.value}) }
-            disabled={ (!isEnabled || (this.state.alert !== null)) }
+            disabled={ (!isEnabled || this.state.alert !== null) }
             placeholder={ this.getPlaceholderText() }
             className="text"
           />
@@ -116,7 +120,7 @@ export class Window extends React.PureComponent
 
   renderMessages(messages)
   {
-    if (this.state.alert || this.props.window.alert) {
+    if (this.state.alert) {
       return null;
     }
 
@@ -200,7 +204,6 @@ export class Window extends React.PureComponent
     if (this.state.alert) {
       return '---';
     }
-
     return 'Your message...';
   }
 }
