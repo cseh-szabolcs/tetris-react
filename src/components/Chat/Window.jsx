@@ -16,7 +16,6 @@ export class Window extends React.PureComponent
   state = {
     message: '',
     alertAction: null,
-    focused: true,
   };
 
 
@@ -35,6 +34,7 @@ export class Window extends React.PureComponent
     if (this.props.isEnabled) {
       this.messageInput.focus();
     }
+    this.setFocus(true);
     document.addEventListener('mousedown', this.handleClickOutside);
   }
 
@@ -61,8 +61,9 @@ export class Window extends React.PureComponent
 
     return (
       <div ref={ this.setWindowRef }
-        className={"tetris-chat-window " + (this.state.focused ? '_focus' : '_blur')}
+        className={"tetris-chat-window " + ((this.props.focusedWindow === this.props.room) ? '_focus' : '_blur')}
         onClick={ e => this.setFocus(true, e) }
+        onMouseDown={ e => this.setFocus(true, e) }
         tabIndex="-1"
       >
         <div className="tetris-chat-grid">
@@ -168,12 +169,14 @@ export class Window extends React.PureComponent
       e.stopPropagation();
     }
 
-    if (value) {
-      if (this.props.focusedWindow === this.props.room) {
-        return;
-      }
+    if (value && this.props.focusedWindow === this.props.room) {
+      return;
     }
-    this.setState({focused: value});
+
+    if (!value && this.props.focusedWindow !== this.props.room) {
+      return;
+    }
+
     this.props.windowFocus(value
       ? this.props.room
       : null
