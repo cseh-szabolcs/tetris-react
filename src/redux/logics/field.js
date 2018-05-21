@@ -6,6 +6,7 @@ import library from 'tetris-library';
 
 const {
   STONE_MOVE_DOWN_REJECTED,
+  MULTIPLAY_FIELD_CHANGED,
 } = actions.types;
 
 
@@ -41,5 +42,30 @@ export const removeLinesLogic = createLogic({
       duration: state.layout.linesRemoveDuration,
       than: () => done(),
     });
+  }
+});
+
+
+
+/**
+ * Add lines to field (only used on multi-play-mode)
+ *
+ */
+export const addLinesLogic = createLogic({
+  type: MULTIPLAY_FIELD_CHANGED,
+  latest: true,
+
+  process({ getState, action }, dispatch, done) {
+    let state = getState();
+    const resolverLines = action.resolvedLines;
+
+    if (resolverLines === 0) {
+      done(); return;
+    }
+
+    dispatch(actions.game.intervalBreak());
+
+
+    done(); return;
   }
 });

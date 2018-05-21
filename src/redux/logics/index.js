@@ -19,6 +19,7 @@ export default [
   online.onlineLogic,
   auth.leaveLogic,
   auth.joinLogic,
+  field.addLinesLogic,
   field.removeLinesLogic,
   stone.rotateLogic,
   stone.moveSideLogic,

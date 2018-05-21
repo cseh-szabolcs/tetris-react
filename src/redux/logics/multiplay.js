@@ -147,9 +147,11 @@ export const gameLogic = createLogic({
     // User has resolved lines (or maybe not) -> let me know
     // ---------------------------------------------------------
 
+    let resolvedLines = action.payload.resolvedLines;
+
     dispatch(actions.multiplay.fieldChanged({
       fieldState: action.payload.fieldState,
-      resolvedLines: action.payload.resolvedLines,
+      resolvedLines,
     }));
 
     done();

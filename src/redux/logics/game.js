@@ -10,6 +10,8 @@ const {
   GAME_PAUSE,
   GAME_PAUSED,
   GAME_COUNT_DOWN,
+  GAME_INTERVAL_BREAK,
+  GAME_INTERVAL_CONTINUE,
   FIELD_CHANGED,
   FIELD_NOT_CHANGED,
   STONE_CREATE,
@@ -65,6 +67,8 @@ export const intervalLogic = createLogic({
     STONE_MOVE_DOWN,
     STONE_MOVED_DOWN,
     STONE_MOVE_DOWN_REJECTED,
+    GAME_INTERVAL_BREAK,
+    GAME_INTERVAL_CONTINUE,
   ],
   latest: true,
 
@@ -73,6 +77,7 @@ export const intervalLogic = createLogic({
 
     // clear move-down-timeout and return!
     if (action.type === STONE_MOVE_DOWN_REJECTED
+      || action.type === GAME_INTERVAL_BREAK
       || action.type === GAME_OVER
       || (action.type === GAME_COUNT_DOWN && action.value)
     ){
