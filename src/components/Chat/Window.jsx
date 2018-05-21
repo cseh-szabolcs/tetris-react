@@ -174,6 +174,11 @@ export class Window extends React.PureComponent
 
   setFocus(value, e = null)
   {
+    if (this.props.isMultiplay) {
+      this.props.windowFocus(null);
+      return;
+    }
+
     const room = this.props.window.room;
 
     if (e) {
@@ -213,6 +218,7 @@ export class Window extends React.PureComponent
 export default connect(
   (state) => ({
     focusedWindow: state.chat.focused,
+    isMultiplay: state.game.multiplay,
     isEnabled: state.window.masterTab,
     disabledText: 'Wrong tab!'
   }),

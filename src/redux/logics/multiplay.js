@@ -115,6 +115,8 @@ export const gameLogic = createLogic({
     // ---------------------------------------------------------
 
     if (action.type === MULTIPLAY_START) {
+      dispatch(actions.chat.windowFocus({ room: null }));
+
       dispatch(actions.game.init({
         multiplay: true,
         level: state.multiplay.level,
