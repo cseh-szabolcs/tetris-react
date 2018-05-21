@@ -8,6 +8,7 @@ const {
   CHAT_MESSAGE_SEND,
   SERVER_CHAT_OPEN,
   SERVER_CHAT_MESSAGE,
+  SERVER_MULTIPLAY_INVITE,
 } = actions.types;
 
 
@@ -18,7 +19,7 @@ const {
  *
  */
 export const openLogic = createLogic({
-  type: [CHAT_OPEN, SERVER_CHAT_OPEN],
+  type: [CHAT_OPEN, SERVER_CHAT_OPEN, SERVER_MULTIPLAY_INVITE],
   latest: true,
 
   process({ getState, action, ws }, dispatch, done) {
@@ -47,7 +48,7 @@ export const openLogic = createLogic({
       done(); return;
     }
 
-    // SERVER_CHAT_OPEN
+    // SERVER_CHAT_OPEN, [ SERVER_MULTIPLAY_INVITE ]
 
     let initial = (state.auth.uid === action.payload.senderUid);
     let otherUid = initial ? action.payload.recipientUid : action.payload.senderUid;
