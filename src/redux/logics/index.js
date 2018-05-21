@@ -15,6 +15,7 @@ export default [
   multiplay.invitationLogic,
   chat.messengerLogic,
   chat.openLogic,
+  online.relationLogic,
   online.onlineLogic,
   auth.leaveLogic,
   auth.joinLogic,

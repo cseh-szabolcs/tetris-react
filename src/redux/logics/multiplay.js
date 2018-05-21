@@ -8,6 +8,7 @@ const {
   MULTIPLAY_ACCEPT,
   MULTIPLAY_CANCEL,
   MULTIPLAY_INVITE,
+  ONLINE_LEAVE,
   MULTIPLAY_FIELD_CHANGED,
   SERVER_MULTIPLAY_ACCEPT,
   SERVER_MULTIPLAY_CANCEL,
@@ -160,12 +161,15 @@ export const gameLogic = createLogic({
  *
  */
 export const cancelLogic = createLogic({
-  type: [MULTIPLAY_CANCEL, SERVER_MULTIPLAY_CANCEL],
+  type: [MULTIPLAY_CANCEL, SERVER_MULTIPLAY_CANCEL, ONLINE_LEAVE],
   latest: true,
 
   process({ getState, action, ws }, dispatch, done) {
     let state = getState();
 
+
+    // Current user want to cancel the multi-game (or invitation) -> notify other user
+    // ---------------------------------------------------------
 
     if (action.type === MULTIPLAY_CANCEL) {
       ws.send({
@@ -176,6 +180,25 @@ export const cancelLogic = createLogic({
 
       done(); return;
     }
+
+    // other user has closing the browser (or re-fresh) ....
+    // ---------------------------------------------------------
+
+    if (action.type === ONLINE_LEAVE) {
+      const otherUid = action.uid;
+
+      // ...when relation, cancel multi-player-game or invitation
+      if (state.online.users[otherUid].relation) {
+        dispatch(actions.multiplay.canceled({
+          room: state.online.users[otherUid].room,
+        }));
+      }
+
+      done(); return;
+    }
+
+    // running multi-game was canceled
+    // ---------------------------------------------------------
 
     dispatch(actions.multiplay.canceled({
       room: action.payload.room,
