@@ -163,7 +163,7 @@ module.exports = function(Server) {
   /**
    * User quits an multi-player game
    */
-  Server.handle('MULTIPLAY_STONE_INSERTED', ['uid, token, room, request', function (uid, token, room, request) {
+  Server.handle('MULTIPLAY_FIELD_CHANGED', ['uid, token, room, request', function (uid, token, room, request) {
     const sender = Db.get('user', uid);
     if (!sender) {
       return;
@@ -179,9 +179,9 @@ module.exports = function(Server) {
       return;
     }
 
-    this.send(recipient.uid, request.action, {
+    this.send(recipient.uid, 'SERVER_MULTIPLAY_FIELD_CHANGED', {
       fieldState: request.get('fieldState'),
-      scoreState: request.get('scoreState'),
+      resolvedLines: request.get('resolvedLines'),
     });
   }]);
 

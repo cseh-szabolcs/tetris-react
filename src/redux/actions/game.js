@@ -11,10 +11,10 @@ import {
 } from './types';
 
 
-export const init = ({ multiPlay = false, level = 1 }) => {
+export const init = ({ multiplay = false, level = 1 }) => {
   return {
     type: GAME_INIT,
-    multiPlay,
+    multiplay,
     level,
   };
 };

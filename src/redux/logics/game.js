@@ -108,7 +108,7 @@ export const pauseLogic = createLogic({
   process({ getState, action }, dispatch, done) {
     let state = getState();
 
-    if (!state.game.multiPlay && state.game.init && state.game.status === null) {
+    if (!state.game.multiplay && state.game.init && state.game.status === null) {
       dispatch(actions.game.paused(action.value));
     }
 
@@ -130,7 +130,7 @@ export const countDownLogic = createLogic({
 
     // when game just started
     if (action.type === GAME_INIT) {
-      let value = state.game.multiPlay ? 5 : 3;
+      let value = state.game.multiplay ? 5 : 3;
       dispatch(actions.game.countDown( value ));
 
       done();

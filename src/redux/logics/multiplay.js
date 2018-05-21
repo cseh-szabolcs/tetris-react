@@ -1,15 +1,20 @@
 
 import { createLogic } from 'redux-logic';
 import actions from 'tetris-actions';
+import {MULTIPLAY_START} from "../actions/types";
 
 
 const {
   MULTIPLAY_ACCEPT,
   MULTIPLAY_CANCEL,
   MULTIPLAY_INVITE,
+  MULTIPLAY_FIELD_CHANGED,
   SERVER_MULTIPLAY_ACCEPT,
   SERVER_MULTIPLAY_CANCEL,
   SERVER_MULTIPLAY_INVITE,
+  SERVER_MULTIPLAY_FIELD_CHANGED,
+  FIELD_CHANGED,
+  FIELD_NOT_CHANGED,
 } = actions.types;
 
 
@@ -27,6 +32,7 @@ export const invitationLogic = createLogic({
 
     // invite user to play
     // ---------------------------------------------------------
+
     if (action.type === MULTIPLAY_INVITE) {
 
       ws.send({
@@ -44,6 +50,7 @@ export const invitationLogic = createLogic({
 
     // an invitation has arrived from server (could be mine)
     // ---------------------------------------------------------
+
     if (action.type === SERVER_MULTIPLAY_INVITE) {
 
       let initial = (state.auth.uid === action.payload.senderUid);
@@ -62,9 +69,9 @@ export const invitationLogic = createLogic({
       done(); return;
     }
 
-
     // an invitation has been accepted
     // ---------------------------------------------------------
+
     if (action.type === MULTIPLAY_ACCEPT) {
 
       ws.send({
@@ -86,27 +93,66 @@ export const invitationLogic = createLogic({
 });
 
 
+
 /**
  * Handles the game-play-logic between two users
  *
  */
 export const gameLogic = createLogic({
-  type: ['FOO'],
+  type: [
+    MULTIPLAY_START,
+    FIELD_CHANGED,
+    FIELD_NOT_CHANGED,
+    SERVER_MULTIPLAY_FIELD_CHANGED
+  ],
   latest: true,
 
-  process({ getState, action }, dispatch, done) {
+  process({ getState, action, ws }, dispatch, done) {
+    let state = getState();
 
-
-    // Cancel-logic
+    // init multi-player-game
     // ---------------------------------------------------------
-    if (action.type === MULTIPLAY_CANCEL) {
 
+    if (action.type === MULTIPLAY_START) {
+      dispatch(actions.game.init({
+        multiplay: true,
+        level: state.multiplay.level,
+      }));
+
+      done(); return;
     }
 
+    // I have resolved lines (or maybe not) -> let other user know
+    // ---------------------------------------------------------
+
+    if (action.type === FIELD_CHANGED || action.type === FIELD_NOT_CHANGED) {
+      ws.send({
+        action: MULTIPLAY_FIELD_CHANGED,
+        token: state.auth.token,
+        room: state.multiplay.room,
+        payload: {
+          fieldState: state.field,
+          resolvedLines: (action.type === FIELD_CHANGED)
+            ? action.lines.length
+            : 0,
+        }
+      });
+
+      done(); return;
+    }
+
+    // User has resolved lines (or maybe not) -> let me know
+    // ---------------------------------------------------------
+
+    dispatch(actions.multiplay.fieldChanged({
+      fieldState: action.payload.fieldState,
+      resolvedLines: action.payload.resolvedLines,
+    }));
 
     done();
   }
 });
+
 
 
 /**

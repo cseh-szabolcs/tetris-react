@@ -6,6 +6,7 @@ import {
   MULTIPLAY_INVITE,
   MULTIPLAY_INVITATION,
   MULTIPLAY_START,
+  MULTIPLAY_FIELD_CHANGED,
 } from './types';
 
 
@@ -59,5 +60,15 @@ export const canceled = ({ room }) => {
   return {
     type: MULTIPLAY_CANCELED,
     room,
+  };
+};
+
+
+
+export const fieldChanged = ({ fieldState, resolvedLines }) => {
+  return {
+    type: MULTIPLAY_FIELD_CHANGED,
+    fieldState,
+    resolvedLines,
   };
 };

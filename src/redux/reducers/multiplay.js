@@ -1,11 +1,16 @@
 
 import actions from 'tetris-actions';
+import library from 'tetris-library';
+
 
 const {
   MULTIPLAY_CANCELED,
   MULTIPLAY_INVITATION,
+  MULTIPLAY_FIELD_CHANGED,
   MULTIPLAY_START,
+  WINDOW_RESTORE_SLAVE,
 } = actions.types;
+
 
 
 const initialState = {
@@ -33,6 +38,7 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
 
+
     case MULTIPLAY_INVITATION:
       if (!state.available) {
         return state; // when playing
@@ -57,6 +63,7 @@ export default (state = initialState, action) => {
         },
       };
 
+
     case MULTIPLAY_START:
       room = action.room;
       let invitation = state.invitations[room];
@@ -65,8 +72,13 @@ export default (state = initialState, action) => {
         invitations: { ...state.invitations
           [room] = undefined,
         },
-        ...invitation
+        ...invitation,
+        otherField: library.tetris.createField({
+          rows: 18,
+          cols: 10
+        }),
       };
+
 
     case MULTIPLAY_CANCELED:
       room = action.room;
@@ -76,6 +88,23 @@ export default (state = initialState, action) => {
           [room] = undefined,
         },
       };
+
+
+    case MULTIPLAY_FIELD_CHANGED:
+      return { ...state,
+        otherField: action.fieldState,
+      };
+
+
+    case WINDOW_RESTORE_SLAVE:
+      if (action.masterState.multiplay) {
+        return {
+          ...state,
+          ...action.masterState.multiplay,
+        };
+      }
+      return state;
+
 
     default:
       return state;

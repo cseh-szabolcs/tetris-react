@@ -13,10 +13,11 @@ export const linesResolved = ({ lines }) => {
   };
 };
 
-export const changed = ({ newField }) => {
+export const changed = ({ newField, lines }) => {
   return {
     type: FIELD_CHANGED,
     newField,
+    lines,
   };
 };
 

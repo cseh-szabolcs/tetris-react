@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -57,7 +58,7 @@ class Field extends React.PureComponent
 
 export default connect(
   (state) => ({
-    scores: state.multiplay.scoreState,
-    field: state.multiplay.fieldState,
+    scores: 0, // state.multiplay.scoreState,
+    field: state.multiplay.otherField,
   }),
 )(Field);

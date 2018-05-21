@@ -28,7 +28,7 @@ let initialState = {
   moves: 0,  // counts the intervals
   resolved: 0, // counts all resolved lines
   received: 0, // counts all received lines (in two-player-mode only)
-  multiPlay: false,
+  multiplay: false,
   asciiMode: false,
 };
 
@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
         ...initialState,
         init: true,
         level: action.level,
-        multiPlay: action.multiPlay,
+        multiplay: action.multiplay,
       };
 
     case GAME_START:
@@ -84,7 +84,7 @@ export default (state = initialState, action) => {
       let resolvedState = state.resolved + resolvedCount;
 
       let points = library.tetris.settings.calcPoints(resolvedCount, state.level);
-      let level = state.multiPlay
+      let level = state.multiplay
         ? state.level
         : library.tetris.settings.calcLevel(resolvedState);
 
