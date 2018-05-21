@@ -129,7 +129,6 @@ module.exports = function(Server) {
       senderUid: sender.uid,
       recipientUid: recipient.uid,
       level: request.tGet('level', Number, 1),
-      strict: request.tGet('strict', Boolean, true),
     });
   }]);
 

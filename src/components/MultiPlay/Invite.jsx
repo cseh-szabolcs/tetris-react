@@ -19,7 +19,6 @@ export class Invite extends React.PureComponent
 
     this.state = {
       level: 1,
-      strict: true,
     };
   }
 
@@ -51,14 +50,6 @@ export class Invite extends React.PureComponent
           onClick={ () => this.invite() }>
           Invite to play
         </button>
-        <label>
-          <input
-            className="blur"
-            type="checkbox"
-            checked={ this.state.strict }
-            onChange={ () => this.changeMode() }
-          /> Strict mode
-        </label>
       </div>
     );
   }
@@ -69,7 +60,6 @@ export class Invite extends React.PureComponent
     this.props.invite(
       this.props.room,
       this.state.level,
-      this.state.strict
     );
   }
 
@@ -91,16 +81,11 @@ export class Invite extends React.PureComponent
       });
     }
   }
-
-  changeMode()
-  {
-    this.setState({strict: !this.state.strict});
-  }
 }
 
 
 export default connect(null,
   (dispatch) => ({
-    invite: (room, level, strict) => dispatch(actions.multiplay.invite({ room, level, strict })),
+    invite: (room, level) => dispatch(actions.multiplay.invite({ room, level })),
   })
 )(Invite);

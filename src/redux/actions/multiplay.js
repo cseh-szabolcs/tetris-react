@@ -11,22 +11,20 @@ import {
 
 
 
-export const invite = ({ room, level, strict }) => {
+export const invite = ({ room, level }) => {
   return {
     type: MULTIPLAY_INVITE,
     room,
     level,
-    strict,
   };
 };
 
-export const invitation = ({ room, otherUid, level, strict, initial }) => {
+export const invitation = ({ room, otherUid, level, initial }) => {
   return {
     type: MULTIPLAY_INVITATION,
     room,
     otherUid: parseInt(otherUid),
     level: parseInt(level),
-    strict,
     initial,
   };
 };

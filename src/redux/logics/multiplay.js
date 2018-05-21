@@ -42,7 +42,6 @@ export const invitationLogic = createLogic({
         room: action.room,
         payload: {
           level: action.level,
-          strict: action.strict,
         },
       });
 
@@ -63,7 +62,6 @@ export const invitationLogic = createLogic({
         room: action.payload.room,
         otherUid: parseInt(initial ? action.payload.recipientUid : action.payload.senderUid),
         level: action.payload.level,
-        strict: action.payload.strict,
         initial,
       }));
 

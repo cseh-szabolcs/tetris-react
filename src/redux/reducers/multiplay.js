@@ -18,7 +18,6 @@ const initialState = {
   invitations: {}, // contains the invitation-data
   room: null,
   otherUid: 0,
-  strict: true,
   initial: false,
   lines: null,
   level: 1,
@@ -57,7 +56,6 @@ export default (state = initialState, action) => {
             room,
             otherUid: action.otherUid,
             level: action.level,
-            strict: action.strict,
             initial: action.initial,
           }
         },
