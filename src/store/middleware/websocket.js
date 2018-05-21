@@ -1,5 +1,5 @@
 
-import library from 'tetris-library';
+import library from 'library';
 
 
 /**
@@ -9,7 +9,7 @@ import library from 'tetris-library';
 export default () => {
 
   return store => {
-    const ws = library.tetris.webSocket;
+    const ws = library.websocket;
 
     // on error
     if (!ws.create()) {

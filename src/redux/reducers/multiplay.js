@@ -1,6 +1,6 @@
 
 import actions from 'tetris-actions';
-import library from 'tetris-library';
+import library from 'library';
 
 
 const {

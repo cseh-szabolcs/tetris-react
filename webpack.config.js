@@ -25,9 +25,9 @@ module.exports = {
   resolve: {
     modules: [__dirname, 'node_modules'],
     alias: {
+      'library': 'library/index.js',
       'tetris-actions': 'src/redux/actions/index.js',
       'tetris-components': 'src/components/index.js',
-      'tetris-library': 'src/library/index.js',
       'tetris-logics': 'src/redux/logics/index.js',
       'tetris-pages': 'src/pages/index.js',
       'tetris-reducers': 'src/redux/reducers/index.js',

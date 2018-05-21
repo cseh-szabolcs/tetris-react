@@ -2,7 +2,7 @@
 import * as redux from 'redux';
 import { createLogicMiddleware } from 'redux-logic';
 
-import library from 'tetris-library';
+import library from 'library';
 import Reducers from 'tetris-reducers';
 import { syncMasterMiddleware, syncSlaveMiddleware, webSocketMiddleware, MASTER_TAB } from './middleware'
 
@@ -13,7 +13,11 @@ import { syncMasterMiddleware, syncSlaveMiddleware, webSocketMiddleware, MASTER_
  */
 export default (logics = [], initialState = {}) => {
 
-  const logicDept = {tetris: library.tetris, ws: library.tetris.webSocket};
+  const logicDept = {
+    tetris: library.tetris,
+    timeout: library.timeout,
+    ws: library.websocket,
+  };
 
   // select required middleware
   const middlewareModules = (MASTER_TAB)

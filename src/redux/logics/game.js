@@ -72,7 +72,7 @@ export const intervalLogic = createLogic({
   ],
   latest: true,
 
-  process({ getState, action, tetris }, dispatch, done) {
+  process({ getState, action, timeout, tetris }, dispatch, done) {
     let state = getState();
 
     // clear move-down-timeout and return!
@@ -82,18 +82,18 @@ export const intervalLogic = createLogic({
       || (action.type === GAME_COUNT_DOWN && action.value)
     ){
 
-      tetris.timeout({ clear: true });
+      timeout({ clear: true });
       done();
       return;
     }
 
     // clear move-down-timeout and...
     if (action.type === STONE_PULL_DOWN || action.type === STONE_MOVE_DOWN) {
-      tetris.timeout({ clear: true });
+      timeout({ clear: true });
     }
 
     // dispatch new move-down-loop
-    tetris.timeout({
+    timeout({
       callback: () => dispatch(actions.stone.moveDown()),
       duration: () => tetris.settings.calcIntervalSpeed(state.game.level),
       than: () => done(),
@@ -130,7 +130,7 @@ export const countDownLogic = createLogic({
   type: [GAME_INIT, GAME_PAUSED, GAME_COUNT_DOWN],
   latest: true,
 
-  process({ getState, action, tetris }, dispatch, done) {
+  process({ getState, action, timeout }, dispatch, done) {
     let state = getState();
 
     // when game just started
@@ -145,7 +145,7 @@ export const countDownLogic = createLogic({
     // game paused
     if (action.type === GAME_PAUSED) {
       if (action.value) {
-        tetris.timeout({ clear: true });
+        timeout({ clear: true });
       } else {
         dispatch(actions.game.countDown( 3 ));
       }
@@ -164,7 +164,7 @@ export const countDownLogic = createLogic({
     }
 
     // continue count-down
-    tetris.timeout({
+    timeout({
       callback: () => dispatch(actions.game.countDown( state.game.countDown - 1 )),
       duration: () => 1000,
       than: () => done(),

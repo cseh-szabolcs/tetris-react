@@ -1,7 +1,6 @@
 
 import { createLogic } from 'redux-logic';
 import actions from 'tetris-actions';
-import library from 'tetris-library';
 
 
 const {
@@ -19,9 +18,9 @@ export const removeLinesLogic = createLogic({
   type: STONE_MOVE_DOWN_REJECTED,
   latest: true,
 
-  process({ getState, action }, dispatch, done) {
+  process({ getState, action, tetris, timeout }, dispatch, done) {
     let state = getState();
-    let result = library.tetris.removeSolvedLines(state.field);
+    let result = tetris.removeSolvedLines(state.field);
 
     // do nothing, when no lines removed
     if (result.field === state.field) {
@@ -34,7 +33,7 @@ export const removeLinesLogic = createLogic({
     dispatch(actions.field.linesResolved({ lines: result.resolved }));
 
     // run animation when lines was resolved
-    library.tetris.timeout({
+    timeout({
       callback: () => dispatch(actions.field.changed({
         newField: result.field,
         lines: result.resolved,

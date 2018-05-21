@@ -1,5 +1,5 @@
 const expect = require('expect');
-import Library from 'tetris-library';
+import Library from 'library';
 import Reducers from 'tetris-reducers';
 
 

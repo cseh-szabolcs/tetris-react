@@ -1,5 +1,5 @@
 const expect = require('expect');
-import Library from 'tetris-library';
+import Library from 'library';
 
 
 describe('Tetris library test', () => {
