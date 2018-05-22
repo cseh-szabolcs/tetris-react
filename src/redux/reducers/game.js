@@ -10,6 +10,7 @@ const {
   GAME_RESET,
   GAME_PAUSED,
   GAME_COUNT_DOWN,
+  GAME_TO_SINGLE_MODE,
   GAME_ASCII_SWITCH,
   FIELD_LINES_RESOLVED,
   STONE_MOVED_DOWN,
@@ -97,6 +98,14 @@ export default (state = initialState, action) => {
         resolved: resolvedState,
         level: level,
         score: state.score + points,
+      };
+
+    case GAME_TO_SINGLE_MODE:
+      return {
+        ...state,
+        multiplay: false,
+        status: null,
+        running: true,
       };
 
     case GAME_ASCII_SWITCH:

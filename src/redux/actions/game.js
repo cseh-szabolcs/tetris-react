@@ -9,6 +9,7 @@ import {
   GAME_START,
   GAME_COUNT_DOWN,
   GAME_INTERVAL_JUMP_IN,
+  GAME_TO_SINGLE_MODE,
   GAME_ASCII_SWITCH,
 } from './types';
 
@@ -81,5 +82,11 @@ export const switchAsciiMode = () => {
 export const intervalJumpIn = () => {
   return {
     type: GAME_INTERVAL_JUMP_IN,
+  };
+};
+
+export const toSingleMode = () => {
+  return {
+    type: GAME_TO_SINGLE_MODE,
   };
 };

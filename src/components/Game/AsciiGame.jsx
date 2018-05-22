@@ -207,7 +207,7 @@ export default connect(
   (state) => ({
     fieldState: state.field,
     nextStone: state.stone.next,
-    isGameOver: (state.game.status === false),
+    isGameOver: (state.game.status !== null),
     alert: state.layout.alert,
     lastResolvedLines: state.layout.lastResolvedLines,
     level: state.game.level,

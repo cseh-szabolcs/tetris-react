@@ -8,6 +8,7 @@ const {
   MULTIPLAY_INVITATION,
   MULTIPLAY_FIELD_CHANGED,
   MULTIPLAY_START,
+  GAME_TO_SINGLE_MODE,
   WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
@@ -79,6 +80,7 @@ export default (state = initialState, action) => {
 
 
     case MULTIPLAY_CANCELED:
+    case GAME_TO_SINGLE_MODE:
       room = action.room;
 
       return { ...initialState,

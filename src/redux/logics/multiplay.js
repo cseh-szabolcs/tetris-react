@@ -6,6 +6,7 @@ import {MULTIPLAY_START} from "../actions/types";
 
 const {
   GAME_OVER,
+  GAME_TO_SINGLE_MODE,
   MULTIPLAY_ACCEPT,
   MULTIPLAY_CANCEL,
   MULTIPLAY_INVITE,
@@ -103,6 +104,7 @@ export const invitationLogic = createLogic({
 export const gameLogic = createLogic({
   type: [
     GAME_OVER,
+    GAME_TO_SINGLE_MODE,
     MULTIPLAY_START,
     FIELD_CHANGED,
     FIELD_NOT_CHANGED,
@@ -127,6 +129,11 @@ export const gameLogic = createLogic({
       }));
 
       done(); return;
+    }
+
+    if (action.type === GAME_TO_SINGLE_MODE) {
+      dispatch(actions.game.paused(true));
+      dispatch(actions.game.paused(false));
     }
 
 

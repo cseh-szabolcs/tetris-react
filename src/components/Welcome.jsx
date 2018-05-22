@@ -9,7 +9,7 @@ export const Welcome = ({ initGame }) => (
   <div className="tetris-welcome">
     <h1>Tetris</h1>
     <button className="button large expanded" onClick={ () => initGame() }>
-      Start single-player game!
+      Start single-player!
     </button>
   </div>
 );

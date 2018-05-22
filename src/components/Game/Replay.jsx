@@ -6,6 +6,10 @@ import actions from 'tetris-actions';
 export class Replay extends React.PureComponent
 {
 
+  static defaultProps = {
+    size: 'large'
+  };
+
   state = {
     top: -100,
   };
@@ -23,22 +27,30 @@ export class Replay extends React.PureComponent
 
   render()
   {
-    const { gameStatus, replayGame, resetGame } = this.props;
+    const { gameStatus, isMultiplay, size, replayGame, resetGame, toSingleGame } = this.props;
 
-    if (gameStatus === false) {
+    if (!isMultiplay) {
       return (
         <div className="tetris-game-replay" style={ {top:this.state.top} }>
-          <button type="button" className={`alert large button`} onClick={ replayGame }>
+          <button type="button" className={`button alert ${size}`} onClick={ replayGame }>
             Replay
           </button>
         </div>
       );
     }
 
-    if (gameStatus === true) {
+    else if (isMultiplay) {
       return (
         <div className="tetris-game-replay" style={ {top:this.state.top} }>
-          <button type="button" className={`alert large button`} onClick={ resetGame }>
+          { gameStatus === true && (
+            <div>
+              <button type="button" className={`button ${size}`} onClick={ toSingleGame }>
+                Continue as<br />
+                single-player
+              </button>
+            </div>
+          )}
+          <button type="button" className={`button alert ${size}`} onClick={ resetGame }>
             Close
           </button>
         </div>
@@ -54,9 +66,11 @@ export class Replay extends React.PureComponent
 export default connect(
   (state) => ({
     gameStatus: state.game.status,
+    isMultiplay: state.game.multiplay,
   }),
   (dispatch) => ({
     replayGame: () => dispatch(actions.game.init({})),
     resetGame: () => dispatch(actions.game.reset({})),
+    toSingleGame: () => dispatch(actions.game.toSingleMode()),
   })
 )(Replay);

@@ -15,6 +15,7 @@ export const GAME_RESET  = 'GAME_RESET';
 export const GAME_START  = 'GAME_START';
 export const GAME_COUNT_DOWN = 'GAME_COUNT_DOWN';
 export const GAME_INTERVAL_JUMP_IN = 'GAME_INTERVAL_JUMP_IN';
+export const GAME_TO_SINGLE_MODE = 'GAME_TO_SINGLE_MODE';
 export const GAME_ASCII_SWITCH  = 'GAME_ASCII_SWITCH';
 
 export const STONE_CREATE  = 'STONE_CREATE';

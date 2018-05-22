@@ -69,6 +69,7 @@ export class Control extends React.PureComponent
         <br />
         { this.renderDescription('space', 'Pull down') }
         { this.renderDescription('c', 'ASCII-Mode') }
+        { this.renderDescription('p', 'Pause (single-player only!)') }
       </div>
     );
   }
