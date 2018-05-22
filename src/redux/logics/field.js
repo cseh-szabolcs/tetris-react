@@ -98,7 +98,7 @@ export const addLinesLogic = createLogic({
 
     // game over when its not possible
     if (newField === state.field) {
-      alert("END2");
+      dispatch(actions.game.over());
       done(); return;
     }
 

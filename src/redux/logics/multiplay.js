@@ -5,11 +5,13 @@ import {MULTIPLAY_START} from "../actions/types";
 
 
 const {
+  GAME_OVER,
   MULTIPLAY_ACCEPT,
   MULTIPLAY_CANCEL,
   MULTIPLAY_INVITE,
   ONLINE_LEAVE,
   MULTIPLAY_FIELD_CHANGED,
+  SERVER_GAME_OVER,
   SERVER_MULTIPLAY_ACCEPT,
   SERVER_MULTIPLAY_CANCEL,
   SERVER_MULTIPLAY_INVITE,
@@ -100,11 +102,13 @@ export const invitationLogic = createLogic({
  */
 export const gameLogic = createLogic({
   type: [
+    GAME_OVER,
     MULTIPLAY_START,
     FIELD_CHANGED,
     FIELD_NOT_CHANGED,
     FIELD_APPLY_NEW,
-    SERVER_MULTIPLAY_FIELD_CHANGED
+    SERVER_GAME_OVER,
+    SERVER_MULTIPLAY_FIELD_CHANGED,
   ],
   latest: true,
 
@@ -125,6 +129,7 @@ export const gameLogic = createLogic({
       done(); return;
     }
 
+
     // I have resolved lines (or maybe not) -> let other user know
     // ---------------------------------------------------------
 
@@ -143,6 +148,29 @@ export const gameLogic = createLogic({
 
       done(); return;
     }
+
+
+    // Handle game-over
+    // ---------------------------------------------------------
+
+    // i have lost
+    if (action.type === GAME_OVER) {
+      if (!action.won) {
+        ws.send({
+          action: GAME_OVER,
+          token: state.auth.token,
+          room: state.multiplay.room,
+        });
+      }
+      done(); return;
+    }
+
+    // other user has lost
+    if (action.type === SERVER_GAME_OVER) {
+      dispatch(actions.game.over(true));
+      done(); return;
+    }
+
 
     // User has resolved lines (or maybe not) -> let me know
     // ---------------------------------------------------------

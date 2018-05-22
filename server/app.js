@@ -186,6 +186,29 @@ module.exports = function(Server) {
 
 
   /**
+   * Somebody lost, somebody won :-)
+   */
+  Server.handle('GAME_OVER', ['uid, token, room, request', function (uid, token, room, request) {
+    const sender = Db.get('user', uid);
+    if (!sender) {
+      return;
+    }
+
+    const recipientToken = this.getRoomTokens(room, token)[0];
+    if (!recipientToken) {
+      return;
+    }
+
+    const recipient = Db.get('user', this.getUid(recipientToken));
+    if (!recipient) {
+      return;
+    }
+
+    this.send(recipient.uid, 'SERVER_GAME_OVER');
+  }]);
+
+
+  /**
    * User leave the game -> notify all
    */
   Server.handle('AUTH_LEAVE', ['request, uid, token', function (request, uid) {
