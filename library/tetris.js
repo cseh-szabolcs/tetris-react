@@ -331,7 +331,8 @@ export const addBadLines = (fieldState, {newLines, emptyCols = 0, value = 9}) =>
     return fieldState; // not possible to add more lines, return given field
   }
 
-  let createdLine, columnLength = fieldState[0].length, r, c, exec = 0;
+  let createdLine, columnLength = fieldState[0].length;
+  let r, c, i, exec = 0;
 
 
   // CORE -> add new lines to bottom of field
@@ -353,7 +354,15 @@ export const addBadLines = (fieldState, {newLines, emptyCols = 0, value = 9}) =>
     }
 
     newField.shift();
-    newField.push(createdLine);
+
+    // add new line on bottom 'newField.push(createdLine)' - but there could be not-
+    // removable lines, so it has to be checked
+    for (i = (newField.length - 1); i >= 0; i--) {
+      if (newField[i].indexOf(0) > -1) {
+        newField.splice((i+1), 0, createdLine);
+        break;
+      }
+    }
   }
 
   return newField;
