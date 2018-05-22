@@ -18,6 +18,7 @@ import {
   STONE_MOVE_RIGHT,
   STONE_MOVED_RIGHT,
   STONE_MOVE_RIGHT_REJECTED,
+  STONE_MOVE_POSITION,
 } from './types';
 
 
@@ -157,3 +158,13 @@ export const moveRightReject = () => {
   };
 };
 
+
+// move to position (for multi-play-mode, when lines was added -> move up)
+
+export const moveToPosition = ({ xPos = null, yPos = null }) => {
+  return {
+    type: STONE_MOVE_POSITION,
+    xPos,
+    yPos,
+  };
+};

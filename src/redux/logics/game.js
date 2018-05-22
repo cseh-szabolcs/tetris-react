@@ -85,14 +85,18 @@ export const intervalLogic = createLogic({
     }
 
     // clear move-down-timeout and...
-    if (action.type === STONE_PULL_DOWN || action.type === STONE_MOVE_DOWN) {
+    if (action.type === STONE_PULL_DOWN
+      || action.type === STONE_MOVE_DOWN
+      || action.type === GAME_INTERVAL_JUMP_IN
+    ){
+
       timeout({ clear: true });
     }
 
     // dispatch new move-down-loop
     timeout({
       callback: () => dispatch(actions.stone.moveDown()),
-      duration: () => 10000, //tetris.settings.calcIntervalSpeed(state.game.level),
+      duration: () => tetris.settings.calcIntervalSpeed(state.game.level),
       then: () => done(),
     });
   }

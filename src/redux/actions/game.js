@@ -67,6 +67,8 @@ export const switchAsciiMode = () => {
 };
 
 
+// custom-hook to interval, used in multi-player-mode only
+
 export const intervalJumpIn = () => {
   return {
     type: GAME_INTERVAL_JUMP_IN,

@@ -12,6 +12,7 @@ const {
   STONE_MOVED_RIGHT,
   STONE_PULLED_DOWN,
   STONE_ROTATED,
+  STONE_MOVE_POSITION,
   WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
@@ -89,6 +90,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         current: null,
+      };
+
+    case STONE_MOVE_POSITION:
+      let xPos = (action.xPos !== null) ? action.xPos : state.xPos;
+      let yPos = (action.yPos !== null) ? action.yPos : state.yPos;
+
+      return {
+        ...state,
+        xPos: (xPos < 0) ? 0 : xPos,
+        yPos: (yPos < 0) ? 0 : yPos,
       };
 
     case WINDOW_RESTORE_SLAVE:

@@ -29,6 +29,8 @@ export const notChanged = () => {
 };
 
 
+// custom-hook to apply new field-state -> used in multi-player-mode only
+
 export const applyNewField = ({ newField }) => {
   return {
     type: FIELD_APPLY_NEW,

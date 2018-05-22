@@ -82,7 +82,6 @@ export const addLinesLogic = createLogic({
       default:
         break;
     }
-    newLines = 8;
 
     // CORE: create new lines
     let newField = tetris.addBadLines(state.field, {
@@ -97,10 +96,12 @@ export const addLinesLogic = createLogic({
       done(); return;
     }
 
-    timeout({clear: true});
     dispatch(actions.field.applyNewField({ newField }));
-    dispatch(actions.game.intervalJumpIn());
+    dispatch(actions.stone.moveToPosition({
+      yPos: (state.stone.yPos - newLines),
+    }));
 
+    dispatch(actions.game.intervalJumpIn());
     done();
   }
 });
