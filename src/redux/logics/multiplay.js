@@ -206,7 +206,6 @@ export const cancelLogic = createLogic({
   process({ getState, action, ws }, dispatch, done) {
     let state = getState();
 
-
     // Current user want to cancel the multi-game (or invitation) -> notify other user
     // ---------------------------------------------------------
 
@@ -233,21 +232,20 @@ export const cancelLogic = createLogic({
         if (state.multiplay.room === room) {
           dispatch(actions.game.over(true));
         }
-
-        dispatch(actions.multiplay.canceled({
-          room,
-        }));
+        dispatch(actions.multiplay.canceled({ room }));
       }
 
       done(); return;
     }
 
-    // running multi-game was canceled
+    // and running multi-game was canceled by one of the users
     // ---------------------------------------------------------
 
-    dispatch(actions.multiplay.canceled({
-      room: action.payload.room,
-    }));
+    let room = action.payload.room;
+    let senderUid = action.payload.senderUid;
+
+    dispatch(actions.game.over(senderUid !== state.auth.uid));
+    dispatch(actions.multiplay.canceled({ room }));
 
     done();
   }
