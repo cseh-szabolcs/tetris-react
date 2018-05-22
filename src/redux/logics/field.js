@@ -41,7 +41,7 @@ export const removeLinesLogic = createLogic({
         newField: result.field,
         lines: result.resolved,
       })),
-      duration: 3000, //state.layout.linesRemoveDuration,
+      duration: state.layout.linesRemoveDuration,
       then: () => done(),
     });
   }
