@@ -59,12 +59,18 @@ export const addLinesLogic = createLogic({
 
   process({ getState, action, timeout, tetris, ws }, dispatch, done) {
     let state = getState();
+
+    if (!state.game.multiplay) {
+      done(); return; // make sure this works only in multi-player-mode
+    }
+
     const resolvedLines = action.resolvedLines;
 
     if (resolvedLines === 0) {
       done(); return;
     }
 
+    // calculate the the punishment
     let newLines = 1, emptyCols = 2, value = 9;
     switch (resolvedLines) {
       case 4:
