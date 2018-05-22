@@ -96,7 +96,7 @@ export const intervalLogic = createLogic({
     // dispatch new move-down-loop
     timeout({
       callback: () => dispatch(actions.stone.moveDown()),
-      duration: () => 2000, //tetris.settings.calcIntervalSpeed(state.game.level),
+      duration: () => tetris.settings.calcIntervalSpeed(state.game.level),
       then: () => done(),
     });
   }
