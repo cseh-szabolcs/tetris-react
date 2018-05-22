@@ -8,8 +8,6 @@ import {
   GAME_START,
   GAME_COUNT_DOWN,
   GAME_ASCII_SWITCH,
-  GAME_INTERVAL_BREAK,
-  GAME_INTERVAL_CONTINUE,
 } from './types';
 
 
@@ -64,18 +62,5 @@ export const countDown = (value) => {
 export const switchAsciiMode = () => {
   return {
     type: GAME_ASCII_SWITCH,
-  };
-};
-
-
-export const intervalBreak = () => {
-  return {
-    type: GAME_INTERVAL_BREAK,
-  };
-};
-
-export const intervalContinue = () => {
-  return {
-    type: GAME_INTERVAL_CONTINUE,
   };
 };

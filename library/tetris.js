@@ -309,33 +309,46 @@ export const stonePullDown = (stoneState, fieldState) => {
  */
 export const addBadLines = (fieldState, {newLines, emptyCols = 0, value = 9}) => {
   let newField = clone(fieldState);
-  let row, possibleSpaceCount = 0;
+  let row, removableLines = [];
 
-  // look if its possible to add the number of lines
+  // step 1: look if its possible to add the number of lines
   for (row = 0; row < newField.length; row++) {
-    if (newField[row].indexOf(0) === -1) {
-      break; // when row is full, do not count any more
+
+    // when row is full, do not count any more
+    if (newField[row].filter(c => (c > 0)).length === newField[row].length) {
+      break;
     }
+
+    // core: row is completely empty, count
     if (newField[row].filter(c => (c === 0)).length === newField[row].length) {
-      possibleSpaceCount++; // core: row is completely empty, count
+      removableLines.push(newField[row]);
     }
 
     // don't count further when we know that enough free space is there
-    if (possibleSpaceCount >= newLines) {
+    if (removableLines.length >= newLines) {
       break;
     }
   }
 
-  // now check the result
-  if (possibleSpaceCount < newLines) {
-    return fieldState; // not possible to add more lines, return given field
+  // check if possible to remove lines
+  if (removableLines.length < newLines) {
+    return fieldState;
   }
 
+
+  // step 2: remove all removable lines
+  let removableLine, index;
+
+  for (removableLine of removableLines) {
+    index = newField.indexOf(removableLine);
+    newField.splice(index, 1);
+  }
+
+
+  // step 3: CORE -> add new lines to bottom of field
   let createdLine, columnLength = fieldState[0].length;
   let r, c, i, exec = 0;
 
-
-  // CORE -> add new lines to bottom of field
   for (r = 0; r < newLines; r++) {
     createdLine = []; // create new line
 
@@ -344,7 +357,7 @@ export const addBadLines = (fieldState, {newLines, emptyCols = 0, value = 9}) =>
       createdLine.push(value);
     }
 
-    // remove some elements when empty cols defined
+    // remove some cells from new row when empty cols defined
     if (emptyCols > 0) {
       do {
         createdLine[Math.floor(Math.random()*createdLine.length)] = 0;
@@ -352,8 +365,6 @@ export const addBadLines = (fieldState, {newLines, emptyCols = 0, value = 9}) =>
         if (exec > 20) { break; } // do not too much iterations
       } while (createdLine.filter(e => (e === 0)).length < emptyCols);
     }
-
-    newField.shift();
 
     // add new line on bottom 'newField.push(createdLine)' - but there could be not-
     // removable lines, so it has to be checked

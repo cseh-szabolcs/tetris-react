@@ -41,8 +41,8 @@ export const removeLinesLogic = createLogic({
         newField: result.field,
         lines: result.resolved,
       })),
-      duration: state.layout.linesRemoveDuration,
-      than: () => done(),
+      duration: 3000, //state.layout.linesRemoveDuration,
+      then: () => done(),
     });
   }
 });
@@ -57,7 +57,7 @@ export const addLinesLogic = createLogic({
   type: MULTIPLAY_FIELD_CHANGED,
   latest: true,
 
-  process({ getState, action, tetris, ws }, dispatch, done) {
+  process({ getState, action, timeout, tetris, ws }, dispatch, done) {
     let state = getState();
     const resolvedLines = action.resolvedLines;
 
@@ -65,9 +65,6 @@ export const addLinesLogic = createLogic({
       done(); return;
     }
 
-    dispatch(actions.game.intervalBreak());
-
-    // CORE: create new lines
     let newLines = 1, emptyCols = 2, value = 9;
     switch (resolvedLines) {
       case 4:
@@ -86,21 +83,23 @@ export const addLinesLogic = createLogic({
         break;
     }
 
+    // CORE: create new lines
+    timeout({
+      then: () => {
+        let newField = tetris.addBadLines(state.field, {
+          newLines,
+          emptyCols,
+          value,
+        });
 
-    let newField = tetris.addBadLines(state.field, {
-      newLines,
-      emptyCols,
-      value,
+        // game over when its not possible
+        if (newField === state.field) {
+          done(); return;
+        }
+
+        dispatch(actions.field.applyNewField({ newField }));
+        done();
+      }
     });
-
-    // game over when its not possible
-    if (newField === state.field) {
-      done(); return;
-    }
-
-    dispatch(actions.field.applyNewField({ newField }));
-    dispatch(actions.game.intervalContinue());
-
-    done();
   }
 });

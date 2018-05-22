@@ -4,18 +4,25 @@
  *
  */
 
-let q = null;
+let q = null, promise = null;
 
-export default ({callback, duration = 200, than = null, clear = false}) => {
+export default ({callback, duration = 200, then = null, clear = false}) => {
   if (clear === true) {
     if (q !== null) {
       window.clearTimeout(q);
+
       q = null;
     }
     return;
   }
 
-  return new Promise((resolve, reject) => {
+  if (!callback && isCallable(then)) {
+    return (promise)
+      ? promise.then(() => then())
+      : then();
+  }
+
+  promise = new Promise((resolve, reject) => {
     if (q !== null) {
       window.clearTimeout(q);
       q = null;
@@ -28,13 +35,16 @@ export default ({callback, duration = 200, than = null, clear = false}) => {
 
       let result = callback();
 
-      if (isCallable(than)) {
-        than();
+      if (isCallable(then)) {
+        then();
       }
 
       resolve(result);
+      promise = null;
     }, (isCallable(duration)) ? duration() : duration);
   });
+
+  return promise;
 };
 
 
