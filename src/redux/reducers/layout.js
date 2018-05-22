@@ -65,8 +65,9 @@ export default (state = initialState, action) => {
     case GAME_OVER:
       return {
         ...state,
-        alert: 'game over',
+        alert: (action.won) ? 'you won!' : 'game over',
         alertStyle: null,
+        fieldBackground: (action.won) ? state.fieldBackground : '-over',
       };
 
     case WINDOW_RESTORE_SLAVE:

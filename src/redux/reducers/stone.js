@@ -5,6 +5,7 @@ import library from 'library';
 
 const {
   GAME_INIT,
+  GAME_RESET,
   STONE_CREATE,
   STONE_MOVED_DOWN,
   STONE_MOVE_DOWN_REJECTED,
@@ -38,6 +39,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
 
     case GAME_INIT:
+    case GAME_RESET:
       return {
         ...initialState,
       };

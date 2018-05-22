@@ -193,8 +193,14 @@ export const cancelLogic = createLogic({
 
       // ...when relation, cancel multi-player-game or invitation
       if (state.online.users[otherUid].relation) {
+        let room = state.online.users[otherUid].room;
+
+        if (state.multiplay.room === room) {
+          dispatch(actions.game.over(true));
+        }
+
         dispatch(actions.multiplay.canceled({
-          room: state.online.users[otherUid].room,
+          room,
         }));
       }
 

@@ -7,6 +7,7 @@ const {
   GAME_INIT,
   GAME_START,
   GAME_OVER,
+  GAME_RESET,
   GAME_PAUSED,
   GAME_COUNT_DOWN,
   GAME_ASCII_SWITCH,
@@ -19,7 +20,7 @@ const {
 let initialState = {
   init: false,
   running: false,
-  status: null, // true = won, false = lost
+  status: null, // false = lost, true = won (ony possible in two-player-mode)
   paused: false,
   countDown: 0,
   score: 0, // the points what the user made
@@ -40,6 +41,9 @@ let initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
 
+    case GAME_RESET:
+      return initialState;
+
     case GAME_INIT:
       return {
         ...initialState,
@@ -58,7 +62,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         running: false,
-        status: false,
+        status: action.won,
       };
 
     case GAME_PAUSED:

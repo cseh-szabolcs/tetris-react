@@ -6,10 +6,6 @@ import actions from 'tetris-actions';
 export class Replay extends React.PureComponent
 {
 
-  static defaultProps = {
-    size: 'large'
-  };
-
   state = {
     top: -100,
   };
@@ -27,19 +23,29 @@ export class Replay extends React.PureComponent
 
   render()
   {
-    const { size, replayGame, isGameOver } = this.props;
+    const { gameStatus, replayGame, resetGame } = this.props;
 
-    if (!isGameOver) {
-      return null;
+    if (gameStatus === false) {
+      return (
+        <div className="tetris-game-replay" style={ {top:this.state.top} }>
+          <button type="button" className={`alert large button`} onClick={ replayGame }>
+            Replay
+          </button>
+        </div>
+      );
     }
 
-    return (
-      <div className="tetris-game-replay" style={ {top:this.state.top} }>
-        <button type="button" className={`alert ${size} button`} onClick={ replayGame }>
-          Replay
-        </button>
-      </div>
-    )
+    if (gameStatus === true) {
+      return (
+        <div className="tetris-game-replay" style={ {top:this.state.top} }>
+          <button type="button" className={`alert large button`} onClick={ resetGame }>
+            Close
+          </button>
+        </div>
+      );
+    }
+
+    return null;
   }
 
 }
@@ -47,9 +53,10 @@ export class Replay extends React.PureComponent
 
 export default connect(
   (state) => ({
-    isGameOver: (state.game.status === false),
+    gameStatus: state.game.status,
   }),
   (dispatch) => ({
     replayGame: () => dispatch(actions.game.init({})),
+    resetGame: () => dispatch(actions.game.reset({})),
   })
 )(Replay);

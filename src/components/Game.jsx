@@ -48,7 +48,7 @@ export const Game = ({ isGameOver, switchAsciiMode, asciiMode = false, isMasterT
 
 export default connect(
   (state) => ({
-    isGameOver: (state.game.status === false),
+    isGameOver: (state.game.status !== null),
     asciiMode: state.game.asciiMode,
     isMasterTab: state.window.masterTab,
   }),

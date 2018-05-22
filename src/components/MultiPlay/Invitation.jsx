@@ -34,7 +34,7 @@ export class Invitation extends React.PureComponent
           You want to play a multi-player-game on <strong>level { invitation.level }</strong>?
         </p>
         <button className="button expanded" onClick={ () => this.handleAccept(invitation.room) }>
-          Start game!
+          Start two-player game!
         </button>
       </div>
     );

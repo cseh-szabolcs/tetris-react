@@ -5,6 +5,7 @@ import {
   GAME_OVER,
   GAME_PAUSE,
   GAME_PAUSED,
+  GAME_RESET,
   GAME_START,
   GAME_COUNT_DOWN,
   GAME_INTERVAL_JUMP_IN,
@@ -19,6 +20,13 @@ export const init = ({ multiplay = false, level = 1 }) => {
     level,
   };
 };
+
+export const reset = () => {
+  return {
+    type: GAME_RESET,
+  };
+};
+
 
 export const start = () => {
   return {
@@ -47,9 +55,10 @@ export const next = () => {
 };
 
 
-export const over = () => {
+export const over = (won = false) => {
   return {
     type: GAME_OVER,
+    won,
   };
 };
 
