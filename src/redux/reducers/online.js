@@ -50,7 +50,7 @@ export default (state = initialState, action) => {
       }
 
       return { ...state,
-        users: { ...state.uid,
+        users: { ...state.users,
           [action.uid]: { ...state.users[action.uid],
             relation: action.relation,
             room: action.room,
