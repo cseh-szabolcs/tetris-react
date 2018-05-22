@@ -13,6 +13,7 @@ export const GAME_PAUSE  = 'GAME_PAUSE';
 export const GAME_PAUSED  = 'GAME_PAUSED';
 export const GAME_START  = 'GAME_START';
 export const GAME_COUNT_DOWN = 'GAME_COUNT_DOWN';
+export const GAME_INTERVAL_JUMP_IN = 'GAME_INTERVAL_JUMP_IN';
 export const GAME_ASCII_SWITCH  = 'GAME_ASCII_SWITCH';
 
 export const STONE_CREATE  = 'STONE_CREATE';

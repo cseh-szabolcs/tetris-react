@@ -7,6 +7,7 @@ import {
   GAME_PAUSED,
   GAME_START,
   GAME_COUNT_DOWN,
+  GAME_INTERVAL_JUMP_IN,
   GAME_ASCII_SWITCH,
 } from './types';
 
@@ -62,5 +63,12 @@ export const countDown = (value) => {
 export const switchAsciiMode = () => {
   return {
     type: GAME_ASCII_SWITCH,
+  };
+};
+
+
+export const intervalJumpIn = () => {
+  return {
+    type: GAME_INTERVAL_JUMP_IN,
   };
 };

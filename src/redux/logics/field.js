@@ -82,24 +82,25 @@ export const addLinesLogic = createLogic({
       default:
         break;
     }
+    newLines = 8;
 
     // CORE: create new lines
-    timeout({
-      then: () => {
-        let newField = tetris.addBadLines(state.field, {
-          newLines,
-          emptyCols,
-          value,
-        });
-
-        // game over when its not possible
-        if (newField === state.field) {
-          done(); return;
-        }
-
-        dispatch(actions.field.applyNewField({ newField }));
-        done();
-      }
+    let newField = tetris.addBadLines(state.field, {
+      newLines,
+      emptyCols,
+      value,
     });
+
+    // game over when its not possible
+    if (newField === state.field) {
+      alert("END2");
+      done(); return;
+    }
+
+    timeout({clear: true});
+    dispatch(actions.field.applyNewField({ newField }));
+    dispatch(actions.game.intervalJumpIn());
+
+    done();
   }
 });

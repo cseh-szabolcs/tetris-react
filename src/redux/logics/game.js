@@ -10,6 +10,7 @@ const {
   GAME_PAUSE,
   GAME_PAUSED,
   GAME_COUNT_DOWN,
+  GAME_INTERVAL_JUMP_IN,
   FIELD_CHANGED,
   FIELD_NOT_CHANGED,
   STONE_CREATE,
@@ -60,6 +61,7 @@ export const intervalLogic = createLogic({
   type: [
     GAME_COUNT_DOWN,
     GAME_OVER,
+    GAME_INTERVAL_JUMP_IN,
     STONE_CREATE,
     STONE_PULL_DOWN,
     STONE_MOVE_DOWN,
@@ -90,7 +92,7 @@ export const intervalLogic = createLogic({
     // dispatch new move-down-loop
     timeout({
       callback: () => dispatch(actions.stone.moveDown()),
-      duration: () => tetris.settings.calcIntervalSpeed(state.game.level),
+      duration: () => 10000, //tetris.settings.calcIntervalSpeed(state.game.level),
       then: () => done(),
     });
   }
