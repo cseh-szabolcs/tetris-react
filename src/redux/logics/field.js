@@ -20,7 +20,10 @@ export const removeLinesLogic = createLogic({
 
   process({ getState, action, tetris, timeout }, dispatch, done) {
     let state = getState();
-    let result = tetris.removeSolvedLines(state.field);
+
+    let result = tetris.removeSolvedLines(state.field, {
+      notRemovableValue: 10,
+    });
 
     // do nothing, when no lines removed
     if (result.field === state.field) {
@@ -54,17 +57,50 @@ export const addLinesLogic = createLogic({
   type: MULTIPLAY_FIELD_CHANGED,
   latest: true,
 
-  process({ getState, action }, dispatch, done) {
+  process({ getState, action, tetris, ws }, dispatch, done) {
     let state = getState();
-    const resolverLines = action.resolvedLines;
+    const resolvedLines = action.resolvedLines;
 
-    if (resolverLines === 0) {
+    if (resolvedLines === 0) {
       done(); return;
     }
 
     dispatch(actions.game.intervalBreak());
 
+    // CORE: create new lines
+    let newLines = 1, emptyCols = 2, value = 9;
+    switch (resolvedLines) {
+      case 4:
+        newLines = 1;
+        emptyCols = 0;
+        value = 10;
+        break;
+      case 3:
+        newLines = 2;
+        emptyCols = 3;
+        break;
+      case 2:
+        emptyCols = 3;
+        break;
+      default:
+        break;
+    }
 
-    done(); return;
+
+    let newField = tetris.addBadLines(state.field, {
+      newLines,
+      emptyCols,
+      value,
+    });
+
+    // game over when its not possible
+    if (newField === state.field) {
+      done(); return;
+    }
+
+    dispatch(actions.field.applyNewField({ newField }));
+    dispatch(actions.game.intervalContinue());
+
+    done();
   }
 });

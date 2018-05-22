@@ -245,12 +245,19 @@ export const applyStoneInField = (fieldState) => {
  * CORE 2: Removes lines from field-array, when an row was solved.
  *
  */
-export const removeSolvedLines = (fieldState) => {
+export const removeSolvedLines = (fieldState, { notRemovableValue = null }) => {
   let newField = clone(fieldState);
   let row, resolved = [], i, newRow;
 
   // collect all resolved rows
   for (row = 0; row < newField.length; row++) {
+
+    // in two-player-mode, when there was added lines from other-user
+    if (notRemovableValue && newField[row].indexOf(notRemovableValue) > -1) {
+      continue;
+    }
+
+    // core -> add row
     if (newField[row].indexOf(0) === -1) {
       resolved.push(row);
     }
@@ -293,6 +300,63 @@ export const stonePullDown = (stoneState, fieldState) => {
     field: newField,
     yPos: newStone.yPos,
   };
+};
+
+
+/**
+ * Add lines bottom to field
+ *
+ */
+export const addBadLines = (fieldState, {newLines, emptyCols = 0, value = 9}) => {
+  let newField = clone(fieldState);
+  let row, possibleSpaceCount = 0;
+
+  // look if its possible to add the number of lines
+  for (row = 0; row < newField.length; row++) {
+    if (newField[row].indexOf(0) === -1) {
+      break; // when row is full, do not count any more
+    }
+    if (newField[row].filter(c => (c === 0)).length === newField[row].length) {
+      possibleSpaceCount++; // core: row is completely empty, count
+    }
+
+    // don't count further when we know that enough free space is there
+    if (possibleSpaceCount >= newLines) {
+      break;
+    }
+  }
+
+  // now check the result
+  if (possibleSpaceCount < newLines) {
+    return fieldState; // not possible to add more lines, return given field
+  }
+
+  let createdLine, columnLength = fieldState[0].length, r, c, exec = 0;
+
+
+  // CORE -> add new lines to bottom of field
+  for (r = 0; r < newLines; r++) {
+    createdLine = []; // create new line
+
+    // add value to every column
+    for (c = 0; c < columnLength; c++) {
+      createdLine.push(value);
+    }
+
+    // remove some elements when empty cols defined
+    if (emptyCols > 0) {
+      do {
+        createdLine[Math.floor(Math.random()*createdLine.length)] = 0;
+        exec++;
+        if (exec > 20) { break; } // do not too much iterations
+      } while (createdLine.filter(e => (e === 0)).length < emptyCols);
+    }
+
+    newField.shift();
+    newField.push(createdLine);
+  }
+
+  return newField;
 };
 
 

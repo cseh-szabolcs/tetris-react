@@ -170,6 +170,12 @@
 
     &.set {
       background: #1A8CD7;
+      &.c10 {
+        background: red;
+      }
+      &.c9 {
+        background: #999999;
+      }
     }
   }
 }

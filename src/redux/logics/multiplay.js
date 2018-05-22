@@ -16,6 +16,7 @@ const {
   SERVER_MULTIPLAY_FIELD_CHANGED,
   FIELD_CHANGED,
   FIELD_NOT_CHANGED,
+  FIELD_APPLY_NEW,
 } = actions.types;
 
 
@@ -102,6 +103,7 @@ export const gameLogic = createLogic({
     MULTIPLAY_START,
     FIELD_CHANGED,
     FIELD_NOT_CHANGED,
+    FIELD_APPLY_NEW,
     SERVER_MULTIPLAY_FIELD_CHANGED
   ],
   latest: true,
@@ -126,7 +128,7 @@ export const gameLogic = createLogic({
     // I have resolved lines (or maybe not) -> let other user know
     // ---------------------------------------------------------
 
-    if (action.type === FIELD_CHANGED || action.type === FIELD_NOT_CHANGED) {
+    if ([FIELD_CHANGED, FIELD_NOT_CHANGED, FIELD_APPLY_NEW].indexOf(action.type) > -1) {
       ws.send({
         action: MULTIPLAY_FIELD_CHANGED,
         token: state.auth.token,

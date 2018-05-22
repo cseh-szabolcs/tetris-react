@@ -3,6 +3,7 @@ import {
   FIELD_CHANGED,
   FIELD_LINES_RESOLVED,
   FIELD_NOT_CHANGED,
+  FIELD_APPLY_NEW,
 } from './types';
 
 
@@ -26,3 +27,12 @@ export const notChanged = () => {
     type: FIELD_NOT_CHANGED,
   };
 };
+
+
+export const applyNewField = ({ newField }) => {
+  return {
+    type: FIELD_APPLY_NEW,
+    newField,
+  };
+};
+

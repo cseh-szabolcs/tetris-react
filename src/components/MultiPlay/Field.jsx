@@ -46,7 +46,7 @@ class Field extends React.PureComponent
     for (let c in row) {
       result.push(
         <td key={ `r${c}` }>
-          <span className={ `cell ${(row[c]) > 0 ? 'set' : ''}` } />
+          <span className={ `cell ${(row[c]) > 0 ? `set c${row[c]}` : ''}` } />
         </td>
       );
     }

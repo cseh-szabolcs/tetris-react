@@ -13,6 +13,7 @@ const {
   STONE_MOVED_RIGHT,
   STONE_MOVE_DOWN_REJECTED,
   STONE_PULLED_DOWN,
+  FIELD_APPLY_NEW,
   WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
@@ -40,6 +41,7 @@ export default (state = initialState, action) => {
     case STONE_MOVED_LEFT:
     case STONE_MOVED_RIGHT:
     case STONE_PULLED_DOWN:
+    case FIELD_APPLY_NEW:
       return action.newField;
 
     case STONE_MOVE_DOWN_REJECTED:
