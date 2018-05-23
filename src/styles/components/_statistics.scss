@@ -2,12 +2,19 @@
 .tetris-statistics {
   position: absolute;
   left: 480px;
-  top: 340px;
+  top: 300px;
   width: 280px;
   font-size: 2em;
   color: white;
   font-weight: bold;
   text-shadow: 1px 1px 1px #4e4265;
+
+  .small {
+    font-size: 0.7em;
+    color: #4f5e74;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #fafafa;
+  }
 }
 
 

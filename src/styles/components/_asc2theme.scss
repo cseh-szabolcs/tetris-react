@@ -86,7 +86,7 @@
 .tetris-ascii-statistics {
   position: absolute;
   left: 460px;
-  top: 352px;
+  top: 312px;
   font-size: 1.2em;
   width: 286px;
 
@@ -95,6 +95,9 @@
   }
   td {
     padding-bottom: 20px;
+  }
+  .small {
+    font-size: 0.8em;
   }
 }
 

@@ -57,6 +57,20 @@ export class AsciiGame extends React.PureComponent
         <table>
           <tbody>
           <tr>
+            <td colSpan={2}>
+              { !this.props.isMultiplay && (
+                <p className="small">
+                  Single-player
+                </p>
+              )}
+              { this.props.isMultiplay && (
+                <p className="small">
+                  Two-player
+                </p>
+              )}
+            </td>
+          </tr>
+          <tr>
             <td>level</td>
             <td className="text-right">{ this.props.level }</td>
           </tr>
@@ -164,7 +178,7 @@ export class AsciiGame extends React.PureComponent
 
   getCellChar(value, blink = false)
   {
-    const chars = ['o','x','c','n','u','a','e','#'];
+    const chars = ['o','x','c','n','u','a','e', '#', '�', '❤'];
     value = Math.abs(value);
 
     let char = (chars.indexOf(--value))
@@ -208,6 +222,7 @@ export default connect(
     fieldState: state.field,
     nextStone: state.stone.next,
     isGameOver: (state.game.status !== null),
+    isMultiplay: state.game.multiplay,
     alert: state.layout.alert,
     lastResolvedLines: state.layout.lastResolvedLines,
     level: state.game.level,

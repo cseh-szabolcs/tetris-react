@@ -2,10 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 
-export const Statistics = ({level, resolved, score}) => (
+export const Statistics = ({level, resolved, score, isMultiplay = false}) => (
   <div className="tetris-statistics">
     <table>
       <tbody>
+      <tr>
+        <td colSpan={2}>
+          { !isMultiplay && (
+            <p className="small">
+              Single-player
+            </p>
+          )}
+          { isMultiplay && (
+            <p className="small">
+              Two-player
+            </p>
+          )}
+        </td>
+      </tr>
       { renderTr('level', level) }
       { renderTr('lines', resolved) }
       { renderTr('score', score) }
@@ -30,5 +44,6 @@ export default connect(
     level: state.game.level,
     resolved: state.game.resolved,
     score: state.game.score,
+    isMultiplay: state.game.multiplay,
   })
 )(Statistics);
