@@ -218,7 +218,7 @@ export class Window extends React.PureComponent
 export default connect(
   (state) => ({
     focusedWindow: state.chat.focused,
-    isMultiplay: state.game.multiplay,
+    isMultiplay: (state.game.multiplay && state.game.running),
     isEnabled: state.window.masterTab,
     disabledText: 'Wrong tab!'
   }),

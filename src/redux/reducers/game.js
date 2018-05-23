@@ -75,6 +75,7 @@ export default (state = initialState, action) => {
     case GAME_COUNT_DOWN:
       return {
         ...state,
+        running: null,
         countDown: action.value,
       };
 
