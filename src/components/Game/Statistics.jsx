@@ -10,12 +10,12 @@ export const Statistics = ({level, resolved, score, isMultiplay = false}) => (
         <td colSpan={2}>
           { !isMultiplay && (
             <p className="small">
-              Single-player
+              single-player
             </p>
           )}
           { isMultiplay && (
             <p className="small">
-              Two-player
+              two-player
             </p>
           )}
         </td>

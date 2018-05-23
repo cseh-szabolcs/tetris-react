@@ -60,12 +60,12 @@ export class AsciiGame extends React.PureComponent
             <td colSpan={2}>
               { !this.props.isMultiplay && (
                 <p className="small">
-                  Single-player
+                  single-player
                 </p>
               )}
               { this.props.isMultiplay && (
                 <p className="small">
-                  Two-player
+                  two-player
                 </p>
               )}
             </td>
