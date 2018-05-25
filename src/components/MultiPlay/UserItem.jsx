@@ -13,17 +13,12 @@ class UserItem extends React.PureComponent
 
   render()
   {
-    const {userName, uid } = this.props;
-
-    const own = (uid === this.props.authUid);
-    const title = own
-      ? 'this is you'
-      : 'click to ask for a multi-player-game';
+    const { user } = this.props;
 
     return (
-      <li title={ title } onClick={ e => this.handleClick(e) }>
+      <li title={ this.renderAttr('title') } onClick={ e => this.handleClick(e) }>
         <a href="#">
-          { userName } <span className={ own ? 'owner' : '' } />
+          { user.userName } <span className={ this.renderAttr('className') } />
         </a>
       </li>
     );
@@ -33,10 +28,38 @@ class UserItem extends React.PureComponent
   handleClick(e)
   {
     e.preventDefault();
+    const { user, authUid } = this.props;
 
-    if (this.props.authUid !== this.props.uid) {
-      this.props.openChat(this.props.uid);
+    if (authUid === user.uid) {
+      return;
     }
+
+    if (user.status === 2) {
+      return;
+    }
+
+    this.props.openChat(user.uid);
+  }
+
+
+  renderAttr(type)
+  {
+    const { user, authUid } = this.props;
+
+    if (user.uid === authUid) {
+      return (type === 'title')
+        ? 'this is you, don\'t play with yourself :-p'
+        : 'owner';
+    }
+    if (user.status === 2) {
+      return (type === 'title')
+        ? 'this user is already playing a game'
+        : 'busy';
+    }
+
+    return (type === 'title')
+      ? 'click to ask for a multi-player-game'
+      : 'available';
   }
 }
 

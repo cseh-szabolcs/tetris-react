@@ -31,18 +31,26 @@ $borderColor: #dfdfdf;
     span {
       display: block;
       content: '';
-      background: #00d800;
       width: 8px;
       height: 8px;
       border-radius: 4px;
-      border: 1px solid #009600;
       position: absolute;
       right: 4px;
       top: 14px;
 
+      &.available {
+        background: #00d800;
+        border: 1px solid #009600;
+      }
+
       &.owner {
         background: #f200c1;
         border: 1px solid #bf0098;
+      }
+
+      &.busy {
+        background: #df4747;
+        border: 1px solid #be2b03;
       }
     }
   }

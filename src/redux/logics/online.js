@@ -9,6 +9,7 @@ const {
   MULTIPLAY_START,
   SERVER_ONLINE_JOIN,
   SERVER_ONLINE_LEAVE,
+  SERVER_ONLINE_STATUS_CHANGED,
 } = actions.types;
 
 
@@ -18,7 +19,7 @@ const {
  *
  */
 export const onlineLogic = createLogic({
-  type: [SERVER_ONLINE_JOIN, SERVER_ONLINE_LEAVE],
+  type: [SERVER_ONLINE_JOIN, SERVER_ONLINE_LEAVE, SERVER_ONLINE_STATUS_CHANGED],
   latest: true,
 
   process({ getState, action }, dispatch, done) {
@@ -28,6 +29,14 @@ export const onlineLogic = createLogic({
       dispatch(actions.online.join({
         uid: action.payload.user.uid,
         userName: action.payload.user.userName,
+        status: action.payload.user.status,
+      }));
+
+    } else if (action.type === SERVER_ONLINE_STATUS_CHANGED) {
+
+      dispatch(actions.online.changeStatus({
+        uids: action.payload.uids,
+        status: action.payload.status,
       }));
 
     } else {

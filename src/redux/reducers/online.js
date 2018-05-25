@@ -6,6 +6,7 @@ const {
   ONLINE_JOIN,
   ONLINE_LEAVE,
   ONLINE_RELATION,
+  ONLINE_STATUS_CHANGED,
   WINDOW_RESTORE_SLAVE,
 } = actions.types;
 
@@ -21,6 +22,8 @@ const initialState = {
  *
  */
 export default (state = initialState, action) => {
+  let newState, uid;
+
   switch (action.type) {
 
     case AUTH_UID_RECEIVED:
@@ -36,6 +39,7 @@ export default (state = initialState, action) => {
           [action.uid]: {
             uid: action.uid,
             userName: action.userName,
+            status: action.status,
             relation: false,
             room: null,
           },
@@ -67,6 +71,26 @@ export default (state = initialState, action) => {
       return { ...state,
         list: state.list.filter(e => e !== action.uid),
       };
+
+
+    case ONLINE_STATUS_CHANGED:
+      if (action.uids.length > 2) {
+        return state;
+      }
+
+      newState = { ...state };
+
+      for (let uid of action.uids) {
+        if (newState.users[uid]) {
+          newState.users = { ...newState.users,
+            [uid]: { ...newState.users[uid],
+              status: action.status,
+            }
+          };
+        }
+      }
+
+      return newState;
 
 
     case WINDOW_RESTORE_SLAVE:

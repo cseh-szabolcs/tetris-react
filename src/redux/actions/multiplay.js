@@ -30,7 +30,6 @@ export const invitation = ({ room, otherUid, level, initial }) => {
 };
 
 
-
 export const accept = ({ room }) => {
   return {
     type: MULTIPLAY_ACCEPT,
@@ -46,7 +45,6 @@ export const start = ({ room }) => {
 };
 
 
-
 export const cancel = ({ room }) => {
   return {
     type: MULTIPLAY_CANCEL,
@@ -60,7 +58,6 @@ export const canceled = ({ room }) => {
     room,
   };
 };
-
 
 
 export const fieldChanged = ({ fieldState, resolvedLines }) => {

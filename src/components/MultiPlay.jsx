@@ -58,7 +58,7 @@ function renderOnlineUsers({ onlineUsers, onlineList }) {
 
     if (user) {
       list.push(
-        <UserItem key={ `u${uid}` } userName={ user.userName } uid={ user.uid } />
+        <UserItem key={ `u${uid}` } user={ user } />
       );
     }
   }
