@@ -255,15 +255,22 @@ module.exports = function(Server) {
       return;
     }
 
-    let uids = [], i = 0, user;
+    let uids = [], uid, i, user;
 
     for (i in tokens) {
-      uids.push(Server.getUid(tokens[i]));
-      user = Db.get('user', uids[i]);
+      uid = Server.getUid(tokens[i]);
+      user = Db.get('user', uid);
 
-      if (user) {
-        Db.set('user', user.uid, Object.assign(user, {status: status}));
+      if (uid.status === status || !user) {
+        continue;
       }
+
+      uids.push(Server.getUid(tokens[i]));
+      Db.set('user', user.uid, Object.assign(user, {status: status}));
+    }
+
+    if (uids.length === 0) {
+      return;
     }
 
     Server.sendToAll('SERVER_ONLINE_STATUS_CHANGED', {
