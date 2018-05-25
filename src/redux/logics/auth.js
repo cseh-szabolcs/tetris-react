@@ -79,7 +79,7 @@ export const joinLogic = createLogic({
  *
  */
 export const leaveLogic = createLogic({
-  type: [AUTH_LEAVE],
+  type: AUTH_LEAVE,
   latest: true,
 
   process({ getState, action, ws }, dispatch, done) {

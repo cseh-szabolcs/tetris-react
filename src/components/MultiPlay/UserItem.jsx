@@ -28,7 +28,11 @@ class UserItem extends React.PureComponent
   handleClick(e)
   {
     e.preventDefault();
-    const { user, authUid } = this.props;
+    const { user, authUid, isAuthenticated } = this.props;
+
+    if (!isAuthenticated) {
+      return;
+    }
 
     if (authUid === user.uid) {
       return;
@@ -44,21 +48,28 @@ class UserItem extends React.PureComponent
 
   renderAttr(type)
   {
-    const { user, authUid } = this.props;
+    const { user, authUid, isAuthenticated } = this.props;
 
     if (user.uid === authUid) {
       return (type === 'title')
         ? 'this is you, don\'t play with yourself :-p'
         : 'owner';
     }
+
     if (user.status === 2) {
       return (type === 'title')
         ? 'this user is already playing a game'
         : 'busy';
     }
 
+    if (!isAuthenticated) {
+      return (type === 'title')
+        ? 'If you join, you can play a multi-player game'
+        : ((user.status === 2) ? 'busy' : 'available');
+    }
+
     return (type === 'title')
-      ? 'click to ask for a multi-player-game'
+      ? 'click to ask for a multi-player game'
       : 'available';
   }
 }
@@ -68,8 +79,9 @@ class UserItem extends React.PureComponent
 export default connect(
   (state) => ({
     authUid: state.auth.uid,
+    isAuthenticated: (state.auth.token !== null),
   }),
   (dispatch) => ({
-    openChat: uid => dispatch(actions.chat.open({ recipientUid: uid }))
+    openChat: uid => dispatch(actions.chat.open({ recipientUid: uid })),
   })
 )(UserItem);

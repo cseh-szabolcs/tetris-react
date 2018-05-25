@@ -11,6 +11,7 @@ const {
   MULTIPLAY_CANCEL,
   MULTIPLAY_INVITE,
   ONLINE_LEAVE,
+  AUTH_LEAVE,
   MULTIPLAY_FIELD_CHANGED,
   SERVER_GAME_OVER,
   SERVER_MULTIPLAY_ACCEPT,
@@ -207,7 +208,7 @@ export const gameLogic = createLogic({
  *
  */
 export const cancelLogic = createLogic({
-  type: [MULTIPLAY_CANCEL, SERVER_MULTIPLAY_CANCEL, ONLINE_LEAVE],
+  type: [MULTIPLAY_CANCEL, SERVER_MULTIPLAY_CANCEL, AUTH_LEAVE, ONLINE_LEAVE],
   latest: true,
 
   process({ getState, action, ws }, dispatch, done) {
@@ -223,6 +224,18 @@ export const cancelLogic = createLogic({
         room: action.room,
       });
 
+      done(); return;
+    }
+
+
+    // User logs out during game
+    // ---------------------------------------------------------
+
+    if (action.type === AUTH_LEAVE) {
+
+      if (state.game.multiplay && state.multiplay.room) {
+        dispatch(actions.game.over());
+      }
       done(); return;
     }
 
@@ -247,6 +260,8 @@ export const cancelLogic = createLogic({
 
     // and running multi-game was canceled by one of the users
     // ---------------------------------------------------------
+
+    // todo: maybe here is the twice-server-return bug (SERVER_ONLINE_STATUS_CHANGED comes twice)
 
     let room = action.payload.room;
     let senderUid = action.payload.senderUid;
