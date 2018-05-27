@@ -74,7 +74,6 @@ module.exports = {
   },
   // ================================================================
   plugins: [
-
     // new ExtractTextPlugin("public/styles.css"), // [contenthash]
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,   // enable source maps to map errors (stack traces) to modules
@@ -82,7 +81,6 @@ module.exports = {
         comments: false, // remove all comments
       },
     }),
-
   ],
   // ================================================================
   devtool: 'cheap-module-eval-source-map'
