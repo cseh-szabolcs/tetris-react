@@ -11,6 +11,7 @@ import {
   GAME_INTERVAL_JUMP_IN,
   GAME_TO_SINGLE_MODE,
   GAME_ASCII_SWITCH,
+  GAME_WON,
 } from './types';
 
 
@@ -56,12 +57,12 @@ export const next = () => {
 };
 
 
-export const over = (won = false) => {
+export const over = () => {
   return {
     type: GAME_OVER,
-    won,
   };
 };
+
 
 export const countDown = (value) => {
   return {
@@ -77,7 +78,13 @@ export const switchAsciiMode = () => {
 };
 
 
-// custom-hook to interval, used in multi-player-mode only
+// two-player-actions
+
+export const won = () => {
+  return {
+    type: GAME_WON,
+  };
+};
 
 export const intervalJumpIn = () => {
   return {

@@ -10,6 +10,8 @@ import * as stone from './stone';
 
 export default [
   // last!
+  auth.leaveLogic,
+  auth.joinLogic,
   multiplay.gameLogic,
   multiplay.cancelLogic,
   multiplay.invitationLogic,
@@ -17,8 +19,6 @@ export default [
   chat.openLogic,
   online.relationLogic,
   online.onlineLogic,
-  auth.leaveLogic,
-  auth.joinLogic,
   field.addLinesLogic,
   field.removeLinesLogic,
   stone.rotateLogic,

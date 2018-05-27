@@ -135,6 +135,8 @@ export const gameLogic = createLogic({
     if (action.type === GAME_TO_SINGLE_MODE) {
       dispatch(actions.game.paused(true));
       dispatch(actions.game.paused(false));
+
+      done(); return;
     }
 
 
@@ -167,13 +169,11 @@ export const gameLogic = createLogic({
         room: state.multiplay.room
       }));
 
-      if (!action.won) {
-        ws.send({
-          action: GAME_OVER,
-          token: state.auth.token,
-          room: state.multiplay.room,
-        });
-      }
+      ws.send({
+        action: GAME_OVER,
+        token: state.auth.token,
+        room: state.multiplay.room,
+      });
       done(); return;
     }
 
@@ -182,7 +182,8 @@ export const gameLogic = createLogic({
       dispatch(actions.multiplay.canceled({
         room: state.multiplay.room
       }));
-      dispatch(actions.game.over(true));
+
+      dispatch(actions.game.won());
       done(); return;
     }
 
@@ -218,6 +219,7 @@ export const cancelLogic = createLogic({
     // ---------------------------------------------------------
 
     if (action.type === MULTIPLAY_CANCEL) {
+
       ws.send({
         action: action.type,
         token: state.auth.token,
@@ -227,15 +229,18 @@ export const cancelLogic = createLogic({
       done(); return;
     }
 
-
-    // User logs out during game
-    // ---------------------------------------------------------
-
     if (action.type === AUTH_LEAVE) {
 
-      if (state.game.multiplay && state.multiplay.room) {
-        dispatch(actions.game.over());
+      if (!state.multiplay.room) {
+        done(); return;
       }
+
+      ws.send({
+        action: MULTIPLAY_CANCEL,
+        token: state.auth.token,
+        room: state.multiplay.room,
+      });
+
       done(); return;
     }
 
@@ -245,13 +250,18 @@ export const cancelLogic = createLogic({
     if (action.type === ONLINE_LEAVE) {
       const otherUid = action.uid;
 
-      // ...when relation, cancel multi-player-game or invitation
-      if (state.online.users[otherUid].relation) {
-        let room = state.online.users[otherUid].room;
+      if (!state.multiplay.room) {
+        done(); return;
+      }
 
-        if (state.multiplay.room === room) {
-          dispatch(actions.game.over(true));
-        }
+      if (!state.online.users[otherUid].room) {
+        done(); return;
+      }
+
+      let room = state.online.users[otherUid].room;
+
+      if (state.multiplay.room === room) {
+        dispatch(actions.game.won(true));
         dispatch(actions.multiplay.canceled({ room }));
       }
 
@@ -265,12 +275,19 @@ export const cancelLogic = createLogic({
 
     let room = action.payload.room;
     let senderUid = action.payload.senderUid;
+    let initial = (senderUid === state.auth.uid);
 
-    if (state.multiplay.room === room) {
-      dispatch(actions.game.over(senderUid !== state.auth.uid));
+    if (state.multiplay.room !== room) {
+      done(); return; // a.k.
     }
-    dispatch(actions.multiplay.canceled({ room }));
 
+    if (initial) {
+      dispatch(actions.game.over());
+    } else {
+      dispatch(actions.game.won());
+    }
+
+    dispatch(actions.multiplay.canceled({ room }));
     done();
   }
 });

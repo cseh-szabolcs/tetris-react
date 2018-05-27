@@ -12,6 +12,7 @@ const {
   GAME_COUNT_DOWN,
   GAME_TO_SINGLE_MODE,
   GAME_ASCII_SWITCH,
+  GAME_WON,
   FIELD_LINES_RESOLVED,
   STONE_MOVED_DOWN,
   WINDOW_RESTORE_SLAVE,
@@ -60,10 +61,11 @@ export default (state = initialState, action) => {
       };
 
     case GAME_OVER:
+    case GAME_WON:
       return {
         ...state,
         running: false,
-        status: action.won,
+        status: (action.type === GAME_WON),
       };
 
     case GAME_PAUSED:

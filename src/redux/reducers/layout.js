@@ -7,6 +7,7 @@ const {
   GAME_PAUSED,
   GAME_OVER,
   GAME_COUNT_DOWN,
+  GAME_WON,
   FIELD_CHANGED,
   FIELD_LINES_RESOLVED,
   WINDOW_RESTORE_SLAVE,
@@ -63,11 +64,14 @@ export default (state = initialState, action) => {
       };
 
     case GAME_OVER:
+    case GAME_WON:
+      let won = (action.type === GAME_WON);
+
       return {
         ...state,
-        alert: (action.won) ? 'you won!' : 'game over',
+        alert: (won) ? 'you won!' : 'game over',
         alertStyle: null,
-        fieldBackground: (action.won) ? state.fieldBackground : '-over',
+        fieldBackground: (won) ? state.fieldBackground : '-over',
       };
 
     case WINDOW_RESTORE_SLAVE:

@@ -11,6 +11,7 @@ const {
   GAME_PAUSED,
   GAME_COUNT_DOWN,
   GAME_INTERVAL_JUMP_IN,
+  GAME_WON,
   FIELD_CHANGED,
   FIELD_NOT_CHANGED,
   STONE_CREATE,
@@ -61,6 +62,7 @@ export const intervalLogic = createLogic({
   type: [
     GAME_COUNT_DOWN,
     GAME_OVER,
+    GAME_WON,
     GAME_INTERVAL_JUMP_IN,
     STONE_CREATE,
     STONE_PULL_DOWN,
@@ -76,6 +78,7 @@ export const intervalLogic = createLogic({
     // clear move-down-timeout and return!
     if (action.type === STONE_MOVE_DOWN_REJECTED
       || action.type === GAME_OVER
+      || action.type === GAME_WON
       || (action.type === GAME_COUNT_DOWN && action.value)
     ){
 
