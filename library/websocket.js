@@ -17,8 +17,10 @@ export default {
       return false;
     }
 
+    const protocol = (window.location.href.split("/")[0] === 'https:') ? 'wss' : 'ws';
     const host = location.hostname + (location.port ? ':'+location.port: '');
-    this.ws = new WebSocket('ws://'+host);
+
+    this.ws = new WebSocket(protocol + '://' + host);
 
     this.ws.onmessage = event => {
       let data = null;
