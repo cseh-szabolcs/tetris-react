@@ -28,13 +28,17 @@ export default (logics = [], initialState = {}) => {
   const middleware = redux.applyMiddleware.apply(this, middlewareModules);
   const reducer = redux.combineReducers(Reducers);
 
+  const devToolsExtension = (location.hostname === '0.0.0.0' && window.devToolsExtension)
+    ? window.devToolsExtension()
+    : f => f;
+
   // CORE
   return redux.createStore(
     reducer,
     initialState,
     redux.compose(
       middleware, // extend redux-behaviour by adding the middleware
-      window.devToolsExtension ? window.devToolsExtension() : f => f // active browser-dev-tools
+      devToolsExtension // active browser-dev-tools
     )
   );
 };
