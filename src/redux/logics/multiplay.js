@@ -165,6 +165,10 @@ export const gameLogic = createLogic({
 
     // i have lost
     if (action.type === GAME_OVER) {
+      if (!state.multiplay.room) {
+        done(); return;
+      }
+
       dispatch(actions.multiplay.canceled({
         room: state.multiplay.room
       }));
@@ -277,17 +281,16 @@ export const cancelLogic = createLogic({
     let senderUid = action.payload.senderUid;
     let initial = (senderUid === state.auth.uid);
 
-    if (state.multiplay.room !== room) {
-      done(); return; // a.k.
-    }
-
-    if (initial) {
-      dispatch(actions.game.over());
-    } else {
-      dispatch(actions.game.won());
-    }
-
     dispatch(actions.multiplay.canceled({ room }));
+
+    if (state.multiplay.room === room) {
+      if (initial) {
+        dispatch(actions.game.over());
+      } else {
+        dispatch(actions.game.won());
+      }
+    }
+
     done();
   }
 });

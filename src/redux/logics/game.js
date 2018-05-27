@@ -83,8 +83,8 @@ export const intervalLogic = createLogic({
     ){
 
       timeout({ clear: true });
-      done();
-      return;
+
+      done(); return;
     }
 
     // clear move-down-timeout and...
