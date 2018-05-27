@@ -221,6 +221,14 @@ module.exports = function(Server) {
 
 
   /**
+   * Custom online-status change (only to make user available/status=1)
+   */
+  Server.handle('ONLINE_STATUS_CHANGE', ['uid, token, room, request', function(uid, token, room, request) {
+    _handleUserStatus(room, 1, this);
+  }]);
+
+
+  /**
    * User leave the game -> notify all
    */
   Server.handle('AUTH_LEAVE', ['request, uid, token', function(request, uid) {

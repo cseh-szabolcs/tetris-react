@@ -7,6 +7,8 @@ const {
   MULTIPLAY_INVITE,
   MULTIPLAY_INVITATION,
   MULTIPLAY_START,
+  MULTIPLAY_CANCELED,
+  ONLINE_STATUS_CHANGE,
   SERVER_ONLINE_JOIN,
   SERVER_ONLINE_LEAVE,
   SERVER_ONLINE_STATUS_CHANGED,
@@ -85,5 +87,37 @@ export const relationLogic = createLogic({
     }));
 
     done();
+  }
+});
+
+
+/**
+ * Make sure, than my status is marked as available when multiplay-game
+ * was canceled (required, when other user closing tab or refresh)
+ *
+ */
+export const statusLogic = createLogic({
+  type: MULTIPLAY_CANCELED,
+  latest: true,
+
+  process({ getState, action, ws, timeout }, dispatch, done) {
+    const state = getState();
+
+    timeout({
+      callback: () => {
+        if (state.online.users[state.auth.uid].status === 1) {
+          return;
+        }
+
+        ws.send({
+          action: ONLINE_STATUS_CHANGE,
+          token: state.auth.token,
+          room: action.room,
+        });
+      },
+      unique: false,
+      then: () => done(),
+      duration: 2200,
+    });
   }
 });
