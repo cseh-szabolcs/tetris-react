@@ -20,3 +20,8 @@ https://git.heroku.com/polar-wildwood-29196.git
 - Create an better production build.
 - Sound implementation.
 - Allow custom keyboard-settings.
+
+### Contact
+szabolcs.cseh@gmail.com
+
+http://www.nanoscript.org
