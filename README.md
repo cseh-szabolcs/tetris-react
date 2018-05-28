@@ -20,6 +20,7 @@ https://git.heroku.com/polar-wildwood-29196.git
 - Create an better production build.
 - Sound implementation.
 - Allow custom keyboard-settings.
+- Support touch-screen and mobile-szie
 
 ### Contact
 szabolcs.cseh@gmail.com

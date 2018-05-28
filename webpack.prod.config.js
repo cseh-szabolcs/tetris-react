@@ -41,7 +41,7 @@ module.exports = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2017', 'stage-0']
+          presets: ['react', 'es2015', 'stage-0']
         },
         exclude: /(node_modules|bower_components)/
       },
@@ -78,5 +78,5 @@ module.exports = {
 
   ],
   // ================================================================
-  devtool: 'cheap-module-eval-source-map'
+  devtool: 'source-map'
 };

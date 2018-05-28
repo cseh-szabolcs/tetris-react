@@ -48,10 +48,23 @@ export class Control extends React.PureComponent
 
   componentDidUpdate(prevProps)
   {
+    if (prevProps.isGameRunning && !this.props.isGameRunning) {
+      this.unsubscribeKeyboard();
+      return;
+    }
+
+    if (!prevProps.isGameRunning && this.props.isGameRunning) {
+      this.subscribeKeyboard();
+      return;
+    }
+
     if (this.props.isChatWindowFocus) {
       this.props.pause(true);
       this.unsubscribeKeyboard();
-    } else if (!this.props.isChatWindowFocus && prevProps.isChatWindowFocus) {
+      return;
+    }
+
+    if (!this.props.isChatWindowFocus && prevProps.isChatWindowFocus) {
       this.props.pause(false);
       this.subscribeKeyboard();
     }
@@ -173,6 +186,7 @@ export class Control extends React.PureComponent
 export default connect(
   (state) => ({
     stone: state.stone,
+    isGameRunning: (state.game.running !== false),
     isGamePaused: state.game.paused,
     isChatWindowFocus: (state.chat.focused !== null),
     canControl: (
