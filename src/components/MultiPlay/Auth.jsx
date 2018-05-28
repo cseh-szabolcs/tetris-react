@@ -18,7 +18,7 @@ export class Auth extends React.PureComponent
 
   render()
   {
-    const { userName } = this.props;
+    const { userName, canLogin } = this.props;
 
     return (
       <React.Fragment>
@@ -30,6 +30,7 @@ export class Auth extends React.PureComponent
                 value={ this.state.userName }
                 onChange={ e => this.setState({userName: e.target.value}) }
                 placeholder="type your name"
+                disabled={ !canLogin }
               />
             </label>
             <button onClick={ () => this.handleJoin() } className="button expanded tiny" href="#">
@@ -72,6 +73,7 @@ export default connect(
   (state) => ({
     uid: state.auth.uid,
     userName: state.auth.userName,
+    canLogin: (state.game.paused || (!state.game.running && state.game.countDown === 0)),
   }),
   (dispatch) => ({
     joinPlayer: userName => dispatch(actions.auth.join({ userName })),
