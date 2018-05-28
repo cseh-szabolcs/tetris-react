@@ -1,5 +1,22 @@
-Play Tetris in the browser with multi-player mode programmed with React.
+# Tetris (beta)
 
-= Heroku =
+A browser based implementation of Tetris with multi-game feature written in JavaScript and React.
 
-https://polar-wildwood-29196.herokuapp.com/ | https://git.heroku.com/polar-wildwood-29196.git
+### Install
+
+`yarn install` or `npm install`
+
+### Run
+`npm start`
+
+### Heroku
+
+https://polar-wildwood-29196.herokuapp.com/ 
+
+##### Heroku repository 
+https://git.heroku.com/polar-wildwood-29196.git
+
+### Todo
+- Create an better production build.
+- Sound implementation.
+- Allow custom keyboard-settings.
