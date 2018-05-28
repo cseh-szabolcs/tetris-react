@@ -5,33 +5,16 @@
     <title>Tetris browser-game</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <link type="text/css" rel="stylesheet" href="styles.css" />
-    <style type="text/css">
-        /* remove this on webpack production-build! */
-        @-webkit-keyframes fade-out {
-            0% {
-                opacity: 1;
-                -webkit-transform: scale(1);
-                transform: scale(1);
-            }
-            100% {
-                -webkit-transform: scale(0.1);
-                opacity: 0;
-                transform: scale(0.1);
-            }
-        }
-        .fade-out {
-            -webkit-animation: fade-out 0.5s ease-in;
-            -webkit-animation-fill-mode: forwards;
-            -webkit-animation-iteration-count: 1;
-            background-color: #000;
-            width: 100px;
-            height: 100px;
-            opacity: 1;
-        }
-    </style>
+    <link type="text/css" rel="stylesheet" href="progress.css" />
 </head>
 <body>
-<div id="app"></div>
+<div id="appf">
+    <div class="meter-cont">
+        <div class="meter animate">
+            <span style="width: 80%"><span></span></span>
+        </div>
+    </div>
+</div>
 <script src="/bundle.js"></script>
 <script type="text/javascript">
   // remove this on webpack production-build!
