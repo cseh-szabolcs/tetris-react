@@ -12,6 +12,14 @@ import actions from 'tetris-actions';
 export class Control extends React.PureComponent
 {
 
+  constructor()
+  {
+    super();
+
+    this.keyboardConnected = false;
+  }
+
+
   componentWillMount()
   {
     this.supportedKeys = {
@@ -153,6 +161,10 @@ export class Control extends React.PureComponent
 
   subscribeKeyboard()
   {
+    if (this.keyboardConnected) {
+      return;
+    }
+
     this.keydown = Rx.Observable.fromEvent(window, 'keydown').map((e) => {
       e.preventDefault();
       return e;
@@ -163,13 +175,21 @@ export class Control extends React.PureComponent
     this.keyup = Rx.Observable.fromEvent(window, 'keyup').pluck('key').subscribe({
       next: (e) => this.handleKeyUp(e)
     });
+
+    this.keyboardConnected = true;
   }
 
 
   unsubscribeKeyboard()
   {
+    if (!this.keyboardConnected) {
+      return;
+    }
+
     this.keydown.unsubscribe();
     this.keyup.unsubscribe();
+
+    this.keyboardConnected = false;
   }
 
 
