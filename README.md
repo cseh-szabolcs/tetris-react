@@ -1,6 +1,6 @@
 # Tetris (beta)
 
-A browser based implementation of Tetris with multi-game feature written in JavaScript and React.
+A browser based implementation of Tetris with chat- and multi-game feature written in JavaScript and React.
 
 ### Install
 
