@@ -22,6 +22,7 @@ export default (storage = localStorage) => {
   } else {
     window.onunload = () => { storage.clear() };
   }
+  window.addEventListener("unload", () => storage.clear(), false); // for safari
 
   // confirm ping from slave - otherwise slave thinks there is no master
   let q = window.addEventListener('storage', event => {
