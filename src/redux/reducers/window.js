@@ -3,12 +3,14 @@ import actions from 'tetris-actions';
 
 
 const {
-  WINDOW_RESTORE_SLAVE
+  WINDOW_RESTORE_SLAVE,
+  WINDOW_PING_FAILED,
 } = actions.types;
 
 
 let initialState = {
   masterTab: true,
+  pingFailed: false,
 };
 
 
@@ -23,6 +25,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         masterTab: false,
+      };
+
+    case WINDOW_PING_FAILED:
+      return {
+        ...state,
+        pingFailed: true,
       };
 
     default:

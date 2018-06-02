@@ -21,6 +21,14 @@ export default (storage = localStorage) => {
     storage.removeItem('tetris-sync-action');
   };
 
+  // confirm ping from slave - otherwise slave thinks there is no master
+  let q = window.addEventListener('storage', event => {
+    if (event.key === 'tetris-ping') {
+      storage.setItem('tetris-pong', event.newValue);
+      window.removeEventListener('storage', q);
+    }
+  });
+
   return store => {
 
     // tell (possible) slave to restore current initial-state

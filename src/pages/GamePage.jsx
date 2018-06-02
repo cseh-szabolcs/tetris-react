@@ -18,6 +18,13 @@ export class GamePage extends React.Component
         { !this.props.isMasterTab && (
           <div className="callout warning text-center">
             <strong>It seems you playing Tetris in another tab or window already!</strong>
+
+            { this.props.isPingFailed && (
+              <strong>
+                &nbsp;
+                <a onClick={ e => this.handleClickHideMessage(e) }>Click here</a> to hide this message.
+              </strong>
+            )}
           </div>
         )}
 
@@ -32,12 +39,20 @@ export class GamePage extends React.Component
       </div>
     );
   }
+
+  handleClickHideMessage(e) {
+    e.preventDefault();
+
+    window.localStorage.clear();
+    location.reload();
+  }
 }
 
 
 export default connect(
   (state) => ({
     isMasterTab: state.window.masterTab,
+    isPingFailed: state.window.pingFailed,
     isInited: state.game.init,
   }),
 )(GamePage);
