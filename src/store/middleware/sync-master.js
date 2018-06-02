@@ -39,24 +39,13 @@ export default (storage = localStorage) => {
       action: actions.window.restoreSlave({masterState: store.getState()})
     }));
 
-
-    let c = null;
-
     // CORE: write to storage on every state-change
     return next => action => {
       const stampedAction = timestampAction(action);
       storage.setItem('tetris-sync-action', JSON.stringify(stampedAction));
-      storage.setItem('tetris-master-tab', '1');
 
       setTimeout(() => {
         storage.setItem('tetris-sync-store', JSON.stringify(store.getState()));
-
-        if (c) {
-          clearTimeout(c); c = null;
-        }
-        c = setTimeout(function(){
-          storage.clear();
-        }, 2000)
       });
 
       return next(action);
