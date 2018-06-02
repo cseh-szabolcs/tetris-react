@@ -17,18 +17,11 @@ export default (storage = localStorage) => {
   storage.setItem('tetris-master-tab', '1');
 
   // register clean up
-  (function() {
-    if (window.onbeforeunload) {
-      window.onbeforeunload = () => { cleanUp() };
-      return;
-    }
-    window.onunload = () => { cleanUp() };
-
-    function cleanUp() {
-      storage.removeItem('tetris-master-tab');
-      storage.removeItem('tetris-sync-action');
-    }
-  })();
+  if (window.onbeforeunload) {
+    window.onbeforeunload = () => { storage.clear() };
+  } else {
+    window.onunload = () => { storage.clear() };
+  }
 
   // confirm ping from slave - otherwise slave thinks there is no master
   let q = window.addEventListener('storage', event => {
