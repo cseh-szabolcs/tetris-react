@@ -12,7 +12,7 @@ var settings = {
     background: ['#09111E', '#142D42', null],
     tickerRate: [30, 120, 400],
     ground: [100, '#09111E'],
-    fakeStars: 60
+    fakeStars: 80
 };
 
 
@@ -158,9 +158,9 @@ function Fragment(x, y, Star) {
     };
 
     function increaseDimensions() {
-        self.rad += 1;
-        self.gravity += 0.1;
-        self.ttl += 30;
+        self.rad += 0.5;
+        self.gravity += 0.05;
+        self.ttl += 20;
     }
 }
 
@@ -210,7 +210,7 @@ function initStars() {
         fakes.push(new Star(
             Math.random() * canvas.width,
             rand(0, Math.round(canvas.height / 2)) ,
-            rand(1, 2),
+            rand(0, 1) ? 0.5 : 1,
             0.3,
             '255,255,255'
         ));
