@@ -7,12 +7,12 @@ var fakes = [];
 var ticker = 0;
 
 var settings = {
-    starSize: [8, 24],
+    starSize: [6, 22],
     colors: ['255,254,220', '196,255,244'],
     background: ['#09111E', '#142D42', null],
     tickerRate: [30, 120, 400],
     ground: [100, '#09111E'],
-    fakeStars: 40
+    fakeStars: 60
 };
 
 
@@ -82,11 +82,11 @@ function Star(x, y, rad, opacity, color) {
         var diff = Math.max(Math.round(self.rad / 2), 2);
         var count = Math.max(Math.round(diff * diff / 4), 4);
 
-        self.rad = (diff > 2) ? diff : 0;
-
         for (var i = 0; i < count; i++) {
-            fragments.push(new Fragment(self.x, self.y, 2));
+            fragments.push(new Fragment(self.x, self.y, self));
         }
+
+        self.rad = (diff > 2) ? diff : 0;
     };
 }
 
@@ -95,7 +95,7 @@ function Star(x, y, rad, opacity, color) {
  * Fragment-class which is falling from an star
  * @constructor
  */
-function Fragment(x, y) {
+function Fragment(x, y, Star) {
     var self = this;
 
     (function() {
@@ -105,11 +105,18 @@ function Fragment(x, y) {
         self.y = Math.round(y);
         self.rad = big ? 2 : 1;
         self.color = settings.colors[1];
-        self.ttl = 100;
+        self.ttl = 140;
         self.$ttl = self.ttl;
 
         self.gravity = big ? 0.2 : 0.1;
         self.friction = 0.9;
+
+        if (Star.rad > 15) {
+            increaseDimensions();
+        }
+        if (Star.rad > 20) {
+            increaseDimensions();
+        }
 
         self.velocity = {
             x: (Math.random() - 0.5) * 8,
@@ -149,6 +156,12 @@ function Fragment(x, y) {
 
         return self.draw();
     };
+
+    function increaseDimensions() {
+        self.rad += 1;
+        self.gravity += 0.1;
+        self.ttl += 30;
+    }
 }
 
 
