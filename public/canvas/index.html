@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Basics</title>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        #print {
+            position: absolute;
+            right: 0;
+            top: 0;
+            text-align: right;
+            padding: 20px;
+            color: white;
+        }
+        #canvas {
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="print"></div>
+    <script type="text/javascript">
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('script')) {
+            document.write('<script src="'+urlParams.get('script')+'.js"><\/script>');
+        }
+    </script>
+</body>
+</html>

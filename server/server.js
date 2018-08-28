@@ -3,6 +3,7 @@ const express = require('express');
 const compression = require('compression');
 const WebSocket = require('ws');
 const SocketServer = WebSocket.Server;
+const url = require('url');
 
 
 /**
@@ -34,7 +35,9 @@ module.exports = class {
   {
     this.server = express()
       .use(compression())
-      .use((req, res) => res.sendFile(`${web}/${req.originalUrl}`))
+      .use((req, res) => {
+         res.sendFile(`${web}/${url.parse(req.originalUrl).pathname}`);
+      })
       .listen(port, () => console.log(`Server.createHttpServer: Express server is up on port ${port}`));
   }
 
